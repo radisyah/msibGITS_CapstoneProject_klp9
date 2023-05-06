@@ -21,7 +21,7 @@ class Products extends Model
 
     public function categories()
     {
-       return $this->belongsTo(Categoris::class,'category_id');
+       return $this->belongsTo(Categories::class,'category_id');
     }
 
     public function detail_transaksis(){
