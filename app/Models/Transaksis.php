@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
 
 class Transaksis extends Model
 {
@@ -27,6 +29,41 @@ class Transaksis extends Model
 
      public function users(){
         return $this->belongsTo(User::class);
+    }
+
+    public function allData()
+    {
+      
+        return DB::table('products')
+        ->join('categories', 'categories.id','=','products.category_id')
+        ->select(
+        'products.id as id_product',
+        'product_code',
+        'name',
+        'category_name',
+        'purchase_price',
+        'selling_price',
+        'stock',
+        'image',)
+        ->get();
+    }
+
+      public function ambil_stok($id_product)
+    {
+        return DB::table('products')
+             ->join('categories', 'categories.id','=','products.category_id')
+            ->select(
+            'products.id as id_product',
+            'product_code',
+            'name',
+            'category_name',
+            'purchase_price',
+            'selling_price',
+            'stock',
+            'image',)
+             ->where('products.id',$id_product)
+             ->get()
+             ->first();
     }
 
 }

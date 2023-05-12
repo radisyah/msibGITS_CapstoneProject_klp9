@@ -7,205 +7,42 @@
  
 </div>
 
+@foreach ($products as $value )
+
 <div class="col-lg-3">
   
+
   <div class="card card-outline card-primary">
     <div class="card-header">
-      <h5 class="card-title">Nasi Goreng</h5>
+      
+      <h5 class="card-title">{{ $value->name }}
+          {{-- <input
+            name="name"
+            class="form-control"
+            value="{{ $value->name }}"
+          /> --}}
+      </h5>
     </div>
 
     <div class="card-body text-center">
       <p class="card-text">
-        <img src="{{ asset('img') }}/{{'nasgor.jpg' }}" class="img-fluid"/>
+        <img src="{{ asset('storage/'.$value->image) }}" class="img-fluid"/>
       </p>
 
-      <label>Rp. 20.000</label
+      <label>Rp. {{ number_format($value->selling_price,0)}}</label
       ><br />
-      <button type="submit" class="btn btn-primary btn-lg btn-flat">
+      <a href="{{ route('transaction.add_cart',$value->id_product)}}" class="btn btn-primary btn-lg btn-flat">
         <i class="fas fa-cart-plus fa-lg mr-2"></i>
-        Order
-      </button>
+        Tambah
+      </a>
     </div>
-
-    
-  </div>
+  </div>  
 
 </div>
 
-<div class="col-lg-3">
-  
-  <div class="card card-outline card-primary">
-    <div class="card-header">
-      <h5 class="card-title">Nasi Goreng</h5>
-    </div>
+@endforeach
 
-    <div class="card-body text-center">
-      <p class="card-text">
-        <img src="{{ asset('img') }}/{{'nasgor.jpg' }}" class="img-fluid"/>
-      </p>
 
-      <label>Rp. 20.000</label
-      ><br />
-      <button type="submit" class="btn btn-primary btn-lg btn-flat">
-        <i class="fas fa-cart-plus fa-lg mr-2"></i>
-        Order
-      </button>
-    </div>
-
-    
-  </div>
-
-</div>
-
-<div class="col-lg-3">
-  
-  <div class="card card-outline card-primary">
-    <div class="card-header">
-      <h5 class="card-title">Nasi Goreng</h5>
-    </div>
-
-    <div class="card-body text-center">
-      <p class="card-text">
-        <img src="{{ asset('img') }}/{{'nasgor.jpg' }}" class="img-fluid"/>
-      </p>
-
-      <label>Rp. 20.000</label
-      ><br />
-      <button type="submit" class="btn btn-primary btn-lg btn-flat">
-        <i class="fas fa-cart-plus fa-lg mr-2"></i>
-        Order
-      </button>
-    </div>
-
-    
-  </div>
-
-</div>
-
-<div class="col-lg-3">
-  
-  <div class="card card-outline card-primary">
-    <div class="card-header">
-      <h5 class="card-title">Nasi Goreng</h5>
-    </div>
-
-    <div class="card-body text-center">
-      <p class="card-text">
-        <img src="{{ asset('img') }}/{{'nasgor.jpg' }}" class="img-fluid"/>
-      </p>
-
-      <label>Rp. 20.000</label
-      ><br />
-      <button type="submit" class="btn btn-primary btn-lg btn-flat">
-        <i class="fas fa-cart-plus fa-lg mr-2"></i>
-        Order
-      </button>
-    </div>
-
-    
-  </div>
-
-</div>
-
-<div class="col-lg-3">
-  
-  <div class="card card-outline card-primary">
-    <div class="card-header">
-      <h5 class="card-title">Nasi Goreng</h5>
-    </div>
-
-    <div class="card-body text-center">
-      <p class="card-text">
-        <img src="{{ asset('img') }}/{{'nasgor.jpg' }}" class="img-fluid"/>
-      </p>
-
-      <label>Rp. 20.000</label
-      ><br />
-      <button type="submit" class="btn btn-primary btn-lg btn-flat">
-        <i class="fas fa-cart-plus fa-lg mr-2"></i>
-        Order
-      </button>
-    </div>
-
-    
-  </div>
-
-</div>
-
-<div class="col-lg-3">
-  
-  <div class="card card-outline card-primary">
-    <div class="card-header">
-      <h5 class="card-title">Nasi Goreng</h5>
-    </div>
-
-    <div class="card-body text-center">
-      <p class="card-text">
-        <img src="{{ asset('img') }}/{{'nasgor.jpg' }}" class="img-fluid"/>
-      </p>
-
-      <label>Rp. 20.000</label
-      ><br />
-      <button type="submit" class="btn btn-primary btn-lg btn-flat">
-        <i class="fas fa-cart-plus fa-lg mr-2"></i>
-        Order
-      </button>
-    </div>
-
-    
-  </div>
-
-</div>
-
-<div class="col-lg-3">
-  
-  <div class="card card-outline card-primary">
-    <div class="card-header">
-      <h5 class="card-title">Nasi Goreng</h5>
-    </div>
-
-    <div class="card-body text-center">
-      <p class="card-text">
-        <img src="{{ asset('img') }}/{{'nasgor.jpg' }}" class="img-fluid"/>
-      </p>
-
-      <label>Rp. 20.000</label
-      ><br />
-      <button type="submit" class="btn btn-primary btn-lg btn-flat">
-        <i class="fas fa-cart-plus fa-lg mr-2"></i>
-        Order
-      </button>
-    </div>
-
-    
-  </div>
-
-</div>
-
-<div class="col-lg-3">
-  
-  <div class="card card-outline card-primary">
-    <div class="card-header">
-      <h5 class="card-title">Nasi Goreng</h5>
-    </div>
-
-    <div class="card-body text-center">
-      <p class="card-text">
-        <img src="{{ asset('img') }}/{{'nasgor.jpg' }}" class="img-fluid"/>
-      </p>
-
-      <label>Rp. 20.000</label
-      ><br />
-      <button type="submit" class="btn btn-primary btn-lg btn-flat">
-        <i class="fas fa-cart-plus fa-lg mr-2"></i>
-        Order
-      </button>
-    </div>
-
-    
-  </div>
-
-</div>
 
 
 

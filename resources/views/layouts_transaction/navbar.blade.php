@@ -1,4 +1,4 @@
- <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+ <nav class="main-header navbar fixed-top navbar-expand navbar-light navbar-white">
     <div class="container">
       <a href="../../index3.html" class="navbar-brand">
         <span class="brand-text font-weight-light"><b>E-</b>Order</span>
@@ -10,14 +10,14 @@
 
       <div class="collapse navbar-collapse order-3" id="navbarCollapse">
         <!-- Left navbar links -->
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a href="" class="nav-link">Makanan</a>
-          </li>
-          <li class="nav-item">
-            <a href="" class="nav-link">Minuman</a>
-          </li>
-        </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a href="" class="nav-link">Makanan</a>
+        </li>
+        <li class="nav-item">
+          <a href="" class="nav-link">Minuman</a>
+        </li>
+      </ul>
 
          <!-- Right navbar links -->
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">

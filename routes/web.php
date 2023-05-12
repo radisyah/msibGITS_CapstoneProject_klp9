@@ -32,8 +32,8 @@ Route::middleware(['auth'])->group(function () {
       Route::get('view_cart', 'view_cart')->name('transaction.view_cart');
       // Route::get('cek_produk', 'CekProduk')->name('cek_produk');
       // Route::post('cek_produk', 'CekProduk')->name('cek_produk');
-      // Route::get('add_cart', 'add_cart')->name('transaction.add_cart');
-      // Route::post('add_cart', 'add_cart')->name('transaction.add_cart');
+      Route::get('add_cart/{id_product}', 'add_cart')->name('transaction.add_cart');
+      Route::post('add_cart/{id_product}', 'add_cart')->name('transaction.add_cart');
       // Route::get('save_transaction', 'save_transaction')->name('transaction.save_transaction');
       // Route::post('save_transaction', 'save_transaction')->name('transaction.save_transaction');
       // Route::get('reset_cart', 'reset_cart')->name('transaction.reset_cart');
