@@ -5,8 +5,9 @@
       Kelompok-9
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2023 E-Kasir</strong> All rights reserved.
+    <strong>Copyright &copy; 2023 E-Order</strong> All rights reserved.
   </footer>
+
 
 </div>
 <!-- ./wrapper -->

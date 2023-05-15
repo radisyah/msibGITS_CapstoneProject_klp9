@@ -28,6 +28,8 @@
       rel="stylesheet"
       href="{{ asset('/template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}"
     />
+
+     
   
   
 
@@ -103,6 +105,7 @@
 <script src="{{ asset('/template/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('/template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
 
+
 <!-- page script -->
 <script>
   $(function () {
@@ -121,28 +124,18 @@
     });
   });
 </script>
-
 <script>
 
   const swal = $('.swal').data('swal');
-  const swal2 = $('.swal2').data('swal2');
-
- if (swal) {
+  if (swal) {
     Swal.fire({
-      title: "MAAF !!",
+      title: "SUKSES !!",
       text: swal,
-      icon: 'error'
-    })
-  }else if (swal2) {
-    Swal.fire({
-      title: "SELAMAT !!",
-      text: swal2,
       icon: 'success'
     })
   }
   
 </script>
-
 
 </body>
 </html>

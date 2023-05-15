@@ -36,8 +36,8 @@ Route::middleware(['auth'])->group(function () {
       Route::post('add_cart/{id_product}', 'add_cart')->name('transaction.add_cart');
       // Route::get('save_transaction', 'save_transaction')->name('transaction.save_transaction');
       // Route::post('save_transaction', 'save_transaction')->name('transaction.save_transaction');
-      // Route::get('reset_cart', 'reset_cart')->name('transaction.reset_cart');
-      // Route::get('remove_item/{rowId}', 'remove_item')->name('transaction.remove_item');
+      Route::get('reset_cart', 'reset_cart')->name('transaction.reset_cart');
+      Route::get('remove_item/{rowId}', 'remove_item')->name('transaction.remove_item');
       // // -----------------------------------------------------------
       // Route::get('index2', 'index2')->name('index_transaction');
       // Route::get('cart', 'cart');

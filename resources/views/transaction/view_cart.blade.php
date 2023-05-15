@@ -14,7 +14,7 @@
     <div class="row">
       <div class="col-12">
         <h4>
-          <i class='fas fa-shopping-cart'></i> Keranjang Belanja
+          <i class='fas fa-shopping-cart'></i> Keranjang Order
         </h4>
       </div>
     </div>
@@ -29,45 +29,33 @@
           <tr>
             <th width="100px">Qty</th>
             <th>Nama Barang</th>
+            <th>Kategori</th>
+            <th>Gambar</th>
             <th>Harga</th>
             <th>Total</th>
             <th>Delete</th>
           </tr>
           </thead>
           <tbody>
+            @foreach ($cart as $value )
+            @php
+              $sub_total_price = $value->price * $value->qty;
+            @endphp
             <tr>
-              <td><input name='qty' type="number" min="1" class="form-control" value="2"></td>
-              <td>Nasi Goreng</td>
-              <td>Rp. 20.000</td>
-              <td>Rp. 20.000</td>
+              <td><input name='qty' type="number" min="1" class="form-control" value="{{ $value->qty }}"></td>
+              <td>{{ $value->name }}</td>
+              <td>{{ $value->options->category_name }}</td>
+              <td><img style="width:100px" alt="image" src="{{ asset('storage/'.$value->options->image) }}" alt=""></td>
+              <td>Rp. {{ number_format($value->price,0)}}</td>
+              <td>Rp. {{ number_format($sub_total_price,0)}}</td>
               <td>
-                <a href="" class="btn btn-sm btn-danger">
+                <a href="{{ route('transaction.remove_item', $value->rowId) }}" class="btn btn-sm btn-danger">
                   <i class="fas fa fa-trash"></i>
                 </a>
               </td>
             </tr>
-             <tr>
-              <td><input name='qty' type="number" min="1" class="form-control" value="2"></td>
-              <td>Nasi Goreng</td>
-              <td>Rp. 20.000</td>
-              <td>Rp. 20.000</td>
-              <td>
-                <a href="" class="btn btn-sm btn-danger">
-                  <i class="fas fa fa-trash"></i>
-                </a>
-              </td>
-            </tr>
-             <tr>
-              <td><input name='qty' type="number" min="1" class="form-control" value="2"></td>
-              <td>Nasi Goreng</td>
-              <td>Rp. 20.000</td>
-              <td>Rp. 20.000</td>
-              <td>
-                <a href="" class="btn btn-sm btn-danger">
-                  <i class="fas fa fa-trash"></i>
-                </a>
-              </td>
-            </tr>
+            @endforeach
+          
           </tbody>
         </table>
       </div>
@@ -86,7 +74,7 @@
           <table class="table">
             <tr>
               <th style="width:50%">Grandtotal:</th>
-              <td>Rp. 200,000</td>
+              <td>Rp. {{ $grand_total }}</td>
             </tr>
           </table>
         </div>
@@ -98,10 +86,8 @@
     <!-- this row will not appear when printing -->
     <div class="row no-print">
       <div class="col-12">
-        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Update</button>
-        <a href="" class="btn btn-warning">
-          <i class="fa fa-trash"></i>
-          Clear Keranjang
+        <a href="{{ route('transaction') }}" class="btn btn-primary">
+          Kembali
         </a>
         <button type="button" class="btn btn-success float-right">
         <i class="far fa-credit-card"></i>

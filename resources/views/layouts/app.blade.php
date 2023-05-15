@@ -27,6 +27,11 @@
       rel="stylesheet"
       href="{{ asset('/template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}"
     />
+
+  
+
+
+  
   
   
 

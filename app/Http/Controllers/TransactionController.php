@@ -24,7 +24,8 @@ class TransactionController extends Controller
 
     $data = array(
       'title' => 'Halaman Order',
-      'products' => $this->Transaksi->allData(),
+      'products_makanan' => $this->Transaksi->allData_makanan(),
+      'products_minuman' => $this->Transaksi->allData_minuman(),
       // 'invoice' => $this->Transaksis->inVoice(),
       // 'cart' => Cart::content(),
       // 'grand_total' => Cart::subtotal()
@@ -63,20 +64,21 @@ class TransactionController extends Controller
     // }
 
      $cart =  Cart::add([
-      'id' => 'id_product',
+      'id' => $request->id_product,
       'name' => $request-> name, 
-      'price' => 22, 
+      'price' => $request->selling_price, 
       'weight' => 0, 
       'qty' => 1,
       'options' => [
-        'product_code' => 'sa',
+        'image' =>$request->image,
+        'category_name' =>$request->category_name,
         
       ]
     ]);
 
-    dd(Cart::content());
 
-    return redirect('transaction');
+
+    return redirect('transaction')->with('success','Menu Berhasil Ditambahkan');;
 
     
   }
@@ -89,13 +91,24 @@ class TransactionController extends Controller
       
       // 'products' => $this->Transaksi->allData(),
       // 'invoice' => $this->Transaksis->inVoice(),
-      // 'cart' => Cart::content(),
-      // 'grand_total' => Cart::subtotal()
+      'cart' => Cart::content(),
+      'grand_total' => Cart::subtotal()
     );
+    // dd(Cart::content());
+
     return view('transaction.view_cart',$data);
+
     
     // dd($this->Transaksi->inVoice());
   }
+
+   public function remove_item($rowId){
+    Cart::remove($rowId);
+    return redirect('transaction/view_cart');
+
+  }
+
+
 
 
   

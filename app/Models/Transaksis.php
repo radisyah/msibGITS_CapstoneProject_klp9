@@ -31,7 +31,7 @@ class Transaksis extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function allData()
+    public function allData_makanan()
     {
       
         return DB::table('products')
@@ -40,11 +40,30 @@ class Transaksis extends Model
         'products.id as id_product',
         'product_code',
         'name',
-        'category_name',
+        'categories.category_name',
         'purchase_price',
         'selling_price',
         'stock',
         'image',)
+        ->where('categories.category_name','Makanan')
+        ->get();
+    }
+
+    public function allData_minuman()
+    {
+      
+        return DB::table('products')
+        ->join('categories', 'categories.id','=','products.category_id')
+        ->select(
+        'products.id as id_product',
+        'product_code',
+        'name',
+        'categories.category_name',
+        'purchase_price',
+        'selling_price',
+        'stock',
+        'image',)
+        ->where('categories.category_name','Minuman')
         ->get();
     }
 
