@@ -7,7 +7,7 @@
 
 
   <!-- Main content -->
-  <form action="{{ route('transaction.update_cart')}}" method="GET" enctype="multipart/form-data">
+  <form action="{{ route('transaction.update_cart')}}" method="POST" enctype="multipart/form-data">
   @csrf
     <div class="invoice p-3 mb-3">
       
@@ -39,12 +39,15 @@
             </tr>
             </thead>
             <tbody>
+              @php
+                $i=1;
+              @endphp
               @foreach ($cart as $value )
               @php
                 $sub_total_price = $value->price * $value->qty;
               @endphp
               <tr>
-                <td><input name='qty' type="number" min="1" class="form-control qty cart_update" value="{{ $value->qty }}"></td>
+                <td><input name="qty{{ $i++ }}" type="number" min="1" class="form-control" value="{{ $value->qty }}"></td>
                 <td>{{ $value->name }}</td>
                 <td>{{ $value->options->category_name }}</td>
                 <td><img style="width:100px" alt="image" src="{{ asset('storage/'.$value->options->image) }}" alt=""></td>

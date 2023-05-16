@@ -104,7 +104,7 @@ class TransactionController extends Controller
 
    public function remove_item($rowId){
     Cart::remove($rowId);
-
+    return redirect('transaction/view_cart')->with('success','Jumlah Menu Berhasil Diperbarui');;
   }
 
   public function update_cart(Request $request){
@@ -112,7 +112,7 @@ class TransactionController extends Controller
     $i=1;
     
     foreach (Cart::content() as $key => $value) {
-     Cart::update($value->rowId, $request->qty);
+    Cart::update($value->rowId, ['qty' => $request->input('qty'.$i++)]);
     }
 
     return redirect('transaction/view_cart')->with('success','Jumlah Menu Berhasil Diperbarui');;
