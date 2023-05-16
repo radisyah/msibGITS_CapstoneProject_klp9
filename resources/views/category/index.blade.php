@@ -55,6 +55,36 @@
   </div>
 </div>
 
+<section class="ftco-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+			<div class="col-md-12 heading-section text-center ftco-animate mb-5">
+				<span class="subheading">Menawarkan</span>
+				<h2 class="mb-2">Mobil Unggulan dari Kami</h2>
+			</div>
+		</div>
+    <div class="row">
+
+     <div class="col-md-4">
+        <div class="car-wrap rounded ftco-animate">
+          <div class="img rounded d-flex align-items-end" style="background-image: url();">
+          </div>
+          <div class="text">
+            <h2 class="mb-0"><a>ssss</a></h2>
+            <div class="d-flex mb-3">
+                <span  class="price">ssad</span>
+            </div>
+            <p class="d-flex mb-0 d-block"><a target="_blank" href="https://web.whatsapp.com/send?phone=6283857959431&text=Hallo, saya mau rental mobil"  class="btn btn-primary py-2 mr-1">Sewa</a> <a href="<?= base_url('sewa-mobil-surabaya-malang/sewa-mobil-'.$value['keyword'].'-surabaya-malang') ?>" class="btn btn-secondary py-2 ml-1">Detail</a></p>
+          </div>
+        </div>
+      </div>
+
+      
+      
+    </div>
+  </div>
+</section>
+
 @foreach ($categories as $item)
 <div class="modal fade" id="delete{{ $item->id  }}">
   <div class="modal-dialog modal-danger">

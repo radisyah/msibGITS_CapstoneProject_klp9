@@ -29,6 +29,15 @@
       href="{{ asset('/template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}"
     />
 
+     <style type="text/css">
+      .img {
+      width: 100%;
+      height: 200px;
+    }
+
+ 
+    </style>
+
      
   
   

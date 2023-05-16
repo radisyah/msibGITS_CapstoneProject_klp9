@@ -104,7 +104,18 @@ class TransactionController extends Controller
 
    public function remove_item($rowId){
     Cart::remove($rowId);
-    return redirect('transaction/view_cart');
+
+  }
+
+  public function update_cart(Request $request){
+
+    $i=1;
+    
+    foreach (Cart::content() as $key => $value) {
+     Cart::update($value->rowId, $request->qty);
+    }
+
+    return redirect('transaction/view_cart')->with('success','Jumlah Menu Berhasil Diperbarui');;
 
   }
 
