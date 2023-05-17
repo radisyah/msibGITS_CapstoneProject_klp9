@@ -44,7 +44,12 @@
                     </td>
                     <td>Rp. {{number_format($item->total_price,0)}}</td>
                     <td>{{$item->status}}</td>
-                    <td><a href="{{ route('list_detail',$item->id)}}">Detail</a></td>
+                    {{-- <td><a href="{{ route('list_detail',$item->id)}}">Detail</a></td> --}}
+                    <td>
+                      <a href="{{ route('status_proses', $item->id) }}" class="btn btn-primary">
+                        Proses
+                      </a>
+                    </td>
                 </tr>
                 @endforeach
         </tbody>
