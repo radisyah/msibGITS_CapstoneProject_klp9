@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DetailTransaksis extends Model
+class DetailTransaksi extends Model
 {
     use HasFactory;
 
@@ -20,7 +20,7 @@ class DetailTransaksis extends Model
         return $this->belongsTo(Products::class);
     }
 
-     public function transaksis(){
+     public function transaksi(){
         return $this->belongsTo(Transaksi::class);
     }
 

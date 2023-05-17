@@ -24,8 +24,8 @@ class Products extends Model
        return $this->belongsTo(Categories::class,'category_id');
     }
 
-    public function detail_transaksis(){
-        return $this->hasMany(DetailTransaksis::class);
+    public function detail_transaksi(){
+        return $this->hasMany(DetailTransaksi::class);
     }
     
 }

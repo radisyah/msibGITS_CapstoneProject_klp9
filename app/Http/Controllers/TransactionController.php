@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Categories;
 use App\Models\User;
 use App\Models\Products;
-use App\Models\Transaksis;
+use App\Models\Transaksi;
 use App\Models\DetailTransaksi;
 use Cart;
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ class TransactionController extends Controller
 
   public function __construct()
   {
-    $this->Transaksi = new Transaksis();
+    $this->Transaksi = new Transaksi();
   }
 
   public function index()
@@ -117,6 +117,63 @@ class TransactionController extends Controller
 
     return redirect('transaction/view_cart')->with('success','Jumlah Menu Berhasil Diperbarui');;
 
+  }
+
+  public function save_transaction(Request $request){
+    $produk = Cart::subtotal();
+    $invoice = $this->Transaksi->inVoice();
+    $customer_name = $request->input('customer_name');
+    $customer_phone = $request->input('customer_phone');
+    $user_id = $request->input('user_id');
+    $total_price = str_replace(",","",$request->input('grand_total'));
+    $transaksi_id = 1;
+    $status = 'Order';
+
+    if ( $produk==0 ) {
+     return redirect('transaction')->with('danger','Data Keranjang Kosong');
+    } else {
+          $item = Cart::content();
+          $no_urut = 0;
+
+          $query = DB::table('transaksis')
+            ->select('id')
+            ->get();
+          
+          foreach($query as $no){
+              $no_urut = $no->id;
+          }
+          if($no_urut == null){
+              $no_urut = 1;
+          } else {
+              $no_urut = $no_urut+1;
+          }
+
+          // dd($no_urut);
+
+          $data = [
+            'invoice' => $invoice,
+            'user_id' => $user_id,
+            'customer_name' => $customer_name,
+            'customer_phone' => $customer_phone,
+            'total_price' => $total_price,
+            'status' => $status,
+          ];
+          Transaksi::create($data);
+          
+          foreach ($item as $key => $value) {
+            $data = [
+              'transaksi_id' => $no_urut,
+              'product_id' => $value->id,
+              'qty' =>  $value->qty,
+              'price' => $value->subtotal
+            ];
+            DetailTransaksi::create($data);
+          }
+
+          Cart::destroy();
+
+          return redirect('transaction')->with('success','Transaksi Berhasil Disimpan');
+    }
   }
 
 
