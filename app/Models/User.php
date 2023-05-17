@@ -42,7 +42,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-      public function Transaksis(){
-        return $this->hasMany(Transaksis::class);
+      public function Transaksi(){
+        return $this->hasMany(Transaksi::class);
     }
 }

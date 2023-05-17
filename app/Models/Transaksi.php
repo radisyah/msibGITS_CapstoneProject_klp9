@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 
-class Transaksis extends Model
+class Transaksi extends Model
 {
     use HasFactory;
 
@@ -23,8 +23,8 @@ class Transaksis extends Model
         'status'
     ];
 
-     public function DetailTransaksis(){
-        return $this->hasMany(DetailTransaksis::class);
+     public function DetailTransaksi(){
+        return $this->hasMany(DetailTransaksi::class);
     }
 
      public function users(){
@@ -83,6 +83,27 @@ class Transaksis extends Model
              ->where('products.id',$id_product)
              ->get()
              ->first();
+    }
+
+    public function inVoice()
+    {
+        $no_urut = 0;
+        $query = DB::table('transaksis')
+            ->select('id')
+            ->get();
+            
+        // $no = $query;
+       
+        foreach($query as $no){
+            $no_urut = $no->id;
+        }
+        if($no_urut == null){
+            $no_urut = 1;
+        } else {
+            $no_urut = $no_urut+1;
+        }
+        $invoice = str('gits-').$no_urut;
+        return $invoice;
     }
 
 }

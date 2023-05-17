@@ -60,6 +60,13 @@
                 </td>
               </tr>
               @endforeach
+
+              <tr>
+                <th colspan="5" style="text-align: right">
+                  Total Harga
+                </th>
+                <td colspan="2"><b> Rp. {{ $grand_total }}</b></td>
+              </tr>
             
             </tbody>
           </table>
@@ -68,24 +75,24 @@
       </div>
       <!-- /.row -->
 
-      <div class="row">
+      {{-- <div class="row"> --}}
         <!-- accepted payments column -->
-        <div class="col-6">
+        {{-- <div class="col-6">
           
-        </div>
+        </div> --}}
         <!-- /.col -->
-        <div class="col-6">
+        {{-- <div class="col-6">
           <div class="table-responsive">
             <table class="table">
               <tr>
                 <th style="width:50%">Grandtotal:</th>
-                <td>Rp. {{ $grand_total }}</td>
+                <td><b> Rp. {{ $grand_total }}</b></td>
               </tr>
             </table>
           </div>
-        </div>
+        </div> --}}
         <!-- /.col -->
-      </div>
+      {{-- </div> --}}
       <!-- /.row -->
 
       <!-- this row will not appear when printing -->
@@ -97,13 +104,13 @@
           <a href="{{ route('transaction') }}" class="btn btn-primary">
             Kembali
           </a>
-          <button type="button" class="btn btn-success float-right">
+          <a style="color:white"  data-toggle="modal" onclick="Pembayaran()" data-target="#pembayaran"  class="btn btn-success float-right">
+            <i  class="fas fa-cash-register"></i> Pembayaran
+          </a>
+          {{-- <button type="button" class="btn btn-success float-right">
           <i class="far fa-credit-card"></i>
           Cek Out
-          </button>
-        
-        
-        
+          </button> --}}
         </div>
       </div>
 
@@ -111,10 +118,77 @@
   </form>
 </div>
 
+<!-- Modal Pembayaran Produk -->
+<div class="modal fade " id="pembayaran">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <label class="modal-title">Transaksi Pembayaran</label>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
 
+      <form action="{{ route('transaction.save_transaction')}}" method="POST">
+        @csrf
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Nama Customer</label>
+              <div class="input-group mb-3">
+              <input  autocomplete="off" required id="customer_name" name="customer_name" class="form-control form-control-lg text-right"  placeholder="Nama Customer" required>
+            </div>
+          </div>
 
+          <div class="form-group">
+            <label>No Telp Customer</label>
+              <div class="input-group mb-3">
+              <input  autocomplete="off" required id="customer_phone" name="customer_phone" class="form-control form-control-lg text-right"  placeholder="No Telp. Customer" required>
+            </div>
+          </div>
 
+        <div class="form-group">
+            <label>Total Harga Pesanan</label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"></i>Rp.</span>
+                </div>
+              <input id="grand_total" name="grand_total" value="{{ $grand_total }} " readonly  class="text-danger form-control form-control-lg text-right"  placeholder="Harga Beli" required>
+            </div>
+          </div>
 
+          <input type="hidden" required id="user_id" name="user_id" value="{{ Auth::user()->id }}"  class="form-control form-control-lg text-right text-primary" readonly autocomplete="off">
+
+          {{-- <div class="form-group">
+            <label>Dibayar</label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"></i>Rp.</span>
+                </div>
+              <input required id="dibayar" name="dibayar" value=""  class="form-control form-control-lg text-right text-primary" autocomplete="off">
+            </div>
+          </div>
+        
+          <input type="hidden" required id="user_id" name="user_id" value="{{ Auth::user()->id }}"  class="form-control form-control-lg text-right text-primary" readonly autocomplete="off">
+          
+          <div class="form-group">
+            <label>Kembalian</label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"></i>Rp.</span>
+                </div>
+              <input id="kembalian" name="kembalian" value=""  class="form-control form-control-lg text-right text-success" readonly>
+            </div>
+          </div> --}}
+        </div>
+
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary btn-flat"><i class="fas fa-save"></i> Pesan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 @foreach ($cart as $value )
 <div class="modal fade" id="delete{{ $value->rowId  }}">
@@ -168,8 +242,38 @@
             }
         });
     });
+  
+    $(document).ready(function() {
+      
+      // Hitung Kembalian
+      $('#dibayar').keyup(function e() {
+        HitungKembalian();
+      });
 
-   
-   
+    });
+
+  function Pembayaran() {
+    $('#pembayaran').modal('show');
+  }
+
+  new AutoNumeric('#dibayar', {
+    digitGroupSeparator : ',',
+    decimalPlaces: 0,
+  });
+
+  
+  function HitungKembalian() {
+    let grand_total =$('#grand_total').val().replace(/[^.\d]/g,'').toString();
+    let dibayar = $('#dibayar').val().replace(/[^.\d]/g,'').toString();
+
+    let kembalian = parseFloat(dibayar) - parseFloat(grand_total);
+    $('#kembalian').val(kembalian);
+
+    new AutoNumeric('#kembalian', {
+      digitGroupSeparator : ',',
+      decimalPlaces: 0,
+    });
+  }
+
 </script>
 @endsection
