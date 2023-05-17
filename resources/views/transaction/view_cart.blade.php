@@ -112,10 +112,6 @@
 </div>
 
 
-
-
-
-
 @foreach ($cart as $value )
 <div class="modal fade" id="delete{{ $value->rowId  }}">
   <div class="modal-dialog modal-danger">
@@ -144,32 +140,3 @@
 
 
 
-   
-@section('scripts')
-<script type="text/javascript">
-   
-    $(".cart_update").change(function (e) {
-        e.preventDefault();
-   
-        var ele = $(this);
-   
-        $.ajax({
-            type: "patch",
-            headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            url: "/transaction/update_cart",
-            data: {
-                rowId: ele.parents("tr").attr("data-rowId"), 
-                qty: ele.parents("tr").find(".qty").val()
-            },
-            success: function (response) {
-               window.location.reload();
-            }
-        });
-    });
-
-   
-   
-</script>
-@endsection

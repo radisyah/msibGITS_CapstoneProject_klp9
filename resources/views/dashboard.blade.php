@@ -5,7 +5,7 @@
 @section('contents')
   
 
- <div class="col-lg-3 col-6">
+<div class="col-lg-3 col-6">
   <!-- small card -->
   <div class="small-box bg-info">
     <div class="inner">
@@ -60,7 +60,7 @@
   <!-- small card -->
   <div class="small-box bg-warning">
     <div class="inner">
-      {{-- <h3>{{ $transaksi }}</h3> --}}
+      <h3>10</h3>
 
       <p>Transaksi</p>
     </div>
