@@ -107,7 +107,34 @@
 
              <li class="nav-item">
               <a
-                {{-- href="{{ route('list_transaction') }}" --}}
+                href="{{ route('list_order') }}"
+                class="nav-link {{ $menu == 'list_transaction' ? 'active' : '' }}" 
+              >
+                <i class="nav-icon fas fa-shopping-cart"></i>
+                <p>List Order</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="{{ route('list_proses') }}"
+                class="nav-link {{ $menu == 'list_transaction' ? 'active' : '' }}" 
+              >
+                <i class="nav-icon fas fa-shopping-cart"></i>
+                <p>List Proses</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="{{ route('list_payment') }}"
+                class="nav-link {{ $menu == 'list_transaction' ? 'active' : '' }}" 
+              >
+                <i class="nav-icon fas fa-shopping-cart"></i>
+                <p>List Serve</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="{{ route('list_transaksi') }}"
                 class="nav-link {{ $menu == 'list_transaction' ? 'active' : '' }}" 
               >
                 <i class="nav-icon fas fa-shopping-cart"></i>

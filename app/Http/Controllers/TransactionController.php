@@ -176,9 +176,90 @@ class TransactionController extends Controller
     }
   }
 
+  public function list_order()
+  {
+    $data1 = array(
+      'menu' => 'list_transaction',
+      'sub_menu' => '',
+      'title' => 'Daftar Order',
+      'judul' => 'Daftar Order',
+      'sub_judul' => '',
+      'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Order'),
+      'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi(),
 
+      );
+    return view('list_transaction.list_order',$data1);
+  }
 
+  public function status_proses($id)
+    {
+        $data = Transaksi::find($id);
+        $data->status = 'Proses';
 
+        $data->save();
+        return redirect('transaction/list_order')->with('success','Transaksi Berhasil Disimpan');
+    }
   
+    public function list_proses()
+  {
+    $data1 = array(
+      'menu' => 'list_transaction',
+      'sub_menu' => '',
+      'title' => 'Daftar Order',
+      'judul' => 'Daftar Order',
+      'sub_judul' => '',
+      'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Proses'),
+      'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi(),
 
+      );
+    return view('list_transaction.list_proses',$data1);
+  }
+
+  public function status_serve($id)
+    {
+        $data = Transaksi::find($id);
+        $data->status = 'Serve';
+
+        $data->save();
+        return redirect('transaction/list_proses')->with('success','Transaksi Berhasil Disimpan');
+    }
+  
+    public function list_payment()
+    {
+      $data1 = array(
+        'menu' => 'list_transaction',
+        'sub_menu' => '',
+        'title' => 'Daftar Order',
+        'judul' => 'Daftar Order',
+        'sub_judul' => '',
+        'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Serve'),
+        'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi(),
+  
+        );
+      return view('list_transaction.list_payment',$data1);
+    }
+  
+    public function status_done($id)
+      {
+          $data = Transaksi::find($id);
+          $data->status = 'Done';
+  
+          $data->save();
+          return redirect('transaction/list_payment')->with('success','Transaksi Berhasil Disimpan');
+      }
+    
+      public function list_transaksi()
+      {
+        $data1 = array(
+          'menu' => 'list_transaction',
+          'sub_menu' => '',
+          'title' => 'Daftar Order',
+          'judul' => 'Daftar Order',
+          'sub_judul' => '',
+          'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Done'),
+          'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi(),
+    
+          );
+        return view('list_transaction.index',$data1);
+      }
 }
