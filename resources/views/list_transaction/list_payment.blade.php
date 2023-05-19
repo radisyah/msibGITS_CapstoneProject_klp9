@@ -11,6 +11,8 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body">
+      <div class="swal2" data-swal2="{{ Session::get('success') }}">
+      </div>
        <table  id="example1" class="table table-bordered table-striped text-center">
         <thead>
             <tr >
@@ -21,7 +23,7 @@
                 <th>Daftar Pesanan</th>
                 <th>Total Harga</th>
                 <th>Status</th>
-                <th>&nbsp;</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>

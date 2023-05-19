@@ -11,6 +11,8 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body">
+      <div class="swal2" data-swal2="{{ Session::get('success') }}">
+      </div>
        <table  id="example1" class="table table-bordered table-striped text-center">
         <thead>
             <tr >
@@ -21,7 +23,7 @@
                 <th>Daftar Pesanan</th>
                 <th>Total Harga</th>
                 <th>Status</th>
-                <th>&nbsp;</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -43,12 +45,20 @@
                       @endforeach
                     </td>
                     <td>Rp. {{number_format($item->total_price,0)}}</td>
-                    <td>{{$item->status}}</td>
+                    <td><span class="badge badge-warning">{{ $item->status }}</span></td>
                     {{-- <td><a href="{{ route('list_detail',$item->id)}}">Detail</a></td> --}}
                     <td>
-                      <a href="{{ route('status_proses', $item->id) }}" class="btn btn-primary">
+                      {{-- <a href="{{ route('status_proses', $item->id) }}" class="btn btn-primary">
                         Proses
-                      </a>
+                      </a> --}}
+                       <form method="GET" action="{{ route('status_proses', $item->id) }}">
+
+                        @csrf
+                        </a>
+                        <input id="proses" name="_method" value="proses" type="hidden" >
+                        <button id="proses" type="submit" class="btn btn-primary proses show-alert-proses-box btn-sm" data-toggle="tooltip" title='Proses'>Proses</button>
+                      </form>
+                 
                     </td>
                 </tr>
                 @endforeach

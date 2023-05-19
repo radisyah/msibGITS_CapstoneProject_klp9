@@ -16,7 +16,7 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-      <div class="swal" data-swal="{{ Session::get('success') }}">
+      <div class="swal2" data-swal2="{{ Session::get('success') }}">
       </div>
       <table id="example1" class="table table-bordered table-striped text-center">
         <thead>

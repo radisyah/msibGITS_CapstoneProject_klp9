@@ -7,14 +7,16 @@
 
     <title>{{ $title }}</title>
 
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/5.0.7/sweetalert2.min.css" rel="stylesheet">
+
       <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('/template/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- IonIcons -->
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('/template/dist/css/adminlte.min.css') }}">
-    <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="{{ asset('/template/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+  
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
      
@@ -28,6 +30,8 @@
       href="{{ asset('/template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}"
     />
 
+    
+
   
 
 
@@ -39,8 +43,7 @@
     <script src="{{ asset('/autoNumeric/src/AutoNumeric.js') }}"></script>
     <!-- jQuery -->
     <script src="{{ asset('/template/plugins/jquery/jquery.min.js') }}"></script>
-    <!-- SweetAlert2 -->
-    <script src="{{ asset('/template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    
     <script src="https://kit.fontawesome.com/570bdaf656.js" crossorigin="anonymous"></script>
     
   
@@ -115,6 +118,8 @@
 <script src="{{ asset('/template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('/template/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('/template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
 
 <!-- page script -->
 <script>
@@ -134,6 +139,53 @@
     });
   });
 </script>
+ 
+
+ <script type="text/javascript">
+    $('.show-alert-proses-box').click(function(event){
+        var form =  $(this).closest("form");
+        var name = $(this).data("name");
+        event.preventDefault();
+         swal({
+            title: "Apakah anda yakin ingin memproses?",
+            text: "Daftar menu akan diproses!",
+            icon: "warning",
+            type: "warning",
+            dangerMode: true,
+            buttons: ["Batalkan","Iya"],
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+        }).then((willProses) => {
+            if (willProses) {
+                form.submit();
+            }
+        });
+    });
+</script>
+
+ <script type="text/javascript">
+    $('.show-alert-serve-box').click(function(event){
+        var form =  $(this).closest("form");
+        var name = $(this).data("name");
+        event.preventDefault();
+         swal({
+            title: "Apakah anda yakin ingin menghidangkan?",
+            text: "Daftar menu akan dihidangkan!",
+            icon: "warning",
+            type: "warning",
+            dangerMode: true,
+            buttons: ["Batalkan","Iya"],
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+        }).then((willServe) => {
+            if (willServe) {
+                form.submit();
+            }
+        });
+    });
+</script>
+
+
 
 <script>
   window.setTimeout(function(){
@@ -145,13 +197,16 @@
 
 <script>
 
-  const swal = $('.swal').data('swal');
-  if (swal) {
-    Swal.fire({
+ const swal2 = $('.swal2').data('swal2');
+
+ if (swal2) {
+    swal({
       title: "SUKSES !!",
-      text: swal,
-      icon: 'success'
-    })
+      text: swal2,
+      icon: 'success',
+      type: "success",
+
+    })  
   }
   
 </script>

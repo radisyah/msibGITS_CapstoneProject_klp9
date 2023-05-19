@@ -11,6 +11,8 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body">
+      <div class="swal2" data-swal2="{{ Session::get('success') }}">
+      </div>
        <table  id="example1" class="table table-bordered table-striped text-center">
         <thead>
             <tr >
@@ -21,7 +23,7 @@
                 <th>Daftar Pesanan</th>
                 <th>Total Harga</th>
                 <th>Status</th>
-                <th>&nbsp;</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -46,9 +48,13 @@
                     <td><span class="badge badge-info">{{ $item->status }}</span></td>
                     {{-- <td><a href="{{ route('list_detail',$item->id)}}">Detail</a></td> --}}
                     <td>
-                      <a href="{{ route('status_serve', $item->id) }}" class="btn btn-primary">
-                        Serve
-                      </a>
+                     <form method="GET" action="{{ route('status_serve', $item->id) }}">
+
+                        @csrf
+                        </a>
+                        <input id="proses" name="_method" value="serve" type="hidden" >
+                        <button id="serve" type="submit" class="btn btn-primary serve show-alert-serve-box btn-sm" data-toggle="tooltip" title='Serve'>Serve</button>
+                      </form>
                     </td>
                 </tr>
                 @endforeach

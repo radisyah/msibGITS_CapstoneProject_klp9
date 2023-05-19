@@ -200,7 +200,7 @@ class TransactionController extends Controller
         $data->status = 'Proses';
 
         $data->save();
-        return back()->with('success','Transaksi Berhasil Disimpan');
+        return back()->with('success','Transaksi Berhasil Diproses');
     }
   
     public function list_proses()
@@ -225,7 +225,7 @@ class TransactionController extends Controller
         $data->status = 'Serve';
 
         $data->save();
-        return back()->with('success','Transaksi Berhasil Disimpan');
+        return back()->with('success','Transaksi Berhasil Dihidangkan');
     }
   
     public function list_payment()
