@@ -43,7 +43,7 @@
                       @endforeach
                     </td>
                     <td>Rp. {{number_format($item->total_price,0)}}</td>
-                    <td>{{$item->status}}</td>
+                    <td><span class="badge badge-info">{{ $item->status }}</span></td>
                     {{-- <td><a href="{{ route('list_detail',$item->id)}}">Detail</a></td> --}}
                     <td>
                       <a href="{{ route('status_serve', $item->id) }}" class="btn btn-primary">

@@ -108,27 +108,27 @@
              <li class="nav-item">
               <a
                 href="{{ route('list_order') }}"
-                class="nav-link {{ $menu == 'list_transaction' ? 'active' : '' }}" 
+                class="nav-link {{ $menu == 'list_order' ? 'active' : '' }}" 
               >
-                <i class="nav-icon fas fa-shopping-cart"></i>
+                <i class="nav-icon ion ion-bag"></i>
                 <p>List Order</p>
               </a>
             </li>
             <li class="nav-item">
               <a
                 href="{{ route('list_proses') }}"
-                class="nav-link {{ $menu == 'list_transaction' ? 'active' : '' }}" 
+                class="nav-link {{ $menu == 'list_proses' ? 'active' : '' }}" 
               >
-                <i class="nav-icon fas fa-shopping-cart"></i>
+                <i class="nav-icon far fa-clock"></i>
                 <p>List Proses</p>
               </a>
             </li>
             <li class="nav-item">
               <a
                 href="{{ route('list_payment') }}"
-                class="nav-link {{ $menu == 'list_transaction' ? 'active' : '' }}" 
+                class="nav-link {{ $menu == 'list_payment' ? 'active' : '' }}" 
               >
-                <i class="nav-icon fas fa-shopping-cart"></i>
+                <i class="nav-icon ion ion-android-bookmark"></i>
                 <p>List Serve</p>
               </a>
             </li>
@@ -137,7 +137,7 @@
                 href="{{ route('list_transaksi') }}"
                 class="nav-link {{ $menu == 'list_transaction' ? 'active' : '' }}" 
               >
-                <i class="nav-icon fas fa-shopping-cart"></i>
+                <i class="nav-icon ion ion-cash"></i>
                 <p>Riwayat Transaksi</p>
               </a>
             </li>

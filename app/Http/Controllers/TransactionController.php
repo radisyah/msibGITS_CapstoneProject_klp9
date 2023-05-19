@@ -178,8 +178,10 @@ class TransactionController extends Controller
 
   public function list_order()
   {
+
+    
     $data1 = array(
-      'menu' => 'list_transaction',
+      'menu' => 'list_order',
       'sub_menu' => '',
       'title' => 'Daftar Order',
       'judul' => 'Daftar Order',
@@ -189,6 +191,7 @@ class TransactionController extends Controller
 
       );
     return view('list_transaction.list_order',$data1);
+    // dd($no_urut);
   }
 
   public function status_proses($id)
@@ -197,13 +200,14 @@ class TransactionController extends Controller
         $data->status = 'Proses';
 
         $data->save();
-        return redirect('transaction/list_order')->with('success','Transaksi Berhasil Disimpan');
+        return back()->with('success','Transaksi Berhasil Disimpan');
     }
   
     public function list_proses()
   {
+  
     $data1 = array(
-      'menu' => 'list_transaction',
+      'menu' => 'list_proses',
       'sub_menu' => '',
       'title' => 'Daftar Order',
       'judul' => 'Daftar Order',
@@ -221,13 +225,14 @@ class TransactionController extends Controller
         $data->status = 'Serve';
 
         $data->save();
-        return redirect('transaction/list_proses')->with('success','Transaksi Berhasil Disimpan');
+        return back()->with('success','Transaksi Berhasil Disimpan');
     }
   
     public function list_payment()
     {
+    
       $data1 = array(
-        'menu' => 'list_transaction',
+        'menu' => 'list_payment',
         'sub_menu' => '',
         'title' => 'Daftar Order',
         'judul' => 'Daftar Order',
@@ -245,7 +250,7 @@ class TransactionController extends Controller
           $data->status = 'Done';
   
           $data->save();
-          return redirect('transaction/list_payment')->with('success','Transaksi Berhasil Disimpan');
+          return back()->with('success','Transaksi Berhasil Disimpan');
       }
     
       public function list_transaksi()

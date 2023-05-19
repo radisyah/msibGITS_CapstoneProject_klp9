@@ -123,15 +123,18 @@ class Transaksi extends Model
 
     public function allDetailTransaksi()
     {
+      
         return DB::table('detail_transaksis')
-             ->join('transaksis', 'transaksis.id','=','detail_transaksis.transaksi_id')
-             ->join('products', 'products.id','=','detail_transaksis.product_id')
-             ->select(
-                'products.name',
-                'qty',
-                'price',
-               )
-             ->get();
+            ->join('transaksis', 'transaksis.id','=','detail_transaksis.transaksi_id')
+            ->join('products', 'products.id','=','detail_transaksis.product_id')
+            ->select(
+            'transaksis.id',
+            'products.name',
+            'qty',
+            'price',
+            )
+            // ->where('transaksis.id', 'transaksi_id')
+            ->get();
     }
 
 }

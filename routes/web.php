@@ -27,7 +27,10 @@ Route::middleware(['auth'])->group(function () {
           Route::get('', 'index')->name('dashboard');
     });
 
-  
+    Route::get('/list_order', [TransactionController::class, 'list_order'])->name('list_order');
+    Route::get('/list_proses', [TransactionController::class, 'list_proses'])->name('list_proses');
+    Route::get('/list_payment', [TransactionController::class, 'list_payment'])->name('list_payment');
+    Route::get('/list_transaksi', [TransactionController::class, 'list_transaksi'])->name('list_transaksi');
     Route::controller(TransactionController::class)->prefix('transaction')->group(function () {
       Route::get('', 'index')->name('transaction');
       Route::get('view_cart', 'view_cart')->name('transaction.view_cart');
@@ -42,13 +45,13 @@ Route::middleware(['auth'])->group(function () {
       Route::get('reset_cart', 'reset_cart')->name('transaction.reset_cart');
       Route::get('remove_item/{rowId}', 'remove_item')->name('transaction.remove_item');
 
-      Route::get('list_order', 'list_order')->name('list_order');
+      // Route::get('/list_order', 'list_order')->name('list_order');
       Route::get('status_proses/{id}', 'status_proses')->name('status_proses');
-      Route::get('list_proses', 'list_proses')->name('list_proses');
+      // Route::get('list_proses', 'list_proses')->name('list_proses');
       Route::get('status_serve/{id}', 'status_serve')->name('status_serve');
-      Route::get('list_payment', 'list_payment')->name('list_payment');
+      // Route::get('list_payment', 'list_payment')->name('list_payment');
       Route::get('status_done/{id}', 'status_done')->name('status_done');
-      Route::get('list_transaksi', 'list_transaksi')->name('list_transaksi');
+      // Route::get('list_transaksi', 'list_transaksi')->name('list_transaksi');
 
       // // -----------------------------------------------------------
       // Route::get('index2', 'index2')->name('index_transaction');
