@@ -78,7 +78,7 @@ class TransactionController extends Controller
 
 
 
-    return redirect('transaction')->with('success','Menu Berhasil Ditambahkan');;
+    return redirect('transaction')->with('success','Menu Berhasil Ditambahkan');
 
     
   }
