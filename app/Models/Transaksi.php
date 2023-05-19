@@ -137,4 +137,43 @@ class Transaksi extends Model
             ->get();
     }
 
+     public function alldetailTransaksis($id)
+    {
+        return DB::table('transaksis')
+             ->join('detail_transaksis', 'detail_transaksis.transaksi_id','=','transaksis.id')
+             ->join('products', 'detail_transaksis.product_id','=','products.id')
+             ->select(
+                'customer_name',
+                'customer_phone',
+                'invoice',
+                'total_price',
+                'payment',
+                'change',
+                'product_code',
+                'name',
+                'qty',
+                'price',
+               )
+             ->where('transaksi_id', $id)
+             ->get();
+    }
+
+    
+    public function payment($id)
+    {
+        return DB::table('detail_transaksis')
+             ->join('transaksis', 'transaksis.id','=','detail_transaksis.transaksi_id')
+             ->select(
+                'customer_name',
+                'customer_phone',
+                'invoice',
+                'total_price',
+                'payment',
+                'change',
+               )
+             ->where('transaksi_id', $id)
+             ->get()
+             ->first();
+    }
+
 }

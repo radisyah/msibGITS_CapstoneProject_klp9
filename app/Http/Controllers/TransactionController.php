@@ -225,7 +225,7 @@ class TransactionController extends Controller
         $data->status = 'Serve';
 
         $data->save();
-        return back()->with('success','Transaksi Berhasil Dihidangkan');
+        return back()->with('success','Transaksi Berhasil Dihidang');
     }
   
     public function list_payment()
@@ -235,6 +235,7 @@ class TransactionController extends Controller
         'menu' => 'list_payment',
         'sub_menu' => '',
         'title' => 'Daftar Order',
+        'grand_total' => Cart::subtotal(),
         'judul' => 'Daftar Order',
         'sub_judul' => '',
         'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Serve'),
@@ -244,10 +245,12 @@ class TransactionController extends Controller
       return view('list_transaction.list_payment',$data1);
     }
   
-    public function status_done($id)
+    public function status_done(Request $request,$id)
       {
           $data = Transaksi::find($id);
           $data->status = 'Done';
+          $data->payment = str_replace(",","",$request->input('dibayar'));
+          $data->change = str_replace(",","",$request->input('kembalian'));
   
           $data->save();
           return back()->with('success','Transaksi Berhasil Disimpan');
@@ -258,8 +261,8 @@ class TransactionController extends Controller
         $data1 = array(
           'menu' => 'list_transaction',
           'sub_menu' => '',
-          'title' => 'Daftar Order',
-          'judul' => 'Daftar Order',
+          'title' => 'Riwayat Transaksi',
+          'judul' => 'Riwayat Transaksi',
           'sub_judul' => '',
           'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Done'),
           'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi(),
@@ -267,4 +270,21 @@ class TransactionController extends Controller
           );
         return view('list_transaction.index',$data1);
       }
+
+    public function detail($id){
+    $data = array(
+      'menu' => 'list_transaction',
+      'sub_menu' => '',
+      'title' => 'Halaman Detail Transaksi',
+      'judul' => 'Detail Transaksi',
+      'sub_judul' => '',
+      'details2' => $this->Transaksi->payment($id)
+      );
+    $data2['details'] = $this->Transaksi->alldetailTransaksis($id);
+    // $data3['cash'] = $this->Transaksi->payment($id);
+
+      // dd($this->Transaksi->payment($id));
+
+    return view('list_transaction.list_detail', $data, $data2);
+  }
 }

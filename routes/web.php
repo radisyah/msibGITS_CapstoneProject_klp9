@@ -31,6 +31,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/list_proses', [TransactionController::class, 'list_proses'])->name('list_proses');
     Route::get('/list_payment', [TransactionController::class, 'list_payment'])->name('list_payment');
     Route::get('/list_transaksi', [TransactionController::class, 'list_transaksi'])->name('list_transaksi');
+    Route::get('/list_transaksi/list_detail/{id}', [TransactionController::class, 'detail'])->name('list_detail');
+    
     Route::controller(TransactionController::class)->prefix('transaction')->group(function () {
       Route::get('', 'index')->name('transaction');
       Route::get('view_cart', 'view_cart')->name('transaction.view_cart');
@@ -81,11 +83,11 @@ Route::middleware(['auth'])->group(function () {
     });
   
   
-     Route::controller(ListTransactionController::class)->prefix('list_transaction')->group(function () {
-        // Route::get('', 'index')->name('list_transaction');
-        Route::get('list_detail/{id}', 'detail')->name('list_detail');
-        Route::get('print_list_transaction/{id}', 'print_list_transaction')->name('print_list_transaction');
-      });
+    //  Route::controller(ListTransactionController::class)->prefix('list_transaction')->group(function () {
+    //     // Route::get('', 'index')->name('list_transaction');
+    //     Route::get('list_detail/{id}', 'detail')->name('list_detail');
+    //     Route::get('print_list_transaction/{id}', 'print_list_transaction')->name('print_list_transaction');
+    //   });
   
   });
   
