@@ -186,12 +186,28 @@ class TransactionController extends Controller
       'title' => 'Daftar Order',
       'judul' => 'Daftar Order',
       'sub_judul' => '',
-      'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Order'),
-      'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi(),
+      // 'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Order'),
 
       );
-    return view('list_transaction.list_order',$data1);
-    // dd($no_urut);
+
+      // for ($i=1; $i < ; $i++) { 
+      //   # code...
+      // }
+
+      // $transaksi = Transaksi::with('detailTransaksi.products')
+      // ->where('status','order')
+      // ->latest('id')
+      // ->first();
+
+      $orders = Transaksi::with(['detailTransaksi.products'])->where('status','order')->whereHas('detailTransaksi')->get();
+     
+      //  $dataId = $this->Transaksi->allDetailTransaksi($query);
+
+      // $data2= array(
+      //   'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi()->where(1, '=', $query),
+      // );
+      // dd($transactionDetails);
+    return view('list_transaction.list_order',compact('orders'),$data1);
   }
 
   public function status_proses($id)

@@ -105,7 +105,7 @@
             Kembali
           </a>
           <a style="color:white"  data-toggle="modal" onclick="Pembayaran()" data-target="#pembayaran"  class="btn btn-success float-right">
-            <i  class="fas fa-cash-register"></i> Pembayaran
+            <i  class="fas fa-cash-register"></i> Pesan
           </a>
           {{-- <button type="button" class="btn btn-success float-right">
           <i class="far fa-credit-card"></i>

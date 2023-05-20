@@ -13,7 +13,8 @@
     <div class="card-body">
       <div class="swal2" data-swal2="{{ Session::get('success') }}">
       </div>
-       <table  id="example1" class="table table-bordered table-striped text-center">
+    
+      <table  id="example1" class="table table-bordered table-striped text-center">
         <thead>
             <tr >
                 <th>No</th>
@@ -30,28 +31,28 @@
           @php
             $no=1;
           @endphp
-            @foreach ($data_listtransaction as $item)
+            @foreach ($orders as $order)
                 <tr class="">
                     <td>{{$no++}}</td>
-                    <td>{{$item->invoice}}</td>
-                    <td>{{$item->customer_name}}</td>
-                    <td>{{$item->customer_phone}}</td>
+                    <td>{{$order->invoice}}</td>
+                    <td>{{$order->customer_name}}</td>
+                    <td>{{$order->customer_phone}}</td>
                     <td>
                       @php
                           $i=1;
                         @endphp
-                      @foreach ($data_detailtransaction as $item2 )
-                        {{ $i++ }}. {{ $item2->name }}    -   {{ $item2->qty }} pcs <br>
+                      @foreach ($order->detailTransaksi as $detail )
+                        {{ $i++ }}. -  {{ $detail->products->name }} {{ $detail->qty }} pcs <br>
                       @endforeach
                     </td>
-                    <td>Rp. {{number_format($item->total_price,0)}}</td>
-                    <td><span class="badge badge-warning">{{ $item->status }}</span></td>
-                    {{-- <td><a href="{{ route('list_detail',$item->id)}}">Detail</a></td> --}}
+                    <td>Rp. {{number_format($order->total_price,0)}}</td>
+                    <td><span class="badge badge-warning">{{ $order->status }}</span></td>
+                    {{-- <td><a href="{{ route('list_detail',$order->id)}}">Detail</a></td> --}}
                     <td>
-                      {{-- <a href="{{ route('status_proses', $item->id) }}" class="btn btn-primary">
+                      {{-- <a href="{{ route('status_proses', $order->id) }}" class="btn btn-primary">
                         Proses
                       </a> --}}
-                       <form method="GET" action="{{ route('status_proses', $item->id) }}">
+                       <form method="GET" action="{{ route('status_proses', $order->id) }}">
 
                         @csrf
                         </a>
@@ -63,7 +64,8 @@
                 </tr>
                 @endforeach
         </tbody>
-        </table>
+      </table>
+
     </div>
     <!-- /.card-body -->
   </div>

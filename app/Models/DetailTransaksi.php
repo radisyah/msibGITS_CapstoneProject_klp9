@@ -17,11 +17,11 @@ class DetailTransaksi extends Model
     ];
 
      public function products(){
-        return $this->belongsTo(Products::class);
+        return $this->belongsTo(Products::class,'product_id');
     }
 
      public function transaksi(){
-        return $this->belongsTo(Transaksi::class);
+        return $this->belongsTo(Transaksi::class,'transaksi_id');
     }
 
 }
