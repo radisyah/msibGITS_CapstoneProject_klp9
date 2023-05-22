@@ -30,7 +30,7 @@
           @php
             $no=1;
           @endphp
-            @foreach ($data_listtransaction as $item)
+            @foreach ($orders as $item)
                 <tr class="">
                     <td>{{$no++}}</td>
                     <td>{{$item->invoice}}</td>
@@ -40,8 +40,8 @@
                       @php
                           $i=1;
                         @endphp
-                      @foreach ($data_detailtransaction as $item2 )
-                        {{ $i++ }}. {{ $item2->name }}    -   {{ $item2->qty }} pcs <br>
+                      @foreach ($item->detailTransaksi as $item2 )
+                        {{ $i++ }}. {{ $item2->products->name }}    -   {{ $item2->qty }} pcs <br>
                       @endforeach
                     </td>
                     <td>Rp. {{number_format($item->total_price,0)}}</td>

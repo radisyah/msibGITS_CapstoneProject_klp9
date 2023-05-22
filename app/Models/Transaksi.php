@@ -170,6 +170,7 @@ class Transaksi extends Model
                 'total_price',
                 'payment',
                 'change',
+                'transaksis.id',
                )
              ->where('transaksi_id', $id)
              ->get()

@@ -34,7 +34,7 @@
                     <td>{{$item->customer_name}}</td>
                     <td>{{$item->customer_phone}}</td>
                     <td>Rp. {{number_format($item->total_price,0)}}</td>
-                    <td><span class="badge badge-success">{{ $item->status }}</span></td>
+                    <td><span class="badge badge-primary">{{ $item->status }}</span></td>
                     <td><a href="{{ route('list_detail',$item->id)}}">Detail</a></td>
                 </tr>
                 @endforeach

@@ -55,6 +55,8 @@ Route::middleware(['auth'])->group(function () {
       Route::get('status_done/{id}', 'status_done')->name('status_done');
       // Route::get('list_transaksi', 'list_transaksi')->name('list_transaksi');
 
+      Route::get('print_list_transaction/{id}', 'print_list_transaction')->name('print_list_transaction');
+
       // // -----------------------------------------------------------
       // Route::get('index2', 'index2')->name('index_transaction');
       // Route::get('cart', 'cart');

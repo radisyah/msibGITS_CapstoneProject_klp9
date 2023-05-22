@@ -228,11 +228,14 @@ class TransactionController extends Controller
       'title' => 'Daftar Order',
       'judul' => 'Daftar Order',
       'sub_judul' => '',
-      'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Proses'),
-      'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi(),
+      // 'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Proses'),
+      // 'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi(),
 
       );
-    return view('list_transaction.list_proses',$data1);
+
+      $orders = Transaksi::with(['detailTransaksi.products'])->where('status','Proses')->whereHas('detailTransaksi')->get();
+
+    return view('list_transaction.list_proses',compact('orders'),$data1);
   }
 
   public function status_serve($id)
@@ -254,11 +257,13 @@ class TransactionController extends Controller
         'grand_total' => Cart::subtotal(),
         'judul' => 'Daftar Order',
         'sub_judul' => '',
-        'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Serve'),
-        'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi(),
+        // 'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Serve'),
+        // 'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi(),
   
         );
-      return view('list_transaction.list_payment',$data1);
+        $orders = Transaksi::with(['detailTransaksi.products'])->where('status','Serve')->whereHas('detailTransaksi')->get();
+
+        return view('list_transaction.list_payment',compact('orders'),$data1);
     }
   
     public function status_done(Request $request,$id)
@@ -303,4 +308,13 @@ class TransactionController extends Controller
 
     return view('list_transaction.list_detail', $data, $data2);
   }
+
+  public function print_list_transaction($id){
+    $data = array(
+     'details2' => $this->Transaksi->payment($id)
+     );
+    $data2['details'] = $this->Transaksi->alldetailTransaksis($id);
+     return view('list_transaction.print_list_transaction',$data, $data2);
+ }
+
 }

@@ -30,19 +30,19 @@
           @php
             $no=1;
           @endphp
-            @foreach ($data_listtransaction as $item)
-                <tr class="">
-                    <td>{{$no++}}</td>
-                    <td>{{$item->invoice}}</td>
-                    <td>{{$item->customer_name}}</td>
-                    <td>{{$item->customer_phone}}</td>
-                    <td>
-                      @php
-                          $i=1;
-                        @endphp
-                      @foreach ($data_detailtransaction as $item2 )
-                        {{ $i++ }}. {{ $item2->name }}    -   {{ $item2->qty }} pcs <br>
-                      @endforeach
+            @foreach ($orders as $item)
+            <tr class="">
+                <td>{{$no++}}</td>
+                <td>{{$item->invoice}}</td>
+                <td>{{$item->customer_name}}</td>
+                <td>{{$item->customer_phone}}</td>
+                <td>
+                  @php
+                      $i=1;
+                    @endphp
+                  @foreach ($item->detailTransaksi as $item2 )
+                    {{ $i++ }}. {{ $item2->products->name }}    -   {{ $item2->qty }} pcs <br>
+                  @endforeach
                     </td>
                     <td>Rp. {{number_format($item->total_price,0)}}</td>
                     <td><span class="badge badge-success">{{ $item->status }}</span></td>
@@ -62,7 +62,7 @@
 </div>
 
 <!-- Modal Pembayaran Produk -->
-@foreach ($data_listtransaction as $item)
+@foreach ($orders as $item)
 <div class="modal fade " id="pembayaran{{ $item->id }}">
   <div class="modal-dialog ">
     <div class="modal-content">
