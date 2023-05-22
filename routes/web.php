@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ListTransactionController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\NomorMejaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,6 +83,15 @@ Route::middleware(['auth'])->group(function () {
       Route::get('edit/{id}','edit')->name('products.edit');
       Route::post('edit/{id}','update')->name('products.update');
       Route::get('destroy/{id}','destroy')->name('products.destroy');
+    });
+
+    Route::controller(NomorMejaController::class)->prefix('nomor_meja')->group(function () {
+      Route::get('', 'index')->name('nomor_meja');
+      Route::get('add','create')->name('nomor_meja.add');
+      Route::post('add','store')->name('nomor_meja.store');
+      Route::get('edit/{id}','edit')->name('nomor_meja.edit');
+      Route::post('edit/{id}','update')->name('nomor_meja.update');
+      Route::get('destroy/{id}','destroy')->name('nomor_meja.destroy');
     });
   
   

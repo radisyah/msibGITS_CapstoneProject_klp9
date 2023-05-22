@@ -92,6 +92,18 @@
                     <p>Produk</p>
                   </a>
                 </li>
+
+                <li class="nav-item">
+                  <a
+                    href="{{ route('nomor_meja') }}"
+                    class="nav-link {{ $sub_menu == 'nomor_meja' ? 'active' : '' }}"
+                  >
+                    <i
+                      class="{{ $sub_menu == 'nomor_meja' ? 'far fa-dot-circle nav-icon' : 'far fa-circle nav-icon' }}"
+                    ></i>
+                    <p>Nomor Meja</p>
+                  </a>
+                </li>
               </ul>
             </li>
 
