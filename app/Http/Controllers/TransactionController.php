@@ -165,7 +165,6 @@ class TransactionController extends Controller
               'transaksi_id' => $no_urut,
               'product_id' => $value->id,
               'qty' =>  $value->qty,
-              'price' => $value->subtotal
             ];
             DetailTransaksi::create($data);
           }

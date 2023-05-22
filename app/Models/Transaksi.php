@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 
 class Transaksi extends Model
@@ -24,7 +25,7 @@ class Transaksi extends Model
     ];
 
      public function DetailTransaksi(){
-        return $this->hasMany(DetailTransaksi::class);
+        return $this->hasMany(DetailTransaksi::class,'transaksi_id');
     }
 
      public function users(){
@@ -131,11 +132,31 @@ class Transaksi extends Model
             'transaksis.id',
             'products.name',
             'qty',
-            'price',
             )
             // ->where('transaksis.id', 'transaksi_id')
             ->get();
     }
+
+    // public function grafik()
+    // {
+    //     $year = date('Y');
+    //     $month = date('m');
+
+    //     $startDate = $year . '-' . $month . '-01';
+    //     $endDate = date('Y-m-t',strtotime($startDate));
+
+    //     return DB::table('transaksis')
+    //         ->join('detail_transaksis', 'detail_transaksis.transaksi_id','=','transaksis.id')
+    //         ->join('products', 'detail_transaksis.product_id','=','products.id')
+    //         ->whereBetween('transaksis.created_at',[$startDate,$endDate])
+    //         ->groupBy(DB::raw('DATE(transaksis.created_at)'))
+    //         ->select(
+    //             DB::raw('DATE(transaksis.created_at) AS transactionDate'),
+    //             DB::raw('SUM((products.selling_price - products.purchase_price) * detail_transaksis.qty) AS totalProfit '),
+    //             DB::raw('SUM(transaksis.total_price) AS totalRevenue')
+    //         )
+    //         ->get();
+    // }
 
      public function alldetailTransaksis($id)
     {
@@ -145,6 +166,7 @@ class Transaksi extends Model
              ->select(
                 'customer_name',
                 'customer_phone',
+                'selling_price',
                 'invoice',
                 'total_price',
                 'payment',
@@ -152,7 +174,6 @@ class Transaksi extends Model
                 'product_code',
                 'name',
                 'qty',
-                'price',
                )
              ->where('transaksi_id', $id)
              ->get();
@@ -176,5 +197,7 @@ class Transaksi extends Model
              ->get()
              ->first();
     }
+
+   
 
 }

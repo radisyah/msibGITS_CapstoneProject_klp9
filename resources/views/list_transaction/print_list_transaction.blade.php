@@ -70,7 +70,7 @@
                       <td>{{$item->qty}}</td>
                       <td>{{$item->name}}</td>
                       <td>{{$item->product_code}}</td>
-                      <td>Rp. {{number_format($item->price,0)}}</td>
+                      <td>Rp. {{number_format($item->selling_price*$item->qty,0)}}</td>
                     </tr>
                     @endforeach
                   

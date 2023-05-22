@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('transaksi_id');
             $table->foreignId('product_id');
             $table->integer('qty');
-            $table->unsignedInteger('price')->default(0);
             $table->foreign('transaksi_id')->references('id')->on('transaksis');
             $table->foreign('product_id')->references('id')->on('products');
             $table->timestamps();
