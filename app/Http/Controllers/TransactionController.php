@@ -95,10 +95,11 @@ class TransactionController extends Controller
       'title' => 'Halaman Lihat Order ',
       // 'products' => $this->Transaksi->allData(),
       // 'invoice' => $this->Transaksis->inVoice(),
+      'no_meja' => $this->Transaksi->getNo_meja(),
       'cart' => Cart::content(),
       'grand_total' => Cart::subtotal(0)
     );
-    // dd( $transaksi);
+    // dd( $data['no_meja']);
 
     return view('transaction.view_cart',$data);
 
@@ -128,10 +129,12 @@ class TransactionController extends Controller
     $invoice = $this->Transaksi->inVoice();
     $customer_name = $request->input('customer_name');
     $customer_phone = $request->input('customer_phone');
+    $mejas_id = $request->input('mejas_id');
     $user_id = $request->input('user_id');
     $total_price = str_replace(",","",$request->input('grand_total'));
     $transaksi_id = 1;
     $status = 'Order';
+    // dd($mejas_id);
 
     if ( $produk==0 ) {
      return redirect('transaction')->with('danger','Data Keranjang Kosong');
@@ -159,6 +162,7 @@ class TransactionController extends Controller
             'user_id' => $user_id,
             'customer_name' => $customer_name,
             'customer_phone' => $customer_phone,
+            'mejas_id' => $mejas_id,
             'total_price' => $total_price,
             'status' => $status,
           ];

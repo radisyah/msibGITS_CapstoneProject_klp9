@@ -101,7 +101,7 @@
           <button type="submit" class="btn btn-warning">
             Update
           </button>
-          <a href="" class="btn btn-primary">
+          <a href="{{ route('transaction') }}" class="btn btn-primary">
             Kembali
           </a>
           <a style="color:white"  data-toggle="modal" onclick="Pembayaran()" data-target="#pembayaran"  class="btn btn-success float-right">
@@ -144,6 +144,15 @@
               <div class="input-group mb-3">
               <input  autocomplete="off" required id="customer_phone" name="customer_phone" class="form-control form-control-lg text-right"  placeholder="No Telp. Customer" required>
             </div>
+          </div>
+          <div class="form-group">
+            <label>No Meja</label>
+            <select class="form-control select" style="width: 100%;" name="mejas_id">
+              <option selected="selected">Pilih No meja</option>
+              @foreach ($no_meja as $item)
+              <option value="{{$item->meja_id}}">{{$item->nomor_meja}}</option>
+              @endforeach
+          </select>
           </div>
 
         <div class="form-group">

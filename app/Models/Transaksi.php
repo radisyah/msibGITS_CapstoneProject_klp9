@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
+use function PHPUnit\Framework\isNull;
 
 class Transaksi extends Model
 {
@@ -181,6 +182,19 @@ class Transaksi extends Model
              ->where('transaksi_id', $id)
              ->get()
              ->first();
+    }
+
+    public function getNo_meja()
+    {
+        return DB::table(function ($query) {
+            $query->select('nomor_mejas.id as meja_id','nomor_mejas.nomor_meja', 'transaksis.status')
+                ->from('transaksis')
+                ->rightJoin('nomor_mejas', 'nomor_mejas.id', '=', 'transaksis.mejas_id');
+        }, 'A')
+            ->where('A.status','=', 'Done')
+            ->orWhereNull('A.status')
+            ->get();
+        
     }
 
    
