@@ -77,7 +77,6 @@ class TransactionController extends Controller
       'options' => [
         'image' =>$request->image,
         'category_name' =>$request->category_name,
-        'id_meja' => $NomorMeja->nomor_meja
       ]
     ]);
 
@@ -97,7 +96,7 @@ class TransactionController extends Controller
       // 'products' => $this->Transaksi->allData(),
       // 'invoice' => $this->Transaksis->inVoice(),
       'cart' => Cart::content(),
-      'grand_total' => Cart::subtotal()
+      'grand_total' => Cart::subtotal(0)
     );
     // dd( $transaksi);
 
@@ -258,7 +257,7 @@ class TransactionController extends Controller
         'menu' => 'list_payment',
         'sub_menu' => '',
         'title' => 'Daftar Order',
-        'grand_total' => Cart::subtotal(),
+        'grand_total' => Cart::subtotal(0),
         'judul' => 'Daftar Order',
         'sub_judul' => '',
         // 'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Serve'),

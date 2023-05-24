@@ -24,7 +24,7 @@
         @endphp
         <!-- Messages Dropdown Menu -->
         <li class="nav-item dropdown">
-          <a class="nav-link"  href="{{ route('view_cart', $NomorMeja->nomor_meja) }}">
+          <a class="nav-link"  href="{{ route('view_cart') }}">
             <i class="fas fa-shopping-cart"></i>
             <span class="badge badge-danger navbar-badge">{{ $jumlah_item }}</span>
           </a>
