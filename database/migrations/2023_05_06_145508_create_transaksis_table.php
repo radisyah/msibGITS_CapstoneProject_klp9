@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreignId('mejas_id');
+            $table->foreign('mejas_id')->references('id')->on('nomor_mejas');
             $table->string('customer_name');
             $table->string('customer_phone');
             $table->string('invoice');

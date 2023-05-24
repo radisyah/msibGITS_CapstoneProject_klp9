@@ -6,6 +6,7 @@ use App\Models\Categories;
 use App\Models\User;
 use App\Models\Products;
 use App\Models\Transaksi;
+use App\Models\NomorMeja;
 use App\Models\DetailTransaksi;
 use Cart;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ class TransactionController extends Controller
   public function index()
   {
 
+    
     $data = array(
       'title' => 'Halaman Order',
       'products_makanan' => $this->Transaksi->allData_makanan(),
@@ -30,9 +32,10 @@ class TransactionController extends Controller
       // 'cart' => Cart::content(),
       // 'grand_total' => Cart::subtotal()
     );
+
+
     return view('transaction.index',$data);
     
-    // dd($this->Transaksi->inVoice());
   }
 
   public function add_cart($id_product, Request $request){
@@ -63,22 +66,25 @@ class TransactionController extends Controller
     //  return redirect('transaction');
     // }
 
-     $cart =  Cart::add([
+
+
+    $cart =  Cart::add([
       'id' => $request->id_product,
-      'name' => $request-> name, 
+      'name' => $request->name, 
       'price' => $request->selling_price, 
       'weight' => 0, 
       'qty' => 1,
       'options' => [
         'image' =>$request->image,
         'category_name' =>$request->category_name,
-        
+        'id_meja' => $NomorMeja->nomor_meja
       ]
     ]);
 
 
 
-    return redirect('transaction')->with('success','Menu Berhasil Ditambahkan');
+
+    return redirect()->back()->with('success','Menu Berhasil Ditambahkan');
 
     
   }
@@ -88,13 +94,12 @@ class TransactionController extends Controller
 
     $data = array(
       'title' => 'Halaman Lihat Order ',
-      
       // 'products' => $this->Transaksi->allData(),
       // 'invoice' => $this->Transaksis->inVoice(),
       'cart' => Cart::content(),
       'grand_total' => Cart::subtotal()
     );
-    // dd(Cart::content());
+    // dd( $transaksi);
 
     return view('transaction.view_cart',$data);
 

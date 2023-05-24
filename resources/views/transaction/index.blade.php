@@ -9,7 +9,8 @@
       <!-- Custom Tabs -->
       <div class="card">
         <div class="card-header d-flex p-0">
-          <h3 class="card-title p-3">Menu Makanan dan Minuman</h3>
+          <h3 class="card-title p-3">Menu Makanan dan Minuman</h3>  
+
           <ul class="nav nav-pills ml-auto p-2">
             <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Makanan</a></li>
             <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Minuman</a></li>
@@ -18,11 +19,11 @@
         <div class="card-body">
           <div class="tab-content">
             <div class="tab-pane active" id="tab_1">
-
+           
               <div class="row">
                 @foreach ($products_makanan as $value )
                   <div class="col-md-3">
-                    <form action="{{ route('transaction.add_cart',$value->id_product)}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('add_cart',['nomor_meja' => $NomorMeja->nomor_meja, 'id_product' => $value->id_product])}}" method="POST" enctype="multipart/form-data">
                       @csrf
                       <input name="id_product" type="hidden" value="{{ $value->id_product }}">
                       <input name="selling_price" type="hidden" value="{{ $value->selling_price }}">
@@ -63,7 +64,7 @@
                 <div class="row">
                 @foreach ($products_minuman as $value )
                   <div class="col-md-3">
-                    <form action="{{ route('transaction.add_cart',$value->id_product)}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('add_cart',$value->id_product)}}" method="POST" enctype="multipart/form-data">
                       @csrf
                       <input name="id_product" type="hidden" value="{{ $value->id_product }}">
                       <input name="selling_price" type="hidden" value="{{ $value->selling_price }}">

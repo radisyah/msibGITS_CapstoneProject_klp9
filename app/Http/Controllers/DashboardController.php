@@ -81,7 +81,7 @@ class DashboardController extends Controller
             ->join('products', 'detail_transaksis.product_id','=','products.id')
             ->where('transaksis.status', 'Done')
             ->whereMonth('transaksis.created_at',date('m'))
-            ->whereYear('transaksis.created_at',date('Y'))
+            ->whereYear('transaksis.created_at',date('Y')) 
             ->groupBy(DB::raw('DATE(transaksis.created_at)'))
             ->select(
                 DB::raw('DATE(transaksis.created_at) AS transactionDate'),

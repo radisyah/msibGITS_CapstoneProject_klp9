@@ -15,6 +15,7 @@ class Transaksi extends Model
     
     protected $fillable = [
         'user_id',
+        'mejas_id',
         'customer_name',
         'customer_phone',
         'invoice',
@@ -29,7 +30,11 @@ class Transaksi extends Model
     }
 
      public function users(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
+    }
+
+    public function NomorMeja(){
+        return $this->belongsTo(NomorMeja::class,'mejas_id');
     }
 
     public function allData_makanan()
@@ -137,27 +142,7 @@ class Transaksi extends Model
             ->get();
     }
 
-    // public function grafik()
-    // {
-    //     $year = date('Y');
-    //     $month = date('m');
-
-    //     $startDate = $year . '-' . $month . '-01';
-    //     $endDate = date('Y-m-t',strtotime($startDate));
-
-    //     return DB::table('transaksis')
-    //         ->join('detail_transaksis', 'detail_transaksis.transaksi_id','=','transaksis.id')
-    //         ->join('products', 'detail_transaksis.product_id','=','products.id')
-    //         ->whereBetween('transaksis.created_at',[$startDate,$endDate])
-    //         ->groupBy(DB::raw('DATE(transaksis.created_at)'))
-    //         ->select(
-    //             DB::raw('DATE(transaksis.created_at) AS transactionDate'),
-    //             DB::raw('SUM((products.selling_price - products.purchase_price) * detail_transaksis.qty) AS totalProfit '),
-    //             DB::raw('SUM(transaksis.total_price) AS totalRevenue')
-    //         )
-    //         ->get();
-    // }
-
+  
      public function alldetailTransaksis($id)
     {
         return DB::table('transaksis')

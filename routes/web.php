@@ -28,6 +28,7 @@ Route::middleware(['auth'])->group(function () {
           Route::get('', 'index')->name('dashboard');
     });
 
+    // Route::get('/transaction/{tableId}', [TransactionController::class, 'index'])->name('transaction');
     Route::get('/list_order', [TransactionController::class, 'list_order'])->name('list_order');
     Route::get('/list_proses', [TransactionController::class, 'list_proses'])->name('list_proses');
     Route::get('/list_payment', [TransactionController::class, 'list_payment'])->name('list_payment');
@@ -36,17 +37,18 @@ Route::middleware(['auth'])->group(function () {
     
     Route::controller(TransactionController::class)->prefix('transaction')->group(function () {
       Route::get('', 'index')->name('transaction');
-      Route::get('view_cart', 'view_cart')->name('transaction.view_cart');
+      Route::get('view_cart', 'view_cart')->name('view_cart');
+      // Route::get('view_cart', 'view_cart')->name('view_cart');
       // Route::get('cek_produk', 'CekProduk')->name('cek_produk');
       // Route::post('cek_produk', 'CekProduk')->name('cek_produk');
-      Route::get('add_cart/{id_product}', 'add_cart')->name('transaction.add_cart');
-      Route::post('add_cart/{id_product}', 'add_cart')->name('transaction.add_cart');
-      Route::post('update_cart', 'update_cart')->name('transaction.update_cart');
-      // Route::post('update_cart', 'update_cart')->name('transaction.update_cart');
-      Route::get('save_transaction', 'save_transaction')->name('transaction.save_transaction');
-      Route::post('save_transaction', 'save_transaction')->name('transaction.save_transaction');
-      Route::get('reset_cart', 'reset_cart')->name('transaction.reset_cart');
-      Route::get('remove_item/{rowId}', 'remove_item')->name('transaction.remove_item');
+      Route::get('add_cart/{id_product}', 'add_cart')->name('add_cart');
+      Route::post('add_cart/{id_product}', 'add_cart')->name('add_cart');
+      Route::post('update_cart', 'update_cart')->name('update_cart');
+      // Route::post('update_cart', 'update_cart')->name('update_cart');
+      Route::get('save_transaction', 'save_transaction')->name('save_transaction');
+      Route::post('save_transaction', 'save_transaction')->name('save_transaction');
+      Route::get('reset_cart', 'reset_cart')->name('reset_cart');
+      Route::get('remove_item/{rowId}', 'remove_item')->name('remove_item');
 
       // Route::get('/list_order', 'list_order')->name('list_order');
       Route::get('status_proses/{id}', 'status_proses')->name('status_proses');

@@ -7,7 +7,7 @@
 
 
   <!-- Main content -->
-  <form action="{{ route('transaction.update_cart')}}" method="POST" enctype="multipart/form-data">
+  <form action="{{ route('update_cart')}}" method="POST" enctype="multipart/form-data">
   @csrf
     <div class="invoice p-3 mb-3">
       
@@ -101,7 +101,7 @@
           <button type="submit" class="btn btn-warning">
             Update
           </button>
-          <a href="{{ route('transaction') }}" class="btn btn-primary">
+          <a href="" class="btn btn-primary">
             Kembali
           </a>
           <a style="color:white"  data-toggle="modal" onclick="Pembayaran()" data-target="#pembayaran"  class="btn btn-success float-right">
@@ -129,7 +129,7 @@
         </button>
       </div>
 
-      <form action="{{ route('transaction.save_transaction')}}" method="POST">
+      <form action="{{ route('save_transaction')}}" method="POST">
         @csrf
         <div class="modal-body">
           <div class="form-group">
@@ -205,7 +205,7 @@
       </div>
       <div class="modal-footer justify-content-between">
         <button type="button" class="btn btn-outline-light" data-dismiss="modal">Tidak</button>
-        <a href="{{ route('transaction.remove_item', $value->rowId) }}"  class="btn btn-outline-light">Iya</a>
+        <a href="{{ route('remove_item', $value->rowId) }}"  class="btn btn-outline-light">Iya</a>
       </div>
     </div>
     <!-- /.modal-content -->

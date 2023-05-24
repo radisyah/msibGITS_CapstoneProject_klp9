@@ -13,4 +13,8 @@ class NomorMeja extends Model
         'nomor_meja',
         'qr'
     ];
+
+     public function Transaksi(){
+        return $this->hasMany(Transaksi::class,'mejas_id');
+    }
 }
