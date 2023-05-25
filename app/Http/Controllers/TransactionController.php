@@ -11,6 +11,10 @@ use App\Models\DetailTransaksi;
 use Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Message;
+use App\Mail\OrdersEmail;
+use App\Mail\DoneEmail;
  
 class TransactionController extends Controller
 {
@@ -36,6 +40,21 @@ class TransactionController extends Controller
 
     return view('transaction.index',$data);
     
+  }
+
+  public function live_report_ordering()
+  {
+    $orders = Transaksi::with('nomorMeja')
+    ->where('status', '!=', 'done')
+    ->get();
+
+    $data = array(
+      'title' => 'Halaman Live Report Ordering',
+      'orders' => $orders
+    );
+
+
+    return view('live_report_ordering',$data);
   }
 
   public function add_cart($id_product, Request $request){
@@ -128,6 +147,7 @@ class TransactionController extends Controller
     $produk = Cart::subtotal();
     $invoice = $this->Transaksi->inVoice();
     $customer_name = $request->input('customer_name');
+    $customer_email = $request->input('customer_email');
     $customer_phone = $request->input('customer_phone');
     $mejas_id = $request->input('mejas_id');
     $user_id = $request->input('user_id');
@@ -135,53 +155,71 @@ class TransactionController extends Controller
     $transaksi_id = 1;
     $status = 'Order';
     // dd($mejas_id);
+    
 
     if ( $produk==0 ) {
      return redirect('transaction')->with('danger','Data Keranjang Kosong');
     } else {
-          $item = Cart::content();
-          $no_urut = 0;
+        $item = Cart::content();
+        $no_urut = 0;
 
-          $query = DB::table('transaksis')
-            ->select('id')
-            ->get();
-          
-          foreach($query as $no){
-              $no_urut = $no->id;
-          }
-          if($no_urut == null){
-              $no_urut = 1;
-          } else {
-              $no_urut = $no_urut+1;
-          }
+        $query = DB::table('transaksis')
+          ->select('id')
+          ->get();
+        
+        foreach($query as $no){
+            $no_urut = $no->id;
+        }
+        if($no_urut == null){
+            $no_urut = 1;
+        } else {
+            $no_urut = $no_urut+1;
+        }
 
-          // dd($no_urut);
+        // dd($no_urut);
 
+        $data = [
+          'invoice' => $invoice,
+          'user_id' => $user_id,
+          'customer_name' => $customer_name,
+          'customer_email' => $customer_email,
+          'customer_phone' => $customer_phone,
+          'mejas_id' => $mejas_id,
+          'total_price' => $total_price,
+          'status' => $status,
+        ];
+        Transaksi::create($data);
+        
+        foreach ($item as $key => $value) {
           $data = [
-            'invoice' => $invoice,
-            'user_id' => $user_id,
-            'customer_name' => $customer_name,
-            'customer_phone' => $customer_phone,
-            'mejas_id' => $mejas_id,
-            'total_price' => $total_price,
-            'status' => $status,
+            'transaksi_id' => $no_urut,
+            'product_id' => $value->id,
+            'qty' =>  $value->qty,
           ];
-          Transaksi::create($data);
+          DetailTransaksi::create($data);
+        }
+
+        $orders = Transaksi::with(['detailTransaksi.products', 'nomorMeja'])
+        ->where('status', 'order')
+        ->whereHas('detailTransaksi')
+        ->where('invoice', $invoice) // Menambahkan kondisi nomor invoice
+        ->get();
+        
+        Mail::to($customer_email)->send(new OrdersEmail($orders));
+
+
           
-          foreach ($item as $key => $value) {
-            $data = [
-              'transaksi_id' => $no_urut,
-              'product_id' => $value->id,
-              'qty' =>  $value->qty,
-            ];
-            DetailTransaksi::create($data);
-          }
 
-          Cart::destroy();
 
-          return redirect('transaction')->with('success','Transaksi Berhasil Disimpan');
+        Cart::destroy();
+
+      
+
+      return redirect('transaction')->with('success','Transaksi Berhasil Disimpan');
     }
   }
+
+
 
   public function list_order()
   {
@@ -206,15 +244,16 @@ class TransactionController extends Controller
       // ->latest('id')
       // ->first();
 
-      $orders = Transaksi::with(['detailTransaksi.products'])->where('status','order')->whereHas('detailTransaksi')->get();
+      $orders = Transaksi::with(['detailTransaksi.products','nomorMeja'])->where('status','order')->whereHas('detailTransaksi')->get();
+      
      
       //  $dataId = $this->Transaksi->allDetailTransaksi($query);
 
       // $data2= array(
       //   'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi()->where(1, '=', $query),
       // );
-      // dd($transactionDetails);
-    return view('list_transaction.list_order',compact('orders'),$data1);
+      // dd($orders);
+      return view('list_transaction.list_order',compact('orders'),$data1);
   }
 
   public function status_proses($id)
@@ -240,7 +279,7 @@ class TransactionController extends Controller
 
       );
 
-      $orders = Transaksi::with(['detailTransaksi.products'])->where('status','Proses')->whereHas('detailTransaksi')->get();
+      $orders = Transaksi::with(['detailTransaksi.products','nomorMeja'])->where('status','Proses')->whereHas('detailTransaksi')->get();
 
     return view('list_transaction.list_proses',compact('orders'),$data1);
   }
@@ -268,7 +307,7 @@ class TransactionController extends Controller
         // 'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi(),
   
         );
-        $orders = Transaksi::with(['detailTransaksi.products'])->where('status','Serve')->whereHas('detailTransaksi')->get();
+        $orders = Transaksi::with(['detailTransaksi.products','nomorMeja'])->where('status','Serve')->whereHas('detailTransaksi')->get();
 
         return view('list_transaction.list_payment',compact('orders'),$data1);
     }
@@ -278,9 +317,17 @@ class TransactionController extends Controller
           $data = Transaksi::find($id);
           $data->status = 'Done';
           $data->payment = str_replace(",","",$request->input('dibayar'));
-          $data->change = str_replace(",","",$request->input('kembalian'));
+          $data->change = str_replace(",","",$request->input('kembalian'));          
+          
   
           $data->save();
+          $dones = Transaksi::with(['detailTransaksi.products', 'nomorMeja'])
+          ->where('status', 'Done')
+          ->whereHas('detailTransaksi')
+          ->where('id', $id) // Menambahkan kondisi nomor invoice
+          ->get();
+        
+          Mail::to($data->customer_email)->send(new DoneEmail($dones));
           return back()->with('success','Transaksi Berhasil Disimpan');
       }
     

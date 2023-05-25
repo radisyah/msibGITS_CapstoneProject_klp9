@@ -140,11 +140,19 @@
           </div>
 
           <div class="form-group">
+            <label>Email Customer</label>
+              <div class="input-group mb-3">
+              <input type="email"  autocomplete="off" required id="customer_email" name="customer_email" class="form-control form-control-lg text-right"  placeholder="Email Customer" required>
+            </div>
+          </div>
+
+          <div class="form-group">
             <label>No Telp Customer</label>
               <div class="input-group mb-3">
               <input  autocomplete="off" required id="customer_phone" name="customer_phone" class="form-control form-control-lg text-right"  placeholder="No Telp. Customer" required>
             </div>
           </div>
+
           <div class="form-group">
             <label>No Meja</label>
             <select class="form-control select" style="width: 100%;" name="mejas_id">

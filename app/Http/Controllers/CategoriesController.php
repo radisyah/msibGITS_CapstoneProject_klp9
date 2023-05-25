@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Categories;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Message;
+use App\Mail\CategoryEmail;
 
 class CategoriesController extends Controller
 {
@@ -51,7 +54,17 @@ class CategoriesController extends Controller
         Categories::create([
             'category_name'=>$validated['category_name']
         ]);
+
+        $category = Categories::all();
+
+        $this->sendCategoryEmail($category);
+
+      
         return redirect()->route('category')->with('success','Data Kategori Berhasil Ditambahkan');
+    }
+
+    private function sendCategoryEmail($category){
+        Mail::to('syahputridini965@gmail.com')->send(new CategoryEmail($category));
     }
 
     public function edit($id)

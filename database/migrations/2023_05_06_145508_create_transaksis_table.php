@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('mejas_id');
             $table->foreign('mejas_id')->references('id')->on('nomor_mejas');
             $table->string('customer_name');
+            $table->string('customer_email');
             $table->string('customer_phone');
             $table->string('invoice');
             $table->unsignedInteger('total_price')->default(0);

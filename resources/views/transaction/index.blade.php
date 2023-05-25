@@ -61,7 +61,7 @@
             </div>
             <!-- /.tab-pane -->
             <div class="tab-pane" id="tab_2">
-                <div class="row">
+               <div class="row">
                 @foreach ($products_minuman as $value )
                   <div class="col-md-3">
                     <form action="{{ route('add_cart',$value->id_product)}}" method="POST" enctype="multipart/form-data">
@@ -73,12 +73,12 @@
                       <input name= "category_name" type="hidden" value="{{ $value->category_name }}">
                       
                       <div class="card">
-                        <img class="card-img-top"
+                        <div class="img">
+                          <img class="card-img-top"
                           src="{{ asset('storage/'.$value->image) }}"
                           alt="Card image cap">
-                        {{-- <img class="card-img-top"
-                          src="{{ asset('storage/'.$value->image) }}"
-                          alt="Card image cap"> --}}
+                        </div>
+                        
                         <div class="card-body ">
                           <h5 class="card-title"> <b>{{ $value->name }}</b></h5>
                           <p class="card-text">Rp. {{ number_format($value->selling_price,0)}}
@@ -87,8 +87,13 @@
                           <button type="submit" href="https://www.copycat.dev/" class="btn btn-primary btn-block"><i class="text-center fas fa-cart-plus fa-lg mr-2"></i>
                             Tambah</button>
                         </div>
+                  
+                        
                       </div>
+                      
 
+                        
+                    
                     </form>
                   </div>
                 @endforeach

@@ -18,6 +18,7 @@
             <tr >
                 <th>No</th>
                 <th>Invoice</th>
+                <th>No Meja</th>
                 <th>Nama Customer</th>
                 <th>No. Telp Customer</th>
                 <th>Daftar Pesanan</th>
@@ -34,6 +35,7 @@
             <tr class="">
                 <td>{{$no++}}</td>
                 <td>{{$item->invoice}}</td>
+                <td>{{$item->nomorMeja->nomor_meja}}</td>
                 <td>{{$item->customer_name}}</td>
                 <td>{{$item->customer_phone}}</td>
                 <td>

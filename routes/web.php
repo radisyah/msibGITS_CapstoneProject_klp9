@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ListTransactionController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\NomorMejaController;
+use App\Http\Controllers\kirimEmailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Route::get('/transaction/{tableId}', [TransactionController::class, 'index'])->name('transaction');
+    Route::get('/live_report_ordering', [TransactionController::class, 'live_report_ordering'])->name('live_report_ordering');
     Route::get('/list_order', [TransactionController::class, 'list_order'])->name('list_order');
     Route::get('/list_proses', [TransactionController::class, 'list_proses'])->name('list_proses');
     Route::get('/list_payment', [TransactionController::class, 'list_payment'])->name('list_payment');
@@ -76,6 +78,11 @@ Route::middleware(['auth'])->group(function () {
       Route::get('edit/{id}', 'edit')->name('category.edit');
       Route::post('edit/{id}','update')->name('category.update');
       Route::get('destroy/{id}','destroy')->name('category.destroy');
+    });
+
+    Route::controller(kirimEmailController::class)->prefix('email')->group(function () {
+      Route::get('', 'index')->name('email');
+     
     });
 
      Route::controller(ProductsController::class)->prefix('products')->group(function () {

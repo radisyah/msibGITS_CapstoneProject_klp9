@@ -153,6 +153,16 @@
                 <p>Riwayat Transaksi</p>
               </a>
             </li>
+            <li class="nav-item">
+              <a
+                href="{{ route('live_report_ordering') }}"
+                class="nav-link {{ $menu == 'live_report_ordering' ? 'active' : '' }}" 
+              >
+                <i class="nav-icon ion ion-cash"></i>
+                <p>Live Report Ordering</p>
+              </a>
+            </li>
+          
 
         
           </ul>

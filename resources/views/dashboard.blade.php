@@ -168,14 +168,14 @@
     data: {
       labels: @json($labels),
       datasets: [{
-        label: 'Grafik Keuntungan Penjualan Bulan {{ date('d M Y') }}',
+        label: 'Grafik Keuntungan Penjualan Tanggal {{ date('d M Y') }}',
         data: @json($totalProfitData),
         borderColor: 'green',
         borderWidth: 3,
       },
 
       {
-        label: 'Grafik Pendapatan Penjualan Bulan {{ date('d M Y') }}',
+        label: 'Grafik Pendapatan Penjualan Tanggal {{ date('d M Y') }}',
         data: @json($totalRevenueData),
         borderColor: 'blue',
         borderWidth: 3
