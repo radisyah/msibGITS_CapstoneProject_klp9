@@ -24,20 +24,31 @@ class TransactionController extends Controller
     $this->Transaksi = new Transaksi();
   }
 
-  public function index()
+  public function index($id, Request $request)
   {
+    $no = DB::table('nomor_mejas')
+          ->select('id')
+          ->where('id', $id)
+          ->get();
 
+    $url = $request->url();
+    $pecah = explode("/", $url);
+    $no_meja = $pecah['4'];
+    // dd($pecah['4']);
     
     $data = array(
       'title' => 'Halaman Order',
       'products_makanan' => $this->Transaksi->allData_makanan(),
       'products_minuman' => $this->Transaksi->allData_minuman(),
+      // 'view_cart' => $this->view_cart($no_meja)
       // 'invoice' => $this->Transaksis->inVoice(),
       // 'cart' => Cart::content(),
       // 'grand_total' => Cart::subtotal()
     );
 
+    // dd($data['no_meja']);
 
+    // return $this->view_cart($no_meja);
     return view('transaction.index',$data);
     
   }
@@ -107,9 +118,10 @@ class TransactionController extends Controller
     
   }
 
-   public function view_cart()
+   public function view_cart(Request $request)
   {
-
+    // return $no_meja;
+    // dd($no_meja);
     $data = array(
       'title' => 'Halaman Lihat Order ',
       // 'products' => $this->Transaksi->allData(),
@@ -118,7 +130,8 @@ class TransactionController extends Controller
       'cart' => Cart::content(),
       'grand_total' => Cart::subtotal(0)
     );
-    // dd( $data['no_meja']);
+
+    // dd($url);
 
     return view('transaction.view_cart',$data);
 

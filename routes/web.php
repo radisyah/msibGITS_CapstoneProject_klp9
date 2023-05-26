@@ -38,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/list_transaksi/list_detail/{id}', [TransactionController::class, 'detail'])->name('list_detail');
     
     Route::controller(TransactionController::class)->prefix('transaction')->group(function () {
+      Route::get('/{id}', 'index')->name('transaction')->where('id','[1-9]');
       Route::get('', 'index')->name('transaction');
       Route::get('view_cart', 'view_cart')->name('view_cart');
       // Route::get('view_cart', 'view_cart')->name('view_cart');
