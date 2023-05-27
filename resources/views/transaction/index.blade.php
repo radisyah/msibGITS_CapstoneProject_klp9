@@ -23,7 +23,7 @@
               <div class="row">
                 @foreach ($products_makanan as $value )
                   <div class="col-md-3">
-                    <form action="{{ route('add_cart',$value->id_product)}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('add_cart',['id_product'=>$value->id_product, 'nomor_meja'=>$nomor_meja])}}" method="POST" enctype="multipart/form-data">
                       @csrf
                       <input name="id_product" type="hidden" value="{{ $value->id_product }}">
                       <input name="selling_price" type="hidden" value="{{ $value->selling_price }}">
@@ -64,7 +64,7 @@
                <div class="row">
                 @foreach ($products_minuman as $value )
                   <div class="col-md-3">
-                    <form action="{{ route('add_cart',$value->id_product)}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('add_cart',['id_product'=>$value->id_product, 'nomor_meja'=>$nomor_meja])}}" method="POST" enctype="multipart/form-data">
                       @csrf
                       <input name="id_product" type="hidden" value="{{ $value->id_product }}">
                       <input name="selling_price" type="hidden" value="{{ $value->selling_price }}">

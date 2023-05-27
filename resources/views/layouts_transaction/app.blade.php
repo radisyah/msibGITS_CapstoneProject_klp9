@@ -136,11 +136,18 @@
 <script>
 
   const swal = $('.swal').data('swal');
+  const swal2 = $('.swal2').data('swal2');
   if (swal) {
     Swal.fire({
       title: "SUKSES !!",
       text: swal,
       icon: 'success'
+    })
+  }else if(swal2){
+    Swal.fire({
+      title: "MAAF !!",
+      text: swal2,
+      icon: 'error'
     })
   }
   

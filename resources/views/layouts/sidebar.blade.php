@@ -109,10 +109,10 @@
 
             <li class="nav-item">
               <a
-                 href="{{ route('transaction') }}"
-                class="nav-link {{ $menu == 'transaction' ? 'active' : '' }}" 
+                 href="{{ route("transaction_order") }}"
+                class="nav-link {{ $menu == 'transaction_order' ? 'active' : '' }}" 
               >
-                <i class="nav-icon fas fa-shopping-cart"></i>
+                <i class="nav-icon fas fa-table"></i>
                 <p>Transaksi Order</p>
               </a>
             </li>
@@ -158,7 +158,7 @@
                 href="{{ route('live_report_ordering') }}"
                 class="nav-link {{ $menu == 'live_report_ordering' ? 'active' : '' }}" 
               >
-                <i class="nav-icon ion ion-cash"></i>
+                <i class="nav-icon fas fa-map-marker-alt"></i>
                 <p>Live Report Ordering</p>
               </a>
             </li>

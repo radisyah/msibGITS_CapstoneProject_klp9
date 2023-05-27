@@ -7,7 +7,7 @@
 
 
   <!-- Main content -->
-  <form action="{{ route('update_cart')}}" method="POST" enctype="multipart/form-data">
+  <form action="{{ route('update_cart', $nomor_meja)}}" method="POST" enctype="multipart/form-data">
   @csrf
     <div class="invoice p-3 mb-3">
       
@@ -23,8 +23,13 @@
       
       <!-- Table row -->
       <div class="row">
-        <div class="swal" data-swal="{{ Session::get('success') }}">
-        </div>
+          @if (Session::get('danger'))
+                <div class="swal2" data-swal2="{{ Session::get('danger') }}">
+                </div>
+              @else
+                <div class="swal" data-swal="{{ Session::get('success') }}">
+                </div>
+              @endif
         <div class="col-12 table-responsive">
           <table class="table table-striped">
             <thead>
@@ -43,11 +48,13 @@
                 $i=1;
               @endphp
               @foreach ($cart as $value )
+                {{-- @if ($value->options->meja ==$nomor_meja) --}}
+
               @php
                 $sub_total_price = $value->price * $value->qty;
               @endphp
               <tr>
-                <td><input name="qty{{ $i++ }}" type="number" min="1" class="form-control" value="{{ $value->qty }}"></td>
+                   <td><input name="qty{{ $i++ }}" type="number" min="1" class="form-control" value="{{ $value->qty }}"></td>
                 <td>{{ $value->name }}</td>
                 <td>{{ $value->options->category_name }}</td>
                 <td><img style="width:100px" alt="image" src="{{ asset('storage/'.$value->options->image) }}" alt=""></td>
@@ -58,15 +65,20 @@
                     <i style="color: white" class="fas fa fa-trash"></i>
                   </a>
                 </td>
+          
+               
               </tr>
               @endforeach
+
+
 
               <tr>
                 <th colspan="5" style="text-align: right">
                   Total Harga
                 </th>
-                <td colspan="2"><b> Rp. {{ $grand_total }}</b></td>
+                <td colspan="2"><b> Rp. {{ number_format($grand_total,0)}}</b></td>
               </tr>
+
             
             </tbody>
           </table>
@@ -101,11 +113,11 @@
           <button type="submit" class="btn btn-warning">
             Update
           </button>
-          <a href="{{ route('transaction') }}" class="btn btn-primary">
+          <a href="{{ route('transaction',$nomor_meja) }}" class="btn btn-primary">
             Kembali
           </a>
           <a style="color:white"  data-toggle="modal" onclick="Pembayaran()" data-target="#pembayaran"  class="btn btn-success float-right">
-            <i  class="fas fa-cash-register"></i> Pesan
+            <i  class="fas fa-cash-register"></i> Bayar
           </a>
           {{-- <button type="button" class="btn btn-success float-right">
           <i class="far fa-credit-card"></i>
@@ -129,7 +141,7 @@
         </button>
       </div>
 
-      <form action="{{ route('save_transaction')}}" method="POST">
+      <form action="{{ route('save_transaction',$nomor_meja)}}" method="POST">
         @csrf
         <div class="modal-body">
           <div class="form-group">
@@ -155,12 +167,15 @@
 
           <div class="form-group">
             <label>No Meja</label>
-            <select class="form-control select" style="width: 100%;" name="mejas_id">
+            <div class="input-group mb-3">
+              <input  autocomplete="off" readonly value="{{ $nomor_meja }}" id="nomor_meja" name="nomor_meja" class="form-control form-control-lg text-right"  placeholder="No Telp. Customer" >
+            </div>
+            {{-- <select class="form-control select" style="width: 100%;" name="mejas_id">
               <option selected="selected">Pilih No meja</option>
               @foreach ($no_meja as $item)
               <option value="{{$item->meja_id}}">{{$item->nomor_meja}}</option>
               @endforeach
-          </select>
+            </select> --}}
           </div>
 
         <div class="form-group">
@@ -169,7 +184,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text"></i>Rp.</span>
                 </div>
-              <input id="grand_total" name="grand_total" value="{{ $grand_total }} " readonly  class="text-danger form-control form-control-lg text-right"  placeholder="Harga Beli" required>
+              <input id="grand_total" name="grand_total" value=" {{ number_format($grand_total,0)}} " readonly  class="text-danger form-control form-control-lg text-right"  placeholder="Harga Beli" required>
             </div>
           </div>
 
@@ -200,7 +215,7 @@
 
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary btn-flat"><i class="fas fa-save"></i> Pesan</button>
+          <button type="submit" class="btn btn-primary btn-flat"><i class="fas fa-save"></i> Simpan</button>
         </div>
       </form>
     </div>
@@ -231,45 +246,6 @@
 @endforeach
 
 
-@endsection
 
-
-   
-@section('scripts')
-<script type="text/javascript">
-   
-  $(document).ready(function() {
-    
-    // Hitung Kembalian
-    $('#dibayar').keyup(function e() {
-      HitungKembalian();
-    });
-
-  });
-
-  function Pembayaran() {
-    $('#pembayaran').modal('show');
-  }
-
-  new AutoNumeric('#dibayar', {
-    digitGroupSeparator : ',',
-    decimalPlaces: 0,
-  });
-
-  
-  function HitungKembalian() {
-    let grand_total =$('#grand_total').val().replace(/[^.\d]/g,'').toString();
-    let dibayar = $('#dibayar').val().replace(/[^.\d]/g,'').toString();
-
-    let kembalian = parseFloat(dibayar) - parseFloat(grand_total);
-    $('#kembalian').val(kembalian);
-
-    new AutoNumeric('#kembalian', {
-      digitGroupSeparator : ',',
-      decimalPlaces: 0,
-    });
-  }
-
-</script>
 @endsection
 

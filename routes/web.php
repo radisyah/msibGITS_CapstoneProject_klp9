@@ -30,27 +30,28 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Route::get('/transaction/{tableId}', [TransactionController::class, 'index'])->name('transaction');
+    Route::get('/transaction_order', [TransactionController::class, 'transaction_order'])->name('transaction_order');
     Route::get('/live_report_ordering', [TransactionController::class, 'live_report_ordering'])->name('live_report_ordering');
     Route::get('/list_order', [TransactionController::class, 'list_order'])->name('list_order');
     Route::get('/list_proses', [TransactionController::class, 'list_proses'])->name('list_proses');
     Route::get('/list_payment', [TransactionController::class, 'list_payment'])->name('list_payment');
     Route::get('/list_transaksi', [TransactionController::class, 'list_transaksi'])->name('list_transaksi');
     Route::get('/list_transaksi/list_detail/{id}', [TransactionController::class, 'detail'])->name('list_detail');
+    // Route::get('/view_cart/{nomor_meja}', [TransactionController::class, 'view_cart'])->name('view_cart');
     
     Route::controller(TransactionController::class)->prefix('transaction')->group(function () {
-      Route::get('/{id}', 'index')->name('transaction')->where('id','[1-9]');
-      Route::get('', 'index')->name('transaction');
-      Route::get('view_cart', 'view_cart')->name('view_cart');
+      Route::get('/{nomor_meja}', 'index')->name('transaction');
+      Route::get('/view_cart/{nomor_meja}', 'view_cart')->name('view_cart');
       // Route::get('view_cart', 'view_cart')->name('view_cart');
       // Route::get('cek_produk', 'CekProduk')->name('cek_produk');
       // Route::post('cek_produk', 'CekProduk')->name('cek_produk');
-      Route::get('add_cart/{id_product}', 'add_cart')->name('add_cart');
-      Route::post('add_cart/{id_product}', 'add_cart')->name('add_cart');
-      Route::post('update_cart', 'update_cart')->name('update_cart');
+      // Route::get('add_cart/{id_product}/{nomor_meja}', 'add_cart')->name('add_cart');
+      Route::post('add_cart/{id_product}/{nomor_meja}', 'add_cart')->name('add_cart');
+      Route::post('update_cart/{nomor_meja}', 'update_cart')->name('update_cart');
       // Route::post('update_cart', 'update_cart')->name('update_cart');
-      Route::get('save_transaction', 'save_transaction')->name('save_transaction');
-      Route::post('save_transaction', 'save_transaction')->name('save_transaction');
-      Route::get('reset_cart', 'reset_cart')->name('reset_cart');
+      // Route::get('save_transaction/{nomor_meja}', 'save_transaction')->name('save_transaction');
+      Route::post('save_transaction/{nomor_meja}', 'save_transaction')->name('save_transaction');
+      // Route::get('reset_cart', 'reset_cart')->name('reset_cart');
       Route::get('remove_item/{rowId}', 'remove_item')->name('remove_item');
 
       // Route::get('/list_order', 'list_order')->name('list_order');

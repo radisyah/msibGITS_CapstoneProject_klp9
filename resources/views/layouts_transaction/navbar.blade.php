@@ -15,7 +15,7 @@
          <!-- Right navbar links -->
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
         @php
-          $keranjang = Cart::content();
+          $keranjang = Cart::content()->where('options.meja',$nomor_meja);
           $jumlah_item = 0;
 
           foreach ($keranjang as $key => $value) {
@@ -24,7 +24,7 @@
         @endphp
         <!-- Messages Dropdown Menu -->
         <li class="nav-item dropdown">
-          <a class="nav-link"  href="{{ route('view_cart') }}">
+          <a class="nav-link"  href="{{ route('view_cart', $nomor_meja) }}">
             <i class="fas fa-shopping-cart"></i>
             <span class="badge badge-danger navbar-badge">{{ $jumlah_item }}</span>
           </a>

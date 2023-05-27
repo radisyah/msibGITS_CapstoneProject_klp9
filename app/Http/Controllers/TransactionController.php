@@ -24,22 +24,31 @@ class TransactionController extends Controller
     $this->Transaksi = new Transaksi();
   }
 
-  public function index($id, Request $request)
-  {
-    $no = DB::table('nomor_mejas')
-          ->select('id')
-          ->where('id', $id)
-          ->get();
 
-    $url = $request->url();
-    $pecah = explode("/", $url);
-    $no_meja = $pecah['4'];
-    // dd($pecah['4']);
+  public function index($nomor_meja)
+  {
+    // $no = DB::table('nomor_mejas')
+    //       ->select('id')
+    //       ->where('id', $id)
+    //       ->get();
+
+    // $url = $request->url();
+    // $pecah = explode("/", $url);
+    // $no_meja = $pecah['4'];
+    // dd(Cart::content());
+
+    $meja = NomorMeja::where('nomor_meja',$nomor_meja)->first();
+
+    if (!$meja) {
+      abort(404, 'Meja Tidak Ditemukan');
+    }
     
     $data = array(
       'title' => 'Halaman Order',
       'products_makanan' => $this->Transaksi->allData_makanan(),
+      'nomor_meja' => $nomor_meja,
       'products_minuman' => $this->Transaksi->allData_minuman(),
+      // 'meja2' =>NomorMeja::where('nomor_meja',$nomor_meja)->first(),
       // 'view_cart' => $this->view_cart($no_meja)
       // 'invoice' => $this->Transaksis->inVoice(),
       // 'cart' => Cart::content(),
@@ -49,9 +58,21 @@ class TransactionController extends Controller
     // dd($data['no_meja']);
 
     // return $this->view_cart($no_meja);
-    return view('transaction.index',$data);
+    return view('transaction.index',$data, compact('meja'));
     
   }
+
+  public function transaction_order(){
+    $data = array(
+    'title' => 'Halaman Transaksi Order',
+    'menu'=>'transaction_order',
+    'sub_menu'=>'',
+    'judul'=>'Transaksi Order',
+    'sub_judul'=>'',
+    'nomor_meja' => NomorMeja::all()
+    );
+    return view('transaction.transaction_order',$data);
+  } 
 
   public function live_report_ordering()
   {
@@ -68,7 +89,7 @@ class TransactionController extends Controller
     return view('live_report_ordering',$data);
   }
 
-  public function add_cart($id_product, Request $request){
+  public function add_cart($id_product, $nomor_meja,Request $request){
 
 
     // $ambilDataProduk = $this->Transaksi->ambil_stok($id_product);
@@ -96,6 +117,8 @@ class TransactionController extends Controller
     //  return redirect('transaction');
     // }
 
+    // $meja = NomorMeja::where('nomor_meja',$nomor_meja)->first();
+
 
 
     $cart =  Cart::add([
@@ -106,6 +129,7 @@ class TransactionController extends Controller
       'qty' => 1,
       'options' => [
         'image' =>$request->image,
+        'meja' => $request->nomor_meja,
         'category_name' =>$request->category_name,
       ]
     ]);
@@ -118,22 +142,45 @@ class TransactionController extends Controller
     
   }
 
-   public function view_cart(Request $request)
+   public function view_cart($nomor_meja)
   {
     // return $no_meja;
-    // dd($no_meja);
+    
+    $meja = NomorMeja::where('nomor_meja',$nomor_meja)->first();
+    
+
+    if (!$meja) {
+      abort(404, 'Meja Tidak Ditemukan');
+    }
+
+    $cart = Cart::content()->where('options.meja',$nomor_meja);
+    $grand_total = 0;
+
+    foreach ($cart as $item) {
+      if ($item->options->meja == $nomor_meja) {
+        $sub_total_price = $item->price * $item->qty;
+        $grand_total += $sub_total_price;
+      }
+    }
+
+  
+    // $grand_total = Cart::subtotal(0)->where('options.meja',$nomor_meja);
+    // dd($grand_total);
+  
+    // dd($nomor_meja);
+
     $data = array(
       'title' => 'Halaman Lihat Order ',
       // 'products' => $this->Transaksi->allData(),
       // 'invoice' => $this->Transaksis->inVoice(),
-      'no_meja' => $this->Transaksi->getNo_meja(),
-      'cart' => Cart::content(),
-      'grand_total' => Cart::subtotal(0)
+      'nomor_meja' => $nomor_meja,
+      'cart' => $cart,
+      'grand_total' => $grand_total
     );
 
     // dd($url);
 
-    return view('transaction.view_cart',$data);
+    return view('transaction.view_cart',$data,compact('meja'));
 
     
     // dd($this->Transaksi->inVoice());
@@ -141,40 +188,53 @@ class TransactionController extends Controller
 
    public function remove_item($rowId){
     Cart::remove($rowId);
-    return redirect('transaction/view_cart')->with('success','Jumlah Menu Berhasil Dihapus');;
+    return redirect()->back()->with('success','Jumlah Menu Berhasil Dihapus');;
   }
 
-  public function update_cart(Request $request){
+  public function update_cart(Request $request, $nomor_meja){
+
+    $meja = NomorMeja::where('nomor_meja',$nomor_meja)->first();
 
     $i=1;
+    $produk = Cart::subtotal();
     
-    foreach (Cart::content() as $key => $value) {
-    Cart::update($value->rowId, ['qty' => $request->input('qty'.$i++)]);
+    if ($request->input('qty')==0) {
+     return redirect()->back()->with('danger','Data Keranjang Kosong');
+    }else {
+      foreach (Cart::content()->where('options.meja',$nomor_meja) as $key => $value) {
+      Cart::update($value->rowId, ['qty' => $request->input('qty'.$i++)]);
+      }
     }
+   
 
-    return redirect('transaction/view_cart')->with('success','Jumlah Menu Berhasil Diperbarui');;
+    return redirect()->back()->with('success','Jumlah Menu Berhasil Diperbarui');;
 
   }
 
-  public function save_transaction(Request $request){
-    $produk = Cart::subtotal();
+  public function save_transaction(Request $request,$nomor_meja){
+
+    $meja = NomorMeja::where('nomor_meja',$nomor_meja)->first();
+    // $produk = Cart::subtotal();
     $invoice = $this->Transaksi->inVoice();
     $customer_name = $request->input('customer_name');
     $customer_email = $request->input('customer_email');
     $customer_phone = $request->input('customer_phone');
-    $mejas_id = $request->input('mejas_id');
+    $mejas_id = $request->input('nomor_meja');
     $user_id = $request->input('user_id');
     $total_price = str_replace(",","",$request->input('grand_total'));
     $transaksi_id = 1;
     $status = 'Order';
     // dd($mejas_id);
+
+
     
 
-    if ( $produk==0 ) {
-     return redirect('transaction')->with('danger','Data Keranjang Kosong');
+    if ( $total_price==0 ) {
+     return redirect()->back()->with('danger','Data Keranjang Kosong');
     } else {
-        $item = Cart::content();
+        $item = Cart::content()->where('options.meja',$nomor_meja);
         $no_urut = 0;
+        // dd($item);
 
         $query = DB::table('transaksis')
           ->select('id')
@@ -202,6 +262,8 @@ class TransactionController extends Controller
           'status' => $status,
         ];
         Transaksi::create($data);
+
+        
         
         foreach ($item as $key => $value) {
           $data = [
@@ -210,25 +272,27 @@ class TransactionController extends Controller
             'qty' =>  $value->qty,
           ];
           DetailTransaksi::create($data);
+          if ($value->options->meja == $nomor_meja) {
+            Cart::remove($value->rowId);
+          }
         }
 
-        $orders = Transaksi::with(['detailTransaksi.products', 'nomorMeja'])
-        ->where('status', 'order')
-        ->whereHas('detailTransaksi')
-        ->where('invoice', $invoice) // Menambahkan kondisi nomor invoice
-        ->get();
+        // dd($itemsToDelete);
+       
+            // -------- Notif Email ---------
+
+        // $orders = Transaksi::with(['detailTransaksi.products', 'nomorMeja'])
+        // ->where('status', 'order')
+        // ->whereHas('detailTransaksi')
+        // ->where('invoice', $invoice) // Menambahkan kondisi nomor invoice
+        // ->get();
         
-        Mail::to($customer_email)->send(new OrdersEmail($orders));
+        // Mail::to($customer_email)->send(new OrdersEmail($orders));
 
-
-          
-
-
-        Cart::destroy();
-
+            // -------- Notif Email ---------
       
-
-      return redirect('transaction')->with('success','Transaksi Berhasil Disimpan');
+      
+        return redirect()->back()->with('success','Transaksi Berhasil Disimpan');
     }
   }
 
@@ -259,6 +323,7 @@ class TransactionController extends Controller
 
       $orders = Transaksi::with(['detailTransaksi.products','nomorMeja'])->where('status','order')->whereHas('detailTransaksi')->get();
       
+  
      
       //  $dataId = $this->Transaksi->allDetailTransaksi($query);
 
@@ -331,17 +396,19 @@ class TransactionController extends Controller
           $data->status = 'Done';
           $data->payment = str_replace(",","",$request->input('dibayar'));
           $data->change = str_replace(",","",$request->input('kembalian'));          
-          
-  
           $data->save();
-          $dones = Transaksi::with(['detailTransaksi.products', 'nomorMeja'])
-          ->where('status', 'Done')
-          ->whereHas('detailTransaksi')
-          ->where('id', $id) // Menambahkan kondisi nomor invoice
-          ->get();
+
+              // -------- Notif Email ---------
+          // $dones = Transaksi::with(['detailTransaksi.products', 'nomorMeja'])
+          // ->where('status', 'Done')
+          // ->whereHas('detailTransaksi')
+          // ->where('id', $id) // Menambahkan kondisi nomor invoice
+          // ->get();
         
-          Mail::to($data->customer_email)->send(new DoneEmail($dones));
+          // Mail::to($data->customer_email)->send(new DoneEmail($dones));
+              // -------- Notif Email ---------
           return back()->with('success','Transaksi Berhasil Disimpan');
+          
       }
     
       public function list_transaksi()
