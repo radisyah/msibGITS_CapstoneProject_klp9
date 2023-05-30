@@ -54,7 +54,9 @@
                 $sub_total_price = $value->price * $value->qty;
               @endphp
               <tr>
-                   <td><input name="qty{{ $i++ }}" type="number" min="1" class="form-control" value="{{ $value->qty }}"></td>
+                <td>
+                   <input id="qty{{ $value->rowId }}" name="qty[{{ $value->rowId }}]" type="number" min="1" class="form-control" value="{{ $value->qty }}">
+                </td>
                 <td>{{ $value->name }}</td>
                 <td>{{ $value->options->category_name }}</td>
                 <td><img style="width:100px" alt="image" src="{{ asset('storage/'.$value->options->image) }}" alt=""></td>

@@ -13,7 +13,7 @@
               <div class="row">
                 <div class="col-12">
                   <h4>
-                    <small class="float-right">Date: {{ date('d/m/Y') }}</small>
+                    <small class="float-right">Date: {{  date('Y-m-d', strtotime($details2->created_at)) }}</small>
                   </h4>
                 </div>
                 <!-- /.col -->
@@ -26,7 +26,7 @@
                   <br>
                   <b>Nama Customer:</b> {{ $details2->customer_name }}<br>
                   <b>No Telp Customer:</b> {{ $details2->customer_phone }} <br>
-                  <b>Payment Due:</b> {{ date('d/m/Y') }}<br>
+                  <b>Payment Due:</b> {{  date('Y-m-d', strtotime($details2->created_at))  }}<br>
                 </div>
                
                 <!-- /.col -->
@@ -40,18 +40,18 @@
                   <table class="table">
                     <thead>
                     <tr>
-                      <th>Qty</th>
-                      <th>Produk</th>
-                      <th>Kode Produk</th>
+                      <th>Menu</th>
+                      <th>Jumlah</th>
+                      <th>Harga</th>
                       <th>Subtotal</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach ($details as $item)
                     <tr>
-                      <td>{{$item->qty}}</td>
                       <td>{{$item->name}}</td>
-                      <td>{{$item->product_code}}</td>
+                      <td>{{$item->qty}}</td>
+                      <td>{{$item->selling_price}}</td>
                       <td>Rp. {{number_format($item->selling_price*$item->qty,0)}}</td>
                     </tr>
                     @endforeach
@@ -67,7 +67,7 @@
                 <!-- accepted payments column -->
                 <!-- /.col -->
                 <div class="col-6">
-                  <p class="lead">Amount Due  {{ date('d/m/Y') }}</p>
+                  <p class="lead">Amount Due  {{ date('Y-m-d', strtotime($details2->created_at)) }}</p>
 
                   <div class="table-responsive">
                     <table class="table">
@@ -93,9 +93,9 @@
                <div class="row no-print">
                 <div class="col-12">
                 <a href="{{ route('list_transaksi') }}" class="btn btn-warning">Back</a>                
-                  <a href="{{ route('print_list_transaction', $details2->id) }}" target="_blank" class="btn btn-primary float-right" style="margin-right: 5px;">
-                  <i class="fas fa-print"></i> Print
-                  </a>
+                 
+                  <button type="button" onclick="NewWin=window.open('{{ route('print_list_transaction', $details2->id) }}','NewWin','toolbar=no' )" class="btn btn-primary float-right" style="margin-right: 5px;"> <i class="fas fa-print"></i> Print</button>
+
                 </div>
 
 

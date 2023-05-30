@@ -74,36 +74,37 @@ class DashboardController extends Controller
             'transaksi' => Transaksi::where('status', 'Done')->count()
         );
 
-     
+    
 
-        $data_transaksi = DB::table('transaksis')
-            ->join('detail_transaksis', 'detail_transaksis.transaksi_id','=','transaksis.id')
-            ->join('products', 'detail_transaksis.product_id','=','products.id')
-            ->where('transaksis.status', 'Done')
-            ->whereMonth('transaksis.created_at',date('m'))
-            ->whereYear('transaksis.created_at',date('Y')) 
-            ->groupBy(DB::raw('DATE(transaksis.created_at)'))
-            ->select(
-                DB::raw('DATE(transaksis.created_at) AS transactionDate'),
-                DB::raw('SUM((products.selling_price - products.purchase_price) * detail_transaksis.qty) AS totalProfit '),
-                DB::raw('SUM(transaksis.total_price) AS totalRevenue')
-            )
-            ->get();
+  $data_transaksi = DB::table('transaksis')
+    ->join('detail_transaksis', 'detail_transaksis.transaksi_id', '=', 'transaksis.id')
+    ->join('products', 'detail_transaksis.product_id', '=', 'products.id')
+    ->where('transaksis.status', 'Done')
+    ->whereMonth('transaksis.created_at', date('m'))
+    ->whereYear('transaksis.created_at', date('Y')) 
+    ->groupBy(DB::raw('DATE_FORMAT(transaksis.created_at, "%Y-%m-%d")'))
+    ->select(
+        DB::raw('DATE_FORMAT(transaksis.created_at, "%Y-%m-%d") AS transactionDate'),
+        DB::raw('SUM((products.selling_price - products.purchase_price) * detail_transaksis.qty) AS totalProfit'),
+        DB::raw('SUM(detail_transaksis.qty * products.selling_price) AS totalRevenue')
+    )
+    ->orderBy(DB::raw('DATE_FORMAT(transaksis.created_at, "%Y-%m-%d")'))
+    ->get();
 
 
-        $labels = [];
-        $totalProfitData = [];
-        $totalRevenueData = [];
+    $labels = [];
+    $totalProfitData = [];
+    $totalRevenueData = [];
 
-        foreach ($data_transaksi as $item) {
-            $labels[] = Carbon::parse($item->transactionDate)->format('d M Y');
-            $totalProfitData[] = $item->totalProfit;
-            $totalRevenueData[] = $item->totalRevenue;
-        }
-        
-       
+    foreach ($data_transaksi as $item) {
+        $labels[] = Carbon::parse($item->transactionDate)->format('d M Y');
+        $totalProfitData[] = $item->totalProfit;
+        $totalRevenueData[] = $item->totalRevenue;
+    }
+    
+    
 
-        return view('dashboard',$data, compact('labels','totalProfitData','totalRevenueData'));
+    return view('dashboard',$data, compact('labels','totalProfitData','totalRevenueData'));
     }
 
    

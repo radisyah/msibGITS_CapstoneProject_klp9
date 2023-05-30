@@ -49,10 +49,6 @@
       text-align: left;
     }
     
-    .total {
-      text-align: right;
-    }
-    
     @media screen and (max-width: 600px) {
       .container {
         width: 100%;
@@ -69,7 +65,7 @@
     @foreach ($orders as $order)
     <div class="invoice-details">
       <p><strong>Nomor Invoice:</strong> {{ $order->invoice }}</p>
-      <p><strong>Tanggal:</strong> {{ date('d/m/Y') }}</p>
+      <p><strong>Tanggal:</strong> {{ date('Y-m-d', strtotime($order->created_at)) }}</p>
       <p><strong>Status:</strong> {{  $order->status }}</p>
       <p><strong>No Meja:</strong> {{  $order->nomorMeja->nomor_meja }}</p>
     </div>
@@ -94,7 +90,7 @@
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="3" class="total"><strong>Total:</strong></td>
+          <td colspan="3"  style="text-align: right;"><strong>Total:</strong></td>
           <td>Rp. {{number_format($order->total_price,0)}}</td>
         </tr>
       </tfoot>

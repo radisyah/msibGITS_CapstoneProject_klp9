@@ -49,9 +49,7 @@
       text-align: left;
     }
     
-    .total {
-      text-align: right;
-    }
+
     
     @media screen and (max-width: 600px) {
       .container {
@@ -69,7 +67,7 @@
     @foreach ($dones as $done)
     <div class="invoice-details">
       <p><strong>Nomor Invoice:</strong> {{ $done->invoice }}</p>
-      <p><strong>Tanggal:</strong> {{ date('d/m/Y') }}</p>
+      <p><strong>Tanggal:</strong> {{  date('Y-m-d', strtotime($done->created_at)) }}</p>
       <p><strong>Status:</strong> {{  $done->status }}</p>
     </div>
     <table class="invoice-table">
@@ -93,15 +91,15 @@
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="3" class="total"><strong>Total:</strong></td>
+          <td colspan="3" style="text-align: right;"><strong>Total:</strong></td>
           <td>Rp. {{number_format($done->total_price,0)}}</td>
         </tr>
         <tr>
-          <td colspan="3" class="total"><strong>Pembayaran:</strong></td>
+          <td colspan="3" style="text-align: right;"><strong>Pembayaran:</strong></td>
           <td>Rp. {{number_format($done->payment,0)}}</td>
         </tr>
         <tr>
-          <td colspan="3" class="total"><strong>Kembalian:</strong></td>
+          <td colspan="3" style="text-align: right;"><strong>Kembalian:</strong></td>
           <td>Rp. {{number_format($done->change,0)}}</td>
         </tr>
       </tfoot>

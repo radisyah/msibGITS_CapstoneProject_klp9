@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Mail\Message;
 use App\Mail\OrdersEmail;
 use App\Mail\DoneEmail;
+use Dompdf\Dompdf;
+use Illuminate\Support\Facades\View;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
  
 class TransactionController extends Controller
 {
@@ -191,24 +195,16 @@ class TransactionController extends Controller
     return redirect()->back()->with('success','Jumlah Menu Berhasil Dihapus');;
   }
 
-  public function update_cart(Request $request, $nomor_meja){
+  public function update_cart(Request $request, $nomor_meja)
+  {
+      $meja = NomorMeja::where('nomor_meja', $nomor_meja)->first();
+      $qtyArray = $request->input('qty');
 
-    $meja = NomorMeja::where('nomor_meja',$nomor_meja)->first();
-
-    $i=1;
-    $produk = Cart::subtotal();
-    
-    if ($request->input('qty')==0) {
-     return redirect()->back()->with('danger','Data Keranjang Kosong');
-    }else {
-      foreach (Cart::content()->where('options.meja',$nomor_meja) as $key => $value) {
-      Cart::update($value->rowId, ['qty' => $request->input('qty'.$i++)]);
+      foreach ($qtyArray as $rowId => $qty) {
+          Cart::update($rowId, ['qty' => $qty]);
       }
-    }
-   
 
-    return redirect()->back()->with('success','Jumlah Menu Berhasil Diperbarui');;
-
+        return redirect()->back()->with('success','Jumlah Menu Berhasil Dihapus');;
   }
 
   public function save_transaction(Request $request,$nomor_meja){
@@ -450,5 +446,74 @@ class TransactionController extends Controller
     $data2['details'] = $this->Transaksi->alldetailTransaksis($id);
      return view('list_transaction.print_list_transaction',$data, $data2);
  }
+
+  public function eksport_pdf()
+  {
+    $orders = Transaksi::with(['detailTransaksi.products','nomorMeja'])->where('status','Done')->whereHas('detailTransaksi')->get();
+
+    $html = view('list_transaction.eksport_pdf', compact('orders'))->render();
+
+    $dompdf = new Dompdf();
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->render();
+
+    $dompdf->stream('riwayat_transaksi.pdf');
+  }
+
+  public function eksport_excel()
+  {
+    $orders = Transaksi::with(['detailTransaksi.products','nomorMeja'])->where('status','Done')->whereHas('detailTransaksi')->get();
+
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+
+    // Merge dan set judul "Data Produk"
+    $sheet->mergeCells('A1:F1');
+    $sheet->setCellValue('A1', 'Riwayat Transaksi');
+    $sheet->getStyle('A1')->getFont()->setBold(true);
+    $sheet->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle('A2:F2')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle('A:F')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+
+    // Set judul kolom
+    $sheet->setCellValue('A2', 'No.');
+    $sheet->setCellValue('B2', 'Invoice');
+    $sheet->setCellValue('C2', 'Nomor Meja');
+    $sheet->setCellValue('D2', 'Nama Customer');
+    $sheet->setCellValue('E2', 'Daftar Pesanan');
+    $sheet->setCellValue('F2', 'Total Harga');
+    $sheet->getStyle('A2:F2')->getFont()->setBold(true);
+
+    // Set data pesanan
+    $row = 3;
+    foreach ($orders as $item) {
+        $sheet->setCellValue('A' . $row, $row - 2);
+        $sheet->setCellValue('B' . $row, $item->invoice);
+        $sheet->setCellValue('C' . $row, $item->nomorMeja->nomor_meja);
+        $sheet->setCellValue('D' . $row, $item->customer_name);
+
+        $innerTable = '';
+        foreach ($item->detailTransaksi as $item2) {
+            $innerTable .= $item2->products->name . ' - ' . $item2->qty . 'x' . ' - Rp. ' . number_format($item2->products->selling_price, 0) . ' = Rp. ' . number_format($item2->products->selling_price * $item2->qty, 0) . "\n";
+        }
+        $sheet->setCellValue('E' . $row, $innerTable);
+
+        $sheet->setCellValue('F' . $row, 'Rp. ' . number_format($item->total_price,0));
+        $row++;
+    }
+
+    // Buat file Excel
+    $writer = new Xlsx($spreadsheet);
+    $filename = 'riwayat_transaksi.xlsx';
+    $writer->save($filename);
+
+    // Mengirimkan file Excel ke browser
+    return response()->download($filename)->deleteFileAfterSend();
+  }
+
+
+  
+
 
 }

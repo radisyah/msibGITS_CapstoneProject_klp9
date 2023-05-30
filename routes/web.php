@@ -36,6 +36,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/list_proses', [TransactionController::class, 'list_proses'])->name('list_proses');
     Route::get('/list_payment', [TransactionController::class, 'list_payment'])->name('list_payment');
     Route::get('/list_transaksi', [TransactionController::class, 'list_transaksi'])->name('list_transaksi');
+    Route::get('/eksport_pdf', [TransactionController::class, 'eksport_pdf'])->name('eksport_pdf');
+    Route::get('/eksport_excel', [TransactionController::class, 'eksport_excel'])->name('eksport_excel');
     Route::get('/list_transaksi/list_detail/{id}', [TransactionController::class, 'detail'])->name('list_detail');
     // Route::get('/view_cart/{nomor_meja}', [TransactionController::class, 'view_cart'])->name('view_cart');
     
@@ -64,6 +66,7 @@ Route::middleware(['auth'])->group(function () {
 
       Route::get('print_list_transaction/{id}', 'print_list_transaction')->name('print_list_transaction');
 
+
       // // -----------------------------------------------------------
       // Route::get('index2', 'index2')->name('index_transaction');
       // Route::get('cart', 'cart');
@@ -90,6 +93,8 @@ Route::middleware(['auth'])->group(function () {
      Route::controller(ProductsController::class)->prefix('products')->group(function () {
       Route::get('', 'index')->name('products');
       Route::get('add','create')->name('products.add');
+      Route::get('eksport_pdf','eksport_pdf')->name('products.eksport_pdf');
+      Route::get('eksport_excel','eksport_excel')->name('products.eksport_excel');
       Route::post('add','store')->name('products.store');
       Route::get('edit/{id}','edit')->name('products.edit');
       Route::post('edit/{id}','update')->name('products.update');

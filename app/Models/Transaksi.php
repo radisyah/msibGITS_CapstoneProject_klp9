@@ -24,7 +24,8 @@ class Transaksi extends Model
         'total_price',
         'payment',
         'change',
-        'status'
+        'status',
+        'created_at'
     ];
 
      public function DetailTransaksi(){
@@ -155,6 +156,7 @@ class Transaksi extends Model
                 'customer_phone',
                 'selling_price',
                 'invoice',
+                'status',
                 'total_price',
                 'status',
                 'payment',
@@ -162,6 +164,7 @@ class Transaksi extends Model
                 'product_code',
                 'name',
                 'qty',
+                'transaksis.created_at'
                )
              ->where('transaksi_id', $id)
              ->get();
@@ -172,14 +175,18 @@ class Transaksi extends Model
     {
         return DB::table('detail_transaksis')
              ->join('transaksis', 'transaksis.id','=','detail_transaksis.transaksi_id')
+             ->join('products', 'detail_transaksis.product_id','=','products.id')
              ->select(
                 'customer_name',
                 'customer_phone',
+                'products.selling_price',
                 'invoice',
+                'status',
                 'total_price',
                 'payment',
                 'change',
                 'transaksis.id',
+                'transaksis.created_at'
                )
              ->where('transaksi_id', $id)
              ->get()
