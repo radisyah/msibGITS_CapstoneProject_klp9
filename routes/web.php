@@ -23,6 +23,16 @@ use App\Http\Controllers\kirimEmailController;
 |
 */
 
+Route::middleware(['Cashier'])->group(function (){
+  Route::get('/list_order', [TransactionController::class, 'list_order'])->name('list_order');
+  Route::get('/list_proses', [TransactionController::class, 'list_proses'])->name('list_proses');
+});
+
+Route::middleware(['Cashier'])->group(function (){
+  Route::get('/list_payment', [TransactionController::class, 'list_payment'])->name('list_payment');
+  Route::get('/list_proses', [TransactionController::class, 'list_proses'])->name('list_proses');
+});
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
     Route::controller(DashboardController::class)->prefix('dashboard')->group(function () {
