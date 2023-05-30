@@ -49,7 +49,7 @@ Route::middleware(['auth'])->group(function () {
       // Route::post('cek_produk', 'CekProduk')->name('cek_produk');
       // Route::get('add_cart/{id_product}/{nomor_meja}', 'add_cart')->name('add_cart');
       Route::post('add_cart/{id_product}/{nomor_meja}', 'add_cart')->name('add_cart');
-      Route::post('update_cart/{nomor_meja}', 'update_cart')->name('update_cart');
+      Route::post('update_cart/{nomor_meja}', 'update_cart')->name('update_cart') ;
       // Route::post('update_cart', 'update_cart')->name('update_cart');
       // Route::get('save_transaction/{nomor_meja}', 'save_transaction')->name('save_transaction');
       Route::post('save_transaction/{nomor_meja}', 'save_transaction')->name('save_transaction');
