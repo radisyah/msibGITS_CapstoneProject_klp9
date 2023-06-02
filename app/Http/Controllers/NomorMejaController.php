@@ -22,6 +22,7 @@ class NomorMejaController extends Controller
 			'title' => 'Manajemen Nomor Meja',
 			'judul' => 'Master Data',
 			'sub_judul' => 'Manajemen Nomor Meja',
+            'sub_menu' => 'nomor_meja',
             'nomor_meja' => NomorMeja::all()
       );
 
@@ -38,9 +39,9 @@ class NomorMejaController extends Controller
         $data = array(
 			'menu' => 'master',
 			'sub_menu' => 'nomor_meja',
-			'title' => 'Manajemen nomor_meja',
+			'title' => 'Manajemen Nomor Meja',
 			'judul' => 'Master Data',
-			'sub_judul' => 'Manajemen nomor_meja',
+			'sub_judul' => 'Manajemen Nomor Meja / Tambah Nomor Meja',
       );
         return view('nomor_meja.add',$data);
     }
@@ -95,9 +96,10 @@ class NomorMejaController extends Controller
         $data = array(
 			'menu' => 'master',
 			'sub_menu' => 'Nomor',
-			'title' => 'Manajemen Nomor',
+			'title' => 'Manajemen Nomor Meja',
 			'judul' => 'Master Data',
-			'sub_judul' => 'Manajemen Nomor',
+            'sub_menu' => 'nomor_meja',
+			'sub_judul' => 'Manajemen Nomor Meja / Ubah Nomor Meja',
       );
         $nomor_meja = NomorMeja::where('id',$id)->first();
 
@@ -123,9 +125,10 @@ class NomorMejaController extends Controller
             'qr' => [File::types(['jpeg', 'jpg', 'png'])->max(2 * 1024),]
         ],$pesan);
 
+        
+
         $data = NomorMeja::find($id);
         $data->nomor_meja = $request->nomor_meja;
-        $data->qr = $request->qr;
 
         if($request->file('qr')){
             if($data->qr && Storage::exists($data->qr)){

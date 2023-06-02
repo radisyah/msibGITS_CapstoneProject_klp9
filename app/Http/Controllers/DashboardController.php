@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Products;
 use App\Models\Transaksi;
 use App\Models\DetailTransaksi;
+use Illuminate\Support\Facades\Session;
 // use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;

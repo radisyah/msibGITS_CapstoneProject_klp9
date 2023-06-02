@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -15,21 +16,51 @@ class AuthController extends Controller
         return view('auth.login',$data);
     }
 
-    public function login(Request $request){
-        //validate data
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required'
-        ]);
+    // public function login(Request $request){
+    //     //validate data
+    //     $request->validate([
+    //         'email' => 'required',
+    //         'password' => 'required'
+    //     ]);
 
-        //login code
-        if(\Auth::attempt($request->only('email','password'))){
-            return redirect('dashboard');
+    //     //login code
+    //     if(\Auth::attempt($request->only('email','password'))){
+    //         return redirect('dashboard');
+    //     }
+
+    //     return redirect('login')->withError('Login details are not valid');
+
+    // }
+
+    public function login(Request $request)
+    {
+    // validate data
+    $request->validate([
+        'email' => 'required',
+        'password' => 'required'
+    ]);
+
+    // login code
+    if (\Auth::attempt($request->only('email', 'password'))) {
+        $user = \Auth::User();
+        
+        // Redirect to the appropriate dashboard based on user role
+        switch ($user->roles->level) {
+            case 'Super Admin':
+                Session::put('previous_url', url()->previous());
+                return redirect()->route('dashboard');
+            case 'Admin Dapur':
+                return redirect()->route('list_order');
+            case 'Admin Kasir':
+                return redirect()->route('list_payment');
+            default:
+                return redirect('login')->withError('Invalid user role');
         }
-
-        return redirect('login')->withError('Login details are not valid');
-
     }
+
+    return redirect('login')->withError('Login details are not valid');
+    }
+
 
     public function register_view()
     { 

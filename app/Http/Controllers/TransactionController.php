@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categories;
-use App\Models\User;
 use App\Models\Products;
 use App\Models\Transaksi;
 use App\Models\NomorMeja;
@@ -216,7 +215,6 @@ class TransactionController extends Controller
     $customer_email = $request->input('customer_email');
     $customer_phone = $request->input('customer_phone');
     $mejas_id = $request->input('nomor_meja');
-    $user_id = $request->input('user_id');
     $total_price = str_replace(",","",$request->input('grand_total'));
     $transaksi_id = 1;
     $status = 'Order';
@@ -249,7 +247,6 @@ class TransactionController extends Controller
 
         $data = [
           'invoice' => $invoice,
-          'user_id' => $user_id,
           'customer_name' => $customer_name,
           'customer_email' => $customer_email,
           'customer_phone' => $customer_phone,
@@ -345,8 +342,8 @@ class TransactionController extends Controller
     $data1 = array(
       'menu' => 'list_proses',
       'sub_menu' => '',
-      'title' => 'Daftar Order',
-      'judul' => 'Daftar Order',
+      'title' => 'Daftar Proses',
+      'judul' => 'Daftar Proses',
       'sub_judul' => '',
       // 'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Proses'),
       // 'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi(),
@@ -373,9 +370,9 @@ class TransactionController extends Controller
       $data1 = array(
         'menu' => 'list_payment',
         'sub_menu' => '',
-        'title' => 'Daftar Order',
+        'title' => 'Daftar Serve',
         'grand_total' => Cart::subtotal(0),
-        'judul' => 'Daftar Order',
+        'judul' => 'Daftar Serve',
         'sub_judul' => '',
         // 'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Serve'),
         // 'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi(),

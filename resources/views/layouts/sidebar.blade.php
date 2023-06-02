@@ -39,6 +39,8 @@
           >
             <!-- Add icons to the links using the .nav-icon class
                 with font-awesome or any other icon font library -->
+            @if (auth()->user()->roles->level === 'Super Admin')
+              
             <li class="nav-item">
               <a
                  href="{{ route('dashboard') }}"
@@ -162,6 +164,44 @@
                 <p>Live Report Ordering</p>
               </a>
             </li>
+            @endif
+
+            @if (auth()->user()->roles->level === 'Admin Dapur')
+            <li class="nav-item">
+              <a
+                href="{{ route('list_order') }}"
+                class="nav-link {{ $menu == 'list_order' ? 'active' : '' }}" 
+              >
+                <i class="nav-icon ion ion-bag"></i>
+                <p>List Order</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="{{ route('list_proses') }}"
+                class="nav-link {{ $menu == 'list_proses' ? 'active' : '' }}" 
+              >
+                <i class="nav-icon far fa-clock"></i>
+                <p>List Proses</p>
+              </a>
+            </li>
+            @endif
+
+            @if (auth()->user()->roles->level === 'Admin Kasir')
+             <li class="nav-item">
+              <a
+                href="{{ route('list_payment') }}"
+                class="nav-link {{ $menu == 'list_payment' ? 'active' : '' }}" 
+              >
+                <i class="nav-icon ion ion-android-bookmark"></i>
+                <p>List Serve</p>
+              </a>
+            </li>
+
+            @endif
+
+
+
           
 
         

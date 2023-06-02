@@ -25,6 +25,13 @@
                     <label for="nomor_meja">Nama Nomor Meja</label>
                     <input type="text" class="form-control" id="nomor_meja" placeholder="Nomor Meja" name="nomor_meja" value="{{isset($nomor_meja) ? $nomor_meja->nomor_meja : ''}}">
                 </div>
+                
+                <div class="form-group">
+                    <label>QR Yang Sudah Ada</label> 
+                    <br>
+                    <img src="{{ asset('storage/'.$nomor_meja->qr) }}" style="width:200px" alt="image"> 
+                </div>
+
                 <div class="form-group">
                     <label for="qr">QR Code</label>
                    <input type="file" class="form-control" id="qr" name="qr">

@@ -18,6 +18,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
+        'role_id',
         'name',
         'email',
         'password',
@@ -42,7 +44,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-      public function Transaksi(){
+    public function Transaksi(){
         return $this->hasMany(Transaksi::class);
     }
+
+    public function Roles(){
+        return $this->belongsTo(Roles::class,'role_id');
+    }
+
+    
 }

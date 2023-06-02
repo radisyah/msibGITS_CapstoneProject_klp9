@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Support\Facades\Session;
 
 class Authenticate extends Middleware
 {
@@ -15,6 +16,16 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
+            if ($request->is('login') && !$request->is('logout')) {
+                // Periksa apakah ada URL sebelumnya dalam session
+                $previousUrl = Session::get('previous_url');
+                if ($previousUrl) {
+                    // Hapus session yang menyimpan URL sebelumnya
+                    Session::forget('previous_url');
+
+                    return redirect()->intended($previousUrl);
+                }
+            }
             return route('login');
         }
     }

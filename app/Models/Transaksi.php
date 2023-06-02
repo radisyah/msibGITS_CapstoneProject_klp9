@@ -15,7 +15,6 @@ class Transaksi extends Model
 
     
     protected $fillable = [
-        'user_id',
         'mejas_id',
         'customer_name',
         'customer_email',
@@ -30,10 +29,6 @@ class Transaksi extends Model
 
      public function DetailTransaksi(){
         return $this->hasMany(DetailTransaksi::class,'transaksi_id');
-    }
-
-     public function users(){
-        return $this->belongsTo(User::class,'user_id');
     }
 
     public function NomorMeja(){
@@ -118,7 +113,6 @@ class Transaksi extends Model
     public function allDataTransaksi()
     {
         return DB::table('transaksis')
-             ->join('users', 'users.id','=','transaksis.user_id')
              ->select(
                 'transaksis.id',
                 'customer_name',

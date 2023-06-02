@@ -190,7 +190,6 @@
             </div>
           </div>
 
-          <input type="hidden" required id="user_id" name="user_id" value="{{ Auth::user()->id }}"  class="form-control form-control-lg text-right text-primary" readonly autocomplete="off">
 
           {{-- <div class="form-group">
             <label>Dibayar</label>

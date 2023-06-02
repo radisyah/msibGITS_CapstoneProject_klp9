@@ -28,7 +28,7 @@
     <div class="inner">
       <h3>{{ $category }}<sup style="font-size: 20px"></sup></h3>
 
-      <p>Kategori</p>
+      <p>Kategori {{ Session::get('previous_url') }}</p>
     </div>
     <div class="icon">
       <i class="fas fa-th-list"></i>

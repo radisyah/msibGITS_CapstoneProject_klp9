@@ -36,8 +36,8 @@ class ProductsController extends Controller
 			'menu' => 'master',
 			'sub_menu' => 'produk',
 			'title' => 'Tambah Produk',
-			'judul' => 'Manajemen Produk',
-			'sub_judul' => 'Tambah Produk',
+			'judul' => 'Master Data',
+			'sub_judul' => 'Manajemen Produk / Tambah Produk',
             'categories' => Categories::all()
       );
         return view('products.add',$data);
@@ -85,8 +85,8 @@ class ProductsController extends Controller
 			'menu' => 'master',
 			'sub_menu' => 'produk',
 			'title' => 'Edit Produk',
-			'judul' => 'Manajemen Produk',
-			'sub_judul' => 'Edit Produk'
+			'judul' => 'Master Data',
+			'sub_judul' => 'Manajemen Produk / Edit Produk'
 
       );
         $products['products'] = Products::where('id',$id)->first();
