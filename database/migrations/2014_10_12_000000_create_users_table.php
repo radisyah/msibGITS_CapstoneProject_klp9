@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            //$table->boolean('type')->default(false); //add type boolean users;  1=>super admin, 2=>kasir, 3=>dapur
             $table->rememberToken();
             $table->timestamps();
         });

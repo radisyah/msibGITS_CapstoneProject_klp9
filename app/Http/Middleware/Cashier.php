@@ -17,9 +17,10 @@ class Cashier
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check()) {
+        if (Auth()->user()->type ==$request) {
             return $next($request);
         }
-        return redirect('login')->withErrors('silahkan login terlebih dahulu');
+        return response()->json(['kamu tidak dapat masuk']);
+        //return response()->view('errorss.check-permission');
     }
 }
