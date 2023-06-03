@@ -18,6 +18,7 @@ use Dompdf\Dompdf;
 use Illuminate\Support\Facades\View;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Carbon\Carbon;
  
 class TransactionController extends Controller
 {
@@ -65,7 +66,8 @@ class TransactionController extends Controller
     
   }
 
-  public function transaction_order(){
+  public function transaction_order()
+  {
     $data = array(
     'title' => 'Halaman Transaksi Order',
     'menu'=>'transaction_order',
@@ -92,9 +94,8 @@ class TransactionController extends Controller
     return view('live_report_ordering',$data);
   }
 
-  public function add_cart($id_product, $nomor_meja,Request $request){
-
-
+  public function add_cart($id_product, $nomor_meja,Request $request)
+  {
     // $ambilDataProduk = $this->Transaksi->ambil_stok($id_product);
 
     // $stokProduk = $ambilDataProduk->stock;
@@ -145,7 +146,7 @@ class TransactionController extends Controller
     
   }
 
-   public function view_cart($nomor_meja)
+  public function view_cart($nomor_meja)
   {
     // return $no_meja;
     
@@ -189,25 +190,26 @@ class TransactionController extends Controller
     // dd($this->Transaksi->inVoice());
   }
 
-   public function remove_item($rowId){
+  public function remove_item($rowId)
+  {
     Cart::remove($rowId);
     return redirect()->back()->with('success','Jumlah Menu Berhasil Dihapus');;
   }
 
   public function update_cart(Request $request, $nomor_meja)
   {
-      $meja = NomorMeja::where('nomor_meja', $nomor_meja)->first();
-      $qtyArray = $request->input('qty');
+    $meja = NomorMeja::where('nomor_meja', $nomor_meja)->first();
+    $qtyArray = $request->input('qty');
 
-      foreach ($qtyArray as $rowId => $qty) {
-          Cart::update($rowId, ['qty' => $qty]);
-      }
+    foreach ($qtyArray as $rowId => $qty) {
+        Cart::update($rowId, ['qty' => $qty]);
+    }
 
-        return redirect()->back()->with('success','Jumlah Menu Berhasil Dihapus');;
+    return redirect()->back()->with('success','Jumlah Menu Berhasil Dihapus');;
   }
 
-  public function save_transaction(Request $request,$nomor_meja){
-
+  public function save_transaction(Request $request,$nomor_meja)
+  {
     $meja = NomorMeja::where('nomor_meja',$nomor_meja)->first();
     // $produk = Cart::subtotal();
     $invoice = $this->Transaksi->inVoice();
@@ -293,52 +295,46 @@ class TransactionController extends Controller
 
   public function list_order()
   {
-
-    
     $data1 = array(
-      'menu' => 'list_order',
-      'sub_menu' => '',
-      'title' => 'Daftar Order',
-      'judul' => 'Daftar Order',
-      'sub_judul' => '',
-      // 'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Order'),
+    'menu' => 'list_order',
+    'sub_menu' => '',
+    'title' => 'Daftar Order',
+    'judul' => 'Daftar Order',
+    'sub_judul' => '',
+    // 'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Order'),
 
-      );
+    );
 
-      // for ($i=1; $i < ; $i++) { 
-      //   # code...
-      // }
+    // for ($i=1; $i < ; $i++) { 
+    //   # code...
+    // }
 
-      // $transaksi = Transaksi::with('detailTransaksi.products')
-      // ->where('status','order')
-      // ->latest('id')
-      // ->first();
+    // $transaksi = Transaksi::with('detailTransaksi.products')
+    // ->where('status','order')
+    // ->latest('id')
+    // ->first();
 
-      $orders = Transaksi::with(['detailTransaksi.products','nomorMeja'])->where('status','order')->whereHas('detailTransaksi')->get();
-      
+    $orders = Transaksi::with(['detailTransaksi.products','nomorMeja'])->where('status','order')->whereHas('detailTransaksi')->get();
   
-     
-      //  $dataId = $this->Transaksi->allDetailTransaksi($query);
+    //  $dataId = $this->Transaksi->allDetailTransaksi($query);
 
-      // $data2= array(
-      //   'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi()->where(1, '=', $query),
-      // );
-      // dd($orders);
-      return view('list_transaction.list_order',compact('orders'),$data1);
+    // $data2= array(
+    //   'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi()->where(1, '=', $query),
+    // );
+    // dd($orders);
+    return view('list_transaction.list_order',compact('orders'),$data1);
   }
 
   public function status_proses($id)
-    {
-        $data = Transaksi::find($id);
-        $data->status = 'Proses';
-
-        $data->save();
-        return back()->with('success','Transaksi Berhasil Diproses');
-    }
-  
-    public function list_proses()
   {
+    $data = Transaksi::find($id);
+    $data->status = 'Proses';
+    $data->save();
+    return back()->with('success','Transaksi Berhasil Diproses');
+  }
   
+  public function list_proses()
+  {
     $data1 = array(
       'menu' => 'list_proses',
       'sub_menu' => '',
@@ -349,77 +345,73 @@ class TransactionController extends Controller
       // 'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi(),
 
       );
-
-      $orders = Transaksi::with(['detailTransaksi.products','nomorMeja'])->where('status','Proses')->whereHas('detailTransaksi')->get();
-
+    $orders = Transaksi::with(['detailTransaksi.products','nomorMeja'])->where('status','Proses')->whereHas('detailTransaksi')->get();
     return view('list_transaction.list_proses',compact('orders'),$data1);
   }
 
   public function status_serve($id)
-    {
-        $data = Transaksi::find($id);
-        $data->status = 'Serve';
+  {
+    $data = Transaksi::find($id);
+    $data->status = 'Serve';
 
-        $data->save();
-        return back()->with('success','Transaksi Berhasil Dihidang');
-    }
+    $data->save();
+    return back()->with('success','Transaksi Berhasil Dihidang');
+  }
   
-    public function list_payment()
-    {
-    
-      $data1 = array(
-        'menu' => 'list_payment',
-        'sub_menu' => '',
-        'title' => 'Daftar Serve',
-        'grand_total' => Cart::subtotal(0),
-        'judul' => 'Daftar Serve',
-        'sub_judul' => '',
-        // 'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Serve'),
-        // 'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi(),
+  public function list_payment()
+  {
+    $data1 = array(
+      'menu' => 'list_payment',
+      'sub_menu' => '',
+      'title' => 'Daftar Serve',
+      'grand_total' => Cart::subtotal(0),
+      'judul' => 'Daftar Serve',
+      'sub_judul' => '',
+      // 'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Serve'),
+      // 'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi(),
+
+      );
+    $orders = Transaksi::with(['detailTransaksi.products','nomorMeja'])->where('status','Serve')->whereHas('detailTransaksi')->get();
+    return view('list_transaction.list_payment',compact('orders'),$data1);
+  }
   
-        );
-        $orders = Transaksi::with(['detailTransaksi.products','nomorMeja'])->where('status','Serve')->whereHas('detailTransaksi')->get();
+  public function status_done(Request $request,$id)
+  {
+    $data = Transaksi::find($id);
+    $data->status = 'Done';
+    $data->payment = str_replace(",","",$request->input('dibayar'));
+    $data->change = str_replace(",","",$request->input('kembalian'));          
+    $data->save();
 
-        return view('list_transaction.list_payment',compact('orders'),$data1);
-    }
+        // -------- Notif Email ---------
+    // $dones = Transaksi::with(['detailTransaksi.products', 'nomorMeja'])
+    // ->where('status', 'Done')
+    // ->whereHas('detailTransaksi')
+    // ->where('id', $id) // Menambahkan kondisi nomor invoice
+    // ->get();
   
-    public function status_done(Request $request,$id)
-      {
-          $data = Transaksi::find($id);
-          $data->status = 'Done';
-          $data->payment = str_replace(",","",$request->input('dibayar'));
-          $data->change = str_replace(",","",$request->input('kembalian'));          
-          $data->save();
+    // Mail::to($data->customer_email)->send(new DoneEmail($dones));
+        // -------- Notif Email ---------
+    return back()->with('success','Transaksi Berhasil Disimpan');
+  }
+  
+  public function list_transaksi()
+  {
+    $data1 = array(
+      'menu' => 'list_transaction',
+      'sub_menu' => '',
+      'title' => 'Riwayat Transaksi',
+      'judul' => 'Riwayat Transaksi',
+      'sub_judul' => '',
+      'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Done'),
+      'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi(),
 
-              // -------- Notif Email ---------
-          // $dones = Transaksi::with(['detailTransaksi.products', 'nomorMeja'])
-          // ->where('status', 'Done')
-          // ->whereHas('detailTransaksi')
-          // ->where('id', $id) // Menambahkan kondisi nomor invoice
-          // ->get();
-        
-          // Mail::to($data->customer_email)->send(new DoneEmail($dones));
-              // -------- Notif Email ---------
-          return back()->with('success','Transaksi Berhasil Disimpan');
-          
-      }
-    
-      public function list_transaksi()
-      {
-        $data1 = array(
-          'menu' => 'list_transaction',
-          'sub_menu' => '',
-          'title' => 'Riwayat Transaksi',
-          'judul' => 'Riwayat Transaksi',
-          'sub_judul' => '',
-          'data_listtransaction' => $this->Transaksi->allDataTransaksi()->where('status', '=', 'Done'),
-          'data_detailtransaction' =>$this->Transaksi->allDetailTransaksi(),
-    
-          );
-        return view('list_transaction.index',$data1);
-      }
+      );
+    return view('list_transaction.index',$data1);
+  }
 
-    public function detail($id){
+  public function detail($id)
+  {
     $data = array(
       'menu' => 'list_transaction',
       'sub_menu' => '',
@@ -436,13 +428,14 @@ class TransactionController extends Controller
     return view('list_transaction.list_detail', $data, $data2);
   }
 
-  public function print_list_transaction($id){
+  public function print_list_transaction($id)
+  {
     $data = array(
      'details2' => $this->Transaksi->payment($id)
      );
     $data2['details'] = $this->Transaksi->alldetailTransaksis($id);
      return view('list_transaction.print_list_transaction',$data, $data2);
- }
+  }
 
   public function eksport_pdf()
   {
@@ -508,6 +501,363 @@ class TransactionController extends Controller
     // Mengirimkan file Excel ke browser
     return response()->download($filename)->deleteFileAfterSend();
   }
+
+  public function laporan_harian()
+  {
+     $data = array(
+    'title' => 'Halaman Laporan Harian',
+    'menu'=>'laporan',
+    'sub_menu'=>'l_harian',
+    'judul'=>'Laporan Harian',
+    'sub_judul'=>'Halaman Laporan Harian',
+    );
+
+    return view('laporan.v_laporan_harian',$data);
+  }
+
+  public function view_laporan_harian(Request $request)
+  {
+    $tgl = $request->input('tgl');
+
+    $data = [
+      'dataharian' => $this->Transaksi->DataHarian($tgl),
+    ];  
+
+    $response = [
+      'data' => view('laporan.v_tabel_laporan_harian', $data)->render(),
+    ];
+
+    return response()->json($response);
+  }
+
+  public function eksport_pdf_laporan_harian($tgl)
+  {
+    // $tgl = $request->input('tgl');
+    $dataharian =  $this->Transaksi->DataHarian($tgl);
+
+    $html = view('laporan.eksport_pdf_harian', compact('dataharian','tgl'))->render();
+
+    $dompdf = new Dompdf();
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->render();
+
+    $dompdf->stream('laporan_penjualan_harian.pdf');
+  }
+
+  public function eksport_excel_laporan_harian($tgl)
+  {
+    $dataharian =  $this->Transaksi->DataHarian($tgl);
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+
+     // Menambahkan judul laporan
+    $sheet->setCellValue('A1', 'Laporan Penjualan Harian');
+    
+    // Menambahkan tanggal
+    $tgl = date('d M y');
+    $sheet->setCellValue('A2', 'Tanggal: '.$tgl);
+
+    // Merge
+    $sheet->mergeCells('A7:F7');
+
+    $sheet->getStyle('A1')->getFont()->setBold(true);
+    $sheet->getStyle('A7')->getFont()->setBold(true);
+    $sheet->getStyle('A7')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle('A4:H4')->getFont()->setBold(true);
+    
+    // Menambahkan header kolom
+    $sheet->setCellValue('A4', 'No');
+    $sheet->setCellValue('B4', 'Kode Produk');
+    $sheet->setCellValue('C4', 'Nama Produk');
+    $sheet->setCellValue('D4', 'Modal');
+    $sheet->setCellValue('E4', 'Harga Jual');
+    $sheet->setCellValue('F4', 'Terjual');
+    $sheet->setCellValue('G4', 'Total Harga');
+    $sheet->setCellValue('H4', 'Total Untung');
+    
+    // Menambahkan data penjualan harian
+    $row = 5;
+    $no = 1;
+    $grandtotal = 0;
+    $granduntung = 0;
+    
+    foreach ($dataharian as $key => $item) {
+        $sheet->setCellValue('A'.$row, $no);
+        $sheet->setCellValue('B'.$row, $item->product_code);
+        $sheet->setCellValue('C'.$row, $item->name);
+        $sheet->setCellValue('D'.$row, 'Rp. '.number_format($item->purchase_price, 0));
+        $sheet->setCellValue('E'.$row, 'Rp. '.number_format($item->selling_price, 0));
+        $sheet->setCellValue('F'.$row, $item->qty);
+        $sheet->setCellValue('G'.$row, 'Rp. '.number_format($item->total_harga, 0));
+        $sheet->setCellValue('H'.$row, 'Rp. '.number_format($item->untung, 0));
+        
+        $no++;
+        $row++;
+        $grandtotal += $item->total_harga;
+        $granduntung += $item->untung;
+    }
+    
+    // Menambahkan total keseluruhan
+    $sheet->setCellValue('A7', 'Grand Total');
+    $sheet->setCellValue('G'.$row, 'Rp. '.number_format($grandtotal, 0));
+    $sheet->setCellValue('H'.$row, 'Rp. '.number_format($granduntung, 0));
+    
+    // Mengatur lebar kolom
+    $sheet->getColumnDimension('A')->setWidth(5);
+    $sheet->getColumnDimension('B')->setWidth(15);
+    $sheet->getColumnDimension('C')->setWidth(25);
+    $sheet->getColumnDimension('D')->setWidth(15);
+    $sheet->getColumnDimension('E')->setWidth(15);
+    $sheet->getColumnDimension('F')->setWidth(10);
+    $sheet->getColumnDimension('G')->setWidth(15);
+    $sheet->getColumnDimension('H')->setWidth(15);
+    
+
+    // Buat file Excel
+    $writer = new Xlsx($spreadsheet);
+    $filename = 'laporan_penjualan_harian.xlsx';
+    $writer->save($filename);
+
+    // Mengirimkan file Excel ke browser
+    return response()->download($filename)->deleteFileAfterSend();
+  }
+
+  public function laporan_bulanan()
+  {
+     $data = array(
+    'title' => 'Halaman Laporan Bulanan',
+    'menu'=>'laporan',
+    'sub_menu'=>'l_bulanan',
+    'judul'=>'Laporan Bulanan',
+    'sub_judul'=>'Halaman Laporan Bulanan',
+    );
+
+    return view('laporan.v_laporan_bulanan',$data);
+  }
+
+
+  public function view_laporan_bulanan(Request $request)
+  {
+    $bulan = $request->input('bulan');
+    $tahun = $request->input('tahun');
+    // $bulan = 6;
+    // $tahun = 2023;
+
+    $data = [
+      'databulanan' => $this->Transaksi->DataBulanan($bulan,$tahun),
+    ];  
+
+    // dd($data);
+
+    $response = [
+      'data' => view('laporan.v_tabel_laporan_bulanan', $data)->render(),
+    ];
+
+    return response()->json($response);
+  }
+
+  public function eksport_pdf_laporan_bulanan($bulan,$tahun)
+  {
+    // $tgl = $request->input('tgl');
+    $databulanan =  $this->Transaksi->DataBulanan($bulan,$tahun);
+
+    $html = view('laporan.eksport_pdf_bulanan', compact('databulanan','bulan','tahun'))->render();
+
+    $dompdf = new Dompdf();
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->render();
+
+    $dompdf->stream('laporan_penjualan_bulanan.pdf');
+  }
+
+  public function eksport_excel_laporan_bulanan($bulan,$tahun)
+  {
+    $databulanan =  $this->Transaksi->DataBulanan($bulan,$tahun);
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+
+    
+    // Menambahkan judul laporan
+    $sheet->setCellValue('A1', 'Laporan Penjualan Bulanan');
+
+    // Menambahkan tanggal
+    $tanggal = date('M', strtotime($bulan)) . ' ' . $tahun;
+    $sheet->setCellValue('A2', 'Periode: ' . $tanggal);
+
+    
+    // Merge
+    $sheet->mergeCells('A7:B7');
+
+    $sheet->getStyle('A7')->getFont()->setBold(true);
+    $sheet->getStyle('A7')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle('A1')->getFont()->setBold(true);
+    $sheet->getStyle('A4:D4')->getFont()->setBold(true);
+
+    // Menambahkan header kolom
+    $sheet->setCellValue('A4', 'No');
+    $sheet->setCellValue('B4', 'Tanggal');
+    $sheet->setCellValue('C4', 'Total Harga');
+    $sheet->setCellValue('D4', 'Total Untung');
+
+    // Menambahkan data penjualan bulanan
+    $row = 5;
+    $no = 1;
+    $grandtotal = 0;
+    $granduntung = 0;
+
+    foreach ($databulanan as $key => $item) {
+        $sheet->setCellValue('A' . $row, $no);
+        $sheet->setCellValue('B' . $row, $item->tanggal);
+        $sheet->setCellValue('C' . $row, 'Rp. ' . number_format($item->total_harga, 0));
+        $sheet->setCellValue('D' . $row, 'Rp. ' . number_format($item->untung, 0));
+
+        $no++;
+        $row++;
+        $grandtotal += $item->total_harga;
+        $granduntung += $item->untung;
+    }
+
+    // Menambahkan total keseluruhan
+    $sheet->setCellValue('A7', 'Grand Total');
+    $sheet->setCellValue('C' . $row, 'Rp. ' . number_format($grandtotal, 0));
+    $sheet->setCellValue('D' . $row, 'Rp. ' . number_format($granduntung, 0));
+
+    // Mengatur lebar kolom
+    $sheet->getColumnDimension('A')->setWidth(5);
+    $sheet->getColumnDimension('B')->setWidth(15);
+    $sheet->getColumnDimension('C')->setWidth(15);
+    $sheet->getColumnDimension('D')->setWidth(15);
+
+    // Buat file Excel
+    $writer = new Xlsx($spreadsheet);
+    $filename = 'laporan_penjualan_bulanan.xlsx';
+    $writer->save($filename);
+
+    // Mengirimkan file Excel ke browser
+    return response()->download($filename)->deleteFileAfterSend();
+
+
+  }
+
+  public function laporan_tahunan()
+  {
+    $data = array(
+    'title' => 'Halaman Laporan Tahunan',
+    'menu'=>'laporan',
+    'sub_menu'=>'l_tahunan',
+    'judul'=>'Laporan Tahunan',
+    'sub_judul'=>'Halaman Laporan Tahunan',
+    );
+
+    return view('laporan.v_laporan_tahunan',$data);
+  }
+
+  public function view_laporan_tahunan(Request $request)
+  {
+    $tahun = $request->input('tahun');
+    // $bulan = 6;
+    // $tahun = 2023;
+
+    $data = [
+      'datatahunan' => $this->Transaksi->DataTahunan($tahun),
+    ];  
+
+    // dd($data);
+
+    $response = [
+      'data' => view('laporan.v_tabel_laporan_tahunan', $data)->render(),
+    ];
+
+    return response()->json($response);
+  }
+
+  public function eksport_pdf_laporan_tahunan($tahun)
+  {
+    // $tgl = $request->input('tgl');
+    $datatahunan =  $this->Transaksi->DataTahunan($tahun);
+
+    $html = view('laporan.eksport_pdf_tahunan', compact('datatahunan','tahun'))->render();
+
+    $dompdf = new Dompdf();
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->render();
+
+    $dompdf->stream('laporan_penjualan_tahunan.pdf');
+  }
+
+  public function eksport_excel_laporan_tahunan($tahun)
+  {
+    $datatahunan =  $this->Transaksi->DataTahunan($tahun);
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+
+    
+    // Menambahkan judul laporan
+    $sheet->setCellValue('A1', 'Laporan Penjualan Tahunan');
+
+    // Menambahkan tanggal
+    $tanggal = $tahun;
+    $sheet->setCellValue('A2', 'Periode: ' . $tanggal);
+
+    
+    // Merge
+    $sheet->mergeCells('A7:B7');
+
+    $sheet->getStyle('A7')->getFont()->setBold(true);
+    $sheet->getStyle('A7')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle('A1')->getFont()->setBold(true);
+    $sheet->getStyle('A4:D4')->getFont()->setBold(true);
+
+    // Menambahkan header kolom
+    $sheet->setCellValue('A4', 'No');
+    $sheet->setCellValue('B4', 'Tanggal');
+    $sheet->setCellValue('C4', 'Total Harga');
+    $sheet->setCellValue('D4', 'Total Untung');
+
+    // Menambahkan data penjualan bulanan
+    $row = 5;
+    $no = 1;
+    $grandtotal = 0;
+    $granduntung = 0;
+
+    foreach ($datatahunan as $key => $item) {
+        $sheet->setCellValue('A' . $row, $no);
+        $sheet->setCellValue('B' . $row, $item->tanggal);
+        $sheet->setCellValue('C' . $row, 'Rp. ' . number_format($item->total_harga, 0));
+        $sheet->setCellValue('D' . $row, 'Rp. ' . number_format($item->untung, 0));
+
+        $no++;
+        $row++;
+        $grandtotal += $item->total_harga;
+        $granduntung += $item->untung;
+    }
+
+    // Menambahkan total keseluruhan
+    $sheet->setCellValue('A7', 'Grand Total');
+    $sheet->setCellValue('C' . $row, 'Rp. ' . number_format($grandtotal, 0));
+    $sheet->setCellValue('D' . $row, 'Rp. ' . number_format($granduntung, 0));
+
+    // Mengatur lebar kolom
+    $sheet->getColumnDimension('A')->setWidth(5);
+    $sheet->getColumnDimension('B')->setWidth(15);
+    $sheet->getColumnDimension('C')->setWidth(15);
+    $sheet->getColumnDimension('D')->setWidth(15);
+
+    // Buat file Excel
+    $writer = new Xlsx($spreadsheet);
+    $filename = 'laporan_penjualan_tahunan.xlsx';
+    $writer->save($filename);
+
+    // Mengirimkan file Excel ke browser
+    return response()->download($filename)->deleteFileAfterSend();
+
+
+  }
+
+
 
 
   

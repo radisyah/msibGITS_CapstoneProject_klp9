@@ -12,7 +12,7 @@
             <a href="{{ route('products.add') }}">
                 <button type="button" data-target="" class="btn btn-primary btn-sm btn-flat"><i class="fas fa-plus"></i> Add</button>
             </a>
-            <a href="{{ route('products.eksport_pdf')}}" class="btn btn-success btn-sm btn-flat"><i class="fa fa-file-pdf"></i> PDF</a>
+            <a href="{{ route('products.eksport_pdf')}}" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-file-pdf"></i> PDF</a>
             <a href="{{ route('products.eksport_excel')}}" class="btn btn-success btn-sm btn-flat"><i class="fa fa-file-excel"></i> Excel</a>
         </div>
     </div>

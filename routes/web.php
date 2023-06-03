@@ -81,13 +81,26 @@ Route::middleware(['auth'])->group(function () {
       // Route::get('/transaction/{tableId}', [TransactionController::class, 'index'])->name('transaction');
       Route::get('/transaction_order', [TransactionController::class, 'transaction_order'])->name('transaction_order');
       Route::get('/live_report_ordering', [TransactionController::class, 'live_report_ordering'])->name('live_report_ordering');
+      Route::get('/laporan_harian', [TransactionController::class, 'laporan_harian'])->name('laporan_harian');
+      Route::post('/view_laporan_harian', [TransactionController::class, 'view_laporan_harian'])->name('view_laporan_harian');
+      Route::get('/eksport_pdf_laporan_harian/{tgl}', [TransactionController::class, 'eksport_pdf_laporan_harian'])->name('eksport_pdf_laporan_harian');
+      Route::get('/eksport_excel_laporan_harian/{tgl}', [TransactionController::class, 'eksport_excel_laporan_harian'])->name('eksport_excel_laporan_harian');
+      Route::get('/laporan_bulanan', [TransactionController::class, 'laporan_bulanan'])->name('laporan_bulanan');
+      Route::post('/view_laporan_bulanan', [TransactionController::class, 'view_laporan_bulanan'])->name('view_laporan_bulanan');
+      Route::get('/eksport_pdf_laporan_bulanan/{bulan}/{tahun}', [TransactionController::class, 'eksport_pdf_laporan_bulanan'])->name('eksport_pdf_laporan_bulanan');
+      Route::get('/eksport_excel_laporan_bulanan/{bulan}/{tahun}', [TransactionController::class, 'eksport_excel_laporan_bulanan'])->name('eksport_excel_laporan_bulanan');
+      Route::get('/laporan_tahunan', [TransactionController::class, 'laporan_tahunan'])->name('laporan_tahunan');
+      Route::post('/view_laporan_tahunan', [TransactionController::class, 'view_laporan_tahunan'])->name('view_laporan_tahunan');
+      Route::get('/eksport_pdf_laporan_tahunan/{tahun}', [TransactionController::class, 'eksport_pdf_laporan_tahunan'])->name('eksport_pdf_laporan_tahunan');
+      Route::get('/eksport_excel_laporan_tahunan/{tahun}', [TransactionController::class, 'eksport_excel_laporan_tahunan'])->name('eksport_excel_laporan_tahunan');
+
 
       Route::controller(TransactionController::class)->prefix('transaction')->group(function () {
         Route::get('/{nomor_meja}', 'index')->name('transaction');
         Route::get('/view_cart/{nomor_meja}', 'view_cart')->name('view_cart');
         // Route::get('view_cart', 'view_cart')->name('view_cart');
-        // Route::get('cek_produk', 'CekProduk')->name('cek_produk');
-        // Route::post('cek_produk', 'CekProduk')->name('cek_produk');
+        // Route::get('view_laporan_harian', 'view_laporan_harian')->name('view_laporan_harian');
+        // Route::post('view_laporan_harian', 'view_laporan_harian')->name('view_laporan_harian');
         // Route::get('add_cart/{id_product}/{nomor_meja}', 'add_cart')->name('add_cart');
         Route::post('add_cart/{id_product}/{nomor_meja}', 'add_cart')->name('add_cart');
         Route::post('update_cart/{nomor_meja}', 'update_cart')->name('update_cart') ;

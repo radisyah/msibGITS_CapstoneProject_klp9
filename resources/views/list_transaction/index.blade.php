@@ -9,7 +9,7 @@
     <div class="card-header">
       <h3 class="card-title">Riwayat Transaksi</h3>
       <div class="card-tools">
-        <a href="{{ route('eksport_pdf')}}" class="btn btn-success btn-sm btn-flat"><i class="fa fa-file-pdf"></i> PDF</a>
+        <a href="{{ route('eksport_pdf')}}" class="btn btn-danger btn-sm btn-flat"><i class="fa fa-file-pdf"></i> PDF</a>
         <a href="{{ route('eksport_excel')}}" class="btn btn-success btn-sm btn-flat"><i class="fa fa-file-excel"></i> Excel</a>
       </div>
     </div>

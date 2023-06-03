@@ -47,7 +47,6 @@ class AuthController extends Controller
         // Redirect to the appropriate dashboard based on user role
         switch ($user->roles->level) {
             case 'Super Admin':
-                Session::put('previous_url', url()->previous());
                 return redirect()->route('dashboard');
             case 'Admin Dapur':
                 return redirect()->route('list_order');

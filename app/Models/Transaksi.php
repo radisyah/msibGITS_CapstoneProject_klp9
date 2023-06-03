@@ -140,7 +140,7 @@ class Transaksi extends Model
     }
 
   
-     public function alldetailTransaksis($id)
+    public function alldetailTransaksis($id)
     {
         return DB::table('transaksis')
              ->join('detail_transaksis', 'detail_transaksis.transaksi_id','=','transaksis.id')
@@ -198,6 +198,64 @@ class Transaksi extends Model
             ->orWhereNull('A.status')
             ->get();
         
+    }
+
+    public function DataHarian($tgl)
+    {
+        return DB::table('transaksis')
+            ->join('detail_transaksis', 'detail_transaksis.transaksi_id', '=', 'transaksis.id')
+            ->join('products', 'detail_transaksis.product_id', '=', 'products.id')
+            ->where('transaksis.status', 'Done')
+            ->whereDate('transaksis.created_at', $tgl)
+            ->select(
+                'products.product_code',
+                'products.name',
+                'products.purchase_price',
+                'products.selling_price',
+                DB::raw('SUM(detail_transaksis.qty) AS qty'),
+                DB::raw('SUM((products.selling_price - products.purchase_price) * detail_transaksis.qty) AS untung'),
+                DB::raw('SUM(detail_transaksis.qty * products.selling_price) AS total_harga')
+            )
+            ->groupBy('products.product_code', 'products.name', 'products.purchase_price', 'products.selling_price')
+            ->get();
+    }
+
+    public function DataBulanan($bulan, $tahun)
+    {
+        $startDate = $tahun . '-' . $bulan . '-01';
+        $endDate = date('Y-m-t', strtotime($startDate));
+
+        return DB::table('transaksis')
+            ->join('detail_transaksis', 'detail_transaksis.transaksi_id', '=', 'transaksis.id')
+            ->join('products', 'detail_transaksis.product_id', '=', 'products.id')
+            ->where('transaksis.status', 'Done')
+            ->whereBetween('transaksis.created_at', [$startDate, $endDate])
+            ->select(
+                DB::raw('DATE(transaksis.created_at) AS tanggal'),
+                DB::raw('SUM((products.selling_price - products.purchase_price) * detail_transaksis.qty) AS untung'),
+                DB::raw('SUM(detail_transaksis.qty * products.selling_price) AS total_harga')
+            )
+            ->groupBy('tanggal')
+            ->get();
+    }
+
+    public function DataTahunan($tahun)
+    {
+        $startDate = $tahun . '-01-01';
+        $endDate = $tahun . '-12-31';
+
+        return DB::table('transaksis')
+            ->join('detail_transaksis', 'detail_transaksis.transaksi_id', '=', 'transaksis.id')
+            ->join('products', 'detail_transaksis.product_id', '=', 'products.id')
+            ->where('transaksis.status', 'Done')
+            ->whereBetween('transaksis.created_at', [$startDate, $endDate])
+            ->select(
+                DB::raw('DATE(transaksis.created_at) AS tanggal'),
+                DB::raw('SUM((products.selling_price - products.purchase_price) * detail_transaksis.qty) AS untung'),
+                DB::raw('SUM(detail_transaksis.qty * products.selling_price) AS total_harga')
+            )
+            ->groupBy('tanggal')
+            ->get();
     }
 
    

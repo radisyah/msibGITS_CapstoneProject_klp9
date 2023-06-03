@@ -6,6 +6,8 @@ namespace Database\Seeders;
 use App\Models\Products;
 use App\Models\NomorMeja;
 use App\Models\Categories;
+use App\Models\Roles;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,6 +19,39 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        Roles::create([
+            'level' => 'Super Admin'
+        ]);
+
+        Roles::create([
+            'level' => 'Admin Dapur'
+        ]);
+
+        Roles::create([
+            'level' => 'Admin Kasir'
+        ]);
+
+        User::create([
+            'role_id' => 1,
+            'name' => 'Super Admin',
+            'email' => 'superadmin@gmail.com',
+            'password' => \Hash::make('12345')
+        ]);
+
+        User::create([
+            'role_id' => 2,
+            'name' => 'Admin Dapur',
+            'email' => 'admindapur@gmail.com',
+            'password' => \Hash::make('12345')
+        ]);
+
+        User::create([
+            'role_id' => 3,
+            'name' => 'Admin Kasir',
+            'email' => 'adminkasir@gmail.com',
+            'password' => \Hash::make('12345')
+        ]);
+
         Categories::create([
             'category_name' => 'Makanan'
         ]);

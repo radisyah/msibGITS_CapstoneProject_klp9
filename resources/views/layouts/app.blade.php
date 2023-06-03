@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ $title }}</title>
 
@@ -38,11 +39,11 @@
   
   
   
-
-     <!-- Auto Numerik -->
-    <script src="{{ asset('/autoNumeric/src/AutoNumeric.js') }}"></script>
     <!-- jQuery -->
     <script src="{{ asset('/template/plugins/jquery/jquery.min.js') }}"></script>
+     <!-- Auto Numerik -->
+    <script src="{{ asset('/autoNumeric/src/AutoNumeric.js') }}"></script>
+   
     
     <script src="https://kit.fontawesome.com/570bdaf656.js" crossorigin="anonymous"></script>
     

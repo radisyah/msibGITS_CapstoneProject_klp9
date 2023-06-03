@@ -8,7 +8,7 @@
           class="brand-image img-circle elevation-3"
           style="opacity: 0.8"
         />
-        <span class="brand-text font-weight-light">E-Kasir</span>
+        <span class="brand-text font-weight-light">E-Order</span>
       </a>
 
       <!-- Sidebar -->
@@ -155,6 +155,54 @@
                 <p>Riwayat Transaksi</p>
               </a>
             </li>
+
+            <li class="nav-item {{ $menu == 'laporan' ? 'menu-open' : '' }} ">
+              <a href="#" class="nav-link {{ $menu == 'laporan' ? 'active' : '' }} ">
+                <i class="nav-icon fas fa-file-alt"></i>
+                <p>
+                  Laporan
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a
+                    href="{{ route('laporan_harian') }}"
+                    class="nav-link {{ $sub_menu == 'l_harian' ? 'active' : '' }}"
+                  >
+                    <i
+                     class="{{ $sub_menu == 'l_harian' ? 'far fa-dot-circle nav-icon' : 'far fa-circle nav-icon' }}"
+                    ></i>
+                    <p>Laporan Harian</p>
+                  </a>
+                </li>
+                
+                <li class="nav-item">
+                  <a
+                    href="{{ route('laporan_bulanan') }}"
+                    class="nav-link {{ $sub_menu == 'l_bulanan' ? 'active' : '' }}"
+                  >
+                    <i
+                      class="{{ $sub_menu == 'l_bulanan' ? 'far fa-dot-circle nav-icon' : 'far fa-circle nav-icon' }}"
+                    ></i>
+                    <p>Laporan Bulanan</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a
+                    href="{{ route('laporan_tahunan') }}"
+                    class="nav-link {{ $sub_menu == 'l_tahunan' ? 'active' : '' }}"
+                  >
+                    <i
+                      class="{{ $sub_menu == 'l_tahunan' ? 'far fa-dot-circle nav-icon' : 'far fa-circle nav-icon' }}"
+                    ></i>
+                    <p>Laporan Tahunan</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
             <li class="nav-item">
               <a
                 href="{{ route('live_report_ordering') }}"
