@@ -39,7 +39,9 @@
             <td>{{ $no++ }}</td>
             <td>{{$item->nomor_meja}}</td>
             <td>
-              <img src="{{ asset('storage/'.$item->qr) }}" style="height:80px" alt="image">
+              <a href="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data= $item->nomor_meja" class="text-blue-500"><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data= $item->nomor_meja" alt="Lihat QR" class="w-16 h-16" "></a>
+                {{-- <a href="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data= $item->nomor_meja"></a> --}}
+              {{-- <img src="{{ asset('storage/'.$item->qr) }}" style="height:80px" alt="image"> --}}
             </td>
             <td>
                 <a class="btn btn-sm btn-warning" href="{{ route('nomor_meja.edit',$item->id)}}">

@@ -67,9 +67,13 @@ class NomorMejaController extends Controller
 
         // dd($request['nomor_meja'], $request['qr'] );
 
+        $qr = $request['qr'];
+        $originalName = $qr->getClientOriginalName();
+        $qrPath = $qr->storeAs('qrs', $originalName, 'public');
+        
         NomorMeja::create([
             'nomor_meja'=>$request['nomor_meja'],
-            'qr' => Storage::putFile('qrs', $request['qr'])
+            'qr' => $qrPath
         ]);
         return redirect()->route('nomor_meja')->with('success','Data Nomor Meja Berhasil Ditambahkan');
     }
