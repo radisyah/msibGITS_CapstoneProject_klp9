@@ -69,8 +69,8 @@ class NomorMejaController extends Controller
 
         $qr = $request['qr'];
         $originalName = $qr->getClientOriginalName();
-        $qrPath = $qr->storeAs('qrs', $originalName, 'public');
-        
+        $qrPath = $qr->storeAs('qrs', $originalName, '');
+
         NomorMeja::create([
             'nomor_meja'=>$request['nomor_meja'],
             'qr' => $qrPath

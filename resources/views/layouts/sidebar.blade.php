@@ -73,6 +73,18 @@
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a
+                    href="{{ route('user') }}"
+                    class="nav-link {{ $sub_menu == 'user' ? 'active' : '' }}"
+                  >
+                    <i
+                      class="{{ $sub_menu == 'user' ? 'far fa-dot-circle nav-icon' : 'far fa-circle nav-icon' }}"
+                    ></i>
+                    <p>User Management</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a
                     href="{{ route('category') }}"
                     class="nav-link {{ $sub_menu == 'kategori' ? 'active' : '' }}"
                   >
