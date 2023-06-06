@@ -2,8 +2,8 @@
 	<tr class="text-center bg-gray">
 		<th>No</th>
 		<th>Tanggal</th>
-		<th>Total Harga</th>
-		<th>Total Untung</th>
+		<th>Total Pendapatan</th>
+		<th>Total Keuntungan</th>
 	</tr>
   @php
       $no=1;

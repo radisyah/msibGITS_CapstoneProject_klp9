@@ -472,7 +472,7 @@ class TransactionController extends Controller
     $sheet->setCellValue('C2', 'Nomor Meja');
     $sheet->setCellValue('D2', 'Nama Customer');
     $sheet->setCellValue('E2', 'Daftar Pesanan');
-    $sheet->setCellValue('F2', 'Total Harga');
+    $sheet->setCellValue('F2', 'Total Pendapatan');
     $sheet->getStyle('A2:F2')->getFont()->setBold(true);
 
     // Set data pesanan
@@ -573,8 +573,8 @@ class TransactionController extends Controller
     $sheet->setCellValue('D4', 'Modal');
     $sheet->setCellValue('E4', 'Harga Jual');
     $sheet->setCellValue('F4', 'Terjual');
-    $sheet->setCellValue('G4', 'Total Harga');
-    $sheet->setCellValue('H4', 'Total Untung');
+    $sheet->setCellValue('G4', 'Total Pendapatan');
+    $sheet->setCellValue('H4', 'Total Keuntungan');
     
     // Menambahkan data penjualan harian
     $row = 5;
@@ -698,8 +698,8 @@ class TransactionController extends Controller
     // Menambahkan header kolom
     $sheet->setCellValue('A4', 'No');
     $sheet->setCellValue('B4', 'Tanggal');
-    $sheet->setCellValue('C4', 'Total Harga');
-    $sheet->setCellValue('D4', 'Total Untung');
+    $sheet->setCellValue('C4', 'Total Pendapatan');
+    $sheet->setCellValue('D4', 'Total Keuntungan');
 
     // Menambahkan data penjualan bulanan
     $row = 5;
@@ -814,8 +814,8 @@ class TransactionController extends Controller
     // Menambahkan header kolom
     $sheet->setCellValue('A4', 'No');
     $sheet->setCellValue('B4', 'Tanggal');
-    $sheet->setCellValue('C4', 'Total Harga');
-    $sheet->setCellValue('D4', 'Total Untung');
+    $sheet->setCellValue('C4', 'Total Pendapatan');
+    $sheet->setCellValue('D4', 'Total Keuntungan');
 
     // Menambahkan data penjualan bulanan
     $row = 5;

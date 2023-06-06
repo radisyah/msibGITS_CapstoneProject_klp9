@@ -6,8 +6,8 @@
 		<th>Modal</th>
 		<th>Harga Jual</th>
 		<th>Terjual</th>
-		<th>Total Harga</th>
-		<th>Total Untung</th>
+		<th>Total Pendapatan</th>
+		<th>Total Keuntungan</th>
 	</tr>
   @php
       $no=1;

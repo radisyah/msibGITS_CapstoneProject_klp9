@@ -65,11 +65,12 @@ class NomorMejaController extends Controller
             'qr' => [File::types(['png', 'jpeg', 'jpg'])->max(2 * 1024),]
         ],$pesan);
 
-        // dd($request['nomor_meja'], $request['qr'] );
+        $qrFile = $request['qr'];
+        $qrFileName = $qrFile->getClientOriginalName(); // Dapatkan nama asli file
 
         NomorMeja::create([
-            'nomor_meja'=>$request['nomor_meja'],
-            'qr' => Storage::putFile('qrs', $request['qr'])
+            'nomor_meja' => $request['nomor_meja'],
+            'qr' => Storage::putFileAs('qrs', $qrFile, $qrFileName) // Simpan file dengan nama asli
         ]);
         return redirect()->route('nomor_meja')->with('success','Data Nomor Meja Berhasil Ditambahkan');
     }
