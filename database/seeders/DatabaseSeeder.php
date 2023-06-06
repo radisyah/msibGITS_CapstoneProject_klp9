@@ -66,7 +66,7 @@ class DatabaseSeeder extends Seeder
             'purchase_price' => '10000',
             'selling_price' => '18000',
             'stock' => '100',
-            'image' => 'products/kwetiaw.jpeg',
+            'image' => 'products/kwetiau.jpg',
             'category_id' => 1,
         ]);
 
@@ -76,7 +76,7 @@ class DatabaseSeeder extends Seeder
             'purchase_price' => '12000',
             'selling_price' => '20000',
             'stock' => '50',
-            'image' => 'products/kwetiaw.jpeg',
+            'image' => 'products/kwetiaugorengbakso.jpg',
             'category_id' => 1,
         ]);
 
@@ -86,7 +86,7 @@ class DatabaseSeeder extends Seeder
             'purchase_price' => '13000',
             'selling_price' => '22000',
             'stock' => '50',
-            'image' => 'products/kwetiaws.jpg',
+            'image' => 'products/kwetiaugorengseafood.jpg',
             'category_id' => 1,
         ]);
 
@@ -96,7 +96,7 @@ class DatabaseSeeder extends Seeder
             'purchase_price' => '10000',
             'selling_price' => '18000',
             'stock' => '100',
-            'image' => 'products/kwetiawr.jpe',
+            'image' => 'products/kwetiaurebus.jpg',
             'category_id' => 1,
         ]);
 
@@ -116,7 +116,7 @@ class DatabaseSeeder extends Seeder
             'purchase_price' => '12000',
             'selling_price' => '20000',
             'stock' => '50',
-            'image' => 'products/nasgorb.jpg',
+            'image' => 'products/nasigoreng.jpg',
             'category_id' => 1,
         ]);
 
@@ -126,7 +126,7 @@ class DatabaseSeeder extends Seeder
             'purchase_price' => '13000',
             'selling_price' => '22000',
             'stock' => '50',
-            'image' => 'products/nasgors.jpg',
+            'image' => 'products/nasigorengseafood.jpg',
             'category_id' => 1,
         ]);
 
@@ -146,9 +146,11 @@ class DatabaseSeeder extends Seeder
             'purchase_price' => '2000',
             'selling_price' => '5000',
             'stock' => '100',
-            'image' => 'products/jeruks.jpg',
+            'image' => 'products/esjeruk.jpg',
             'category_id' => 2,
         ]);
+
+        //gambar baru sampai sini
 
         Products::create([
             'product_code' => 'M003',
@@ -212,7 +214,83 @@ class DatabaseSeeder extends Seeder
 
         NomorMeja::create([
             'nomor_meja' => '1',
-            'qr' => 'products/qr1.jpg'
+            'qr' => 'qrs/1.png'
+        ]);
+        NomorMeja::create([
+            'nomor_meja' => '2',
+            'qr' => 'qrs/2.png'
+        ]);
+        NomorMeja::create([
+            'nomor_meja' => '3',
+            'qr' => 'qrs/3.png'
+        ]);
+        NomorMeja::create([
+            'nomor_meja' => '4',
+            'qr' => 'qrs/4.png'
+        ]);
+        NomorMeja::create([
+            'nomor_meja' => '5',
+            'qr' => 'qrs/5.png'
+        ]);
+        NomorMeja::create([
+            'nomor_meja' => '6',
+            'qr' => 'qrs/6.png'
+        ]);
+        NomorMeja::create([
+            'nomor_meja' => '7',
+            'qr' => 'qrs/7.png'
+        ]);
+        NomorMeja::create([
+            'nomor_meja' => '8',
+            'qr' => 'qrs/8.png'
+        ]);
+        NomorMeja::create([
+            'nomor_meja' => '9',
+            'qr' => 'qrs/9.png'
+        ]);
+        NomorMeja::create([
+            'nomor_meja' => '10',
+            'qr' => 'qrs/10.png'
+        ]);
+        NomorMeja::create([
+            'nomor_meja' => '11',
+            'qr' => 'qrs/11.png'
+        ]);
+        NomorMeja::create([
+            'nomor_meja' => '12',
+            'qr' => 'qrs/12.png'
+        ]);
+        NomorMeja::create([
+            'nomor_meja' => '13',
+            'qr' => 'qrs/13.png'
+        ]);
+        NomorMeja::create([
+            'nomor_meja' => '14',
+            'qr' => 'qrs/14.png'
+        ]);
+        NomorMeja::create([
+            'nomor_meja' => '15',
+            'qr' => 'qrs/15.png'
+        ]);
+        NomorMeja::create([
+            'nomor_meja' => '16',
+            'qr' => 'qrs/16.png'
+        ]);
+        NomorMeja::create([
+            'nomor_meja' => '17',
+            'qr' => 'qrs/17.png'
+        ]);
+        NomorMeja::create([
+            'nomor_meja' => '18',
+            'qr' => 'qrs/18.png'
+        ]);
+        NomorMeja::create([
+            'nomor_meja' => '19',
+            'qr' => 'qrs/19.png'
+        ]);
+        NomorMeja::create([
+            'nomor_meja' => '20',
+            'qr' => 'qrs/20.png'
         ]);
 
     }   

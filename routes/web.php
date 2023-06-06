@@ -12,6 +12,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\NomorMejaController;
 use App\Http\Controllers\kirimEmailController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,6 +40,15 @@ Route::middleware(['auth'])->group(function () {
       Route::get('/', [DashboardController::class, 'index'])->name('index');
         Route::controller(DashboardController::class)->prefix('dashboard')->group(function () {
         Route::get('', 'index')->name('dashboard');
+      });
+
+      Route::controller(UserController::class)->prefix('user')->group(function () {
+        Route::get('', 'index')->name('user');
+        Route::get('add','create')->name('user.add');
+        Route::post('add','store')->name('user.store');
+        Route::get('edit/{id}', 'edit')->name('user.edit');
+        Route::post('edit/{id}','update')->name('user.update');
+        Route::get('destroy/{id}','destroy')->name('user.destroy');
       });
 
       Route::controller(CategoriesController::class)->prefix('category')->group(function () {

@@ -68,9 +68,18 @@ class NomorMejaController extends Controller
         $qrFile = $request['qr'];
         $qrFileName = $qrFile->getClientOriginalName(); // Dapatkan nama asli file
 
+        $qr = $request['qr'];
+        $originalName = $qr->getClientOriginalName();
+        $qrPath = $qr->storeAs('qrs', $originalName, '');
+
         NomorMeja::create([
+<<<<<<< HEAD
             'nomor_meja' => $request['nomor_meja'],
             'qr' => Storage::putFileAs('qrs', $qrFile, $qrFileName) // Simpan file dengan nama asli
+=======
+            'nomor_meja'=>$request['nomor_meja'],
+            'qr' => $qrPath
+>>>>>>> refs/remotes/origin/master
         ]);
         return redirect()->route('nomor_meja')->with('success','Data Nomor Meja Berhasil Ditambahkan');
     }
