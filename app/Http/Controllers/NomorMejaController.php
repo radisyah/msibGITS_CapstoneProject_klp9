@@ -46,12 +46,7 @@ class NomorMejaController extends Controller
         return view('nomor_meja.add',$data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         $pesan = [
@@ -65,42 +60,19 @@ class NomorMejaController extends Controller
             'qr' => [File::types(['png', 'jpeg', 'jpg'])->max(2 * 1024),]
         ],$pesan);
 
-        $qrFile = $request['qr'];
-        $qrFileName = $qrFile->getClientOriginalName(); // Dapatkan nama asli file
 
         $qr = $request['qr'];
         $originalName = $qr->getClientOriginalName();
         $qrPath = $qr->storeAs('qrs', $originalName, '');
 
         NomorMeja::create([
-<<<<<<< HEAD
             'nomor_meja' => $request['nomor_meja'],
-            'qr' => Storage::putFileAs('qrs', $qrFile, $qrFileName) // Simpan file dengan nama asli
-=======
             'nomor_meja'=>$request['nomor_meja'],
             'qr' => $qrPath
->>>>>>> refs/remotes/origin/master
         ]);
         return redirect()->route('nomor_meja')->with('success','Data Nomor Meja Berhasil Ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $data = array(
@@ -116,13 +88,7 @@ class NomorMejaController extends Controller
         return view('nomor_meja.edit',['nomor_meja'=>$nomor_meja],$data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         $pesan = [
@@ -151,12 +117,7 @@ class NomorMejaController extends Controller
         return redirect()->route('nomor_meja')->with('success','Data Nomor Meja Berhasil Diubah');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         NomorMeja::find($id)->delete();

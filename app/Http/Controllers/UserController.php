@@ -17,7 +17,7 @@ class UserController extends Controller
     {
         $data = array(
 			'menu' => 'master',
-			'sub_menu' => 'User',
+			'sub_menu' => 'user',
 			'title' => 'Manajemen User',
 			'judul' => 'Master Data',
 			'sub_judul' => 'Manajemen User',
