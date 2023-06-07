@@ -36,12 +36,26 @@ class TransactionController extends Controller
     //       ->where('id', $id)
     //       ->get();
 
-    // $url = $request->url();
-    // $pecah = explode("/", $url);
-    // $no_meja = $pecah['4'];
-    // dd(Cart::content());
+    $url = route('transaction',[$nomor_meja]);
+    $pecah = explode("/", $url);
+    $data_meja = $pecah['4'];
+    
+    $no_meja = $this->Transaksi->getNo_meja();
+    // dd($meja, $no_meja);
+
+    foreach ($no_meja as $row) {
+      $a = $row->nomor_meja;
+      // dd($a, $data_meja);
+      if ($data_meja==$a) {
+        return response()->json('Meja sudah dipesan, silahkan memilih meja yang lain', 401);
+        // abort(404, "Meja sudah dipesan, silahkan memilih meja yang lain");
+        // return redirect()->back()->with('danger','Meja sudah dipesan, silahkan memilih meja yang lain');
+      }
+    }
+
 
     $meja = NomorMeja::where('nomor_meja',$nomor_meja)->first();
+    // dd($meja);
 
     if (!$meja) {
       abort(404, 'Meja Tidak Ditemukan');
@@ -221,8 +235,6 @@ class TransactionController extends Controller
     $transaksi_id = 1;
     $status = 'Order';
     // dd($mejas_id);
-
-
     
 
     if ( $total_price==0 ) {
@@ -448,7 +460,7 @@ class TransactionController extends Controller
     $dompdf->setPaper('A4', 'portrait');
     $dompdf->render();
 
-    $dompdf->stream('riwayat_transaksi.pdf');
+    $dompdf->stream('riwayat_transaksi'.date('dmY').'.pdf');
   }
 
   public function eksport_excel()
@@ -495,7 +507,7 @@ class TransactionController extends Controller
 
     // Buat file Excel
     $writer = new Xlsx($spreadsheet);
-    $filename = 'riwayat_transaksi.xlsx';
+    $filename = 'riwayat_transaksi'.date('dmY').'.xlsx';
     $writer->save($filename);
 
     // Mengirimkan file Excel ke browser
@@ -542,7 +554,7 @@ class TransactionController extends Controller
     $dompdf->setPaper('A4', 'portrait');
     $dompdf->render();
 
-    $dompdf->stream('laporan_penjualan_harian.pdf');
+    $dompdf->stream('laporan_penjualan_harian'.date('dmY').'.pdf');
   }
 
   public function eksport_excel_laporan_harian($tgl)
@@ -616,7 +628,7 @@ class TransactionController extends Controller
 
     // Buat file Excel
     $writer = new Xlsx($spreadsheet);
-    $filename = 'laporan_penjualan_harian.xlsx';
+    $filename = 'laporan_penjualan_harian'.date('dmY').'.xlsx';
     $writer->save($filename);
 
     // Mengirimkan file Excel ke browser
@@ -669,7 +681,7 @@ class TransactionController extends Controller
     $dompdf->setPaper('A4', 'portrait');
     $dompdf->render();
 
-    $dompdf->stream('laporan_penjualan_bulanan.pdf');
+    $dompdf->stream('laporan_penjualan_bulanan'.date('dmY').'.pdf');
   }
 
   public function eksport_excel_laporan_bulanan($bulan,$tahun)
@@ -732,7 +744,7 @@ class TransactionController extends Controller
 
     // Buat file Excel
     $writer = new Xlsx($spreadsheet);
-    $filename = 'laporan_penjualan_bulanan.xlsx';
+    $filename = 'laporan_penjualan_bulanan'.date('dmY').'.xlsx';
     $writer->save($filename);
 
     // Mengirimkan file Excel ke browser
@@ -785,7 +797,7 @@ class TransactionController extends Controller
     $dompdf->setPaper('A4', 'portrait');
     $dompdf->render();
 
-    $dompdf->stream('laporan_penjualan_tahunan.pdf');
+    $dompdf->stream('laporan_penjualan_tahunan'.date('dmY').'.pdf');
   }
 
   public function eksport_excel_laporan_tahunan($tahun)
@@ -848,7 +860,7 @@ class TransactionController extends Controller
 
     // Buat file Excel
     $writer = new Xlsx($spreadsheet);
-    $filename = 'laporan_penjualan_tahunan.xlsx';
+    $filename = 'laporan_penjualan_tahunan'.date('dmY').'.xlsx';
     $writer->save($filename);
 
     // Mengirimkan file Excel ke browser

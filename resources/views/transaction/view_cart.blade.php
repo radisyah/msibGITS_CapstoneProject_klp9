@@ -91,7 +91,7 @@
             Kembali
           </a>
           <a style="color:white" data-toggle="modal" onclick="Pembayaran()" data-target="#pembayaran" class="btn btn-success float-right">
-            <i class="fas fa-cash-register"></i> Bayar
+            <i class="fas fa-cash-register"></i> Pesan
           </a>
         </div>
       </div>
@@ -156,7 +156,7 @@
 
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary btn-flat"><i class="fas fa-save"></i> Simpan</button>
+          <button type="submit" class="btn btn-primary btn-flat"><i class="fas fa-save"></i> Pesan</button>
         </div>
       </form>
     </div>

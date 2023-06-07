@@ -194,8 +194,9 @@ class Transaksi extends Model
                 ->from('transaksis')
                 ->rightJoin('nomor_mejas', 'nomor_mejas.id', '=', 'transaksis.mejas_id');
         }, 'A')
-            ->where('A.status','=', 'Done')
-            ->orWhereNull('A.status')
+            ->where('A.status','=', 'Order')
+            ->orwhere('A.status','=', 'Proses')
+            // ->orWhereNull('A.status')
             ->get();
         
     }
