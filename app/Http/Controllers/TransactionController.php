@@ -48,7 +48,7 @@ class TransactionController extends Controller
     }
     
     $data = array(
-      'title' => 'Halaman Order',
+      'title' => 'Bale Rasa | Good Food is Good Mood',
       'products_makanan' => $this->Transaksi->allData_makanan(),
       'nomor_meja' => $nomor_meja,
       'products_minuman' => $this->Transaksi->allData_minuman(),
