@@ -92,6 +92,7 @@ Route::middleware(['auth'])->group(function () {
       Route::get('/transaction_order', [TransactionController::class, 'transaction_order'])->name('transaction_order');
       Route::get('/live_report_ordering', [TransactionController::class, 'live_report_ordering'])->name('live_report_ordering');
       Route::get('/laporan_harian', [TransactionController::class, 'laporan_harian'])->name('laporan_harian');
+      Route::get('/view_laporan_harian', [TransactionController::class, 'view_laporan_harian'])->name('view_laporan_harian');
       Route::post('/view_laporan_harian', [TransactionController::class, 'view_laporan_harian'])->name('view_laporan_harian');
       Route::get('/eksport_pdf_laporan_harian/{tgl}', [TransactionController::class, 'eksport_pdf_laporan_harian'])->name('eksport_pdf_laporan_harian');
       Route::get('/eksport_excel_laporan_harian/{tgl}', [TransactionController::class, 'eksport_excel_laporan_harian'])->name('eksport_excel_laporan_harian');

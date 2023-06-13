@@ -91,7 +91,7 @@
                 <td>{{$item->product_code}}</td>
                 <td>{{$item->name}}</td>
                 <td>Rp.{{number_format($item->purchase_price,0)}}</td>
-                <td>Rp.{{number_format($item->selling_price,0)}}</td>
+                <td>Rp.{{number_format($item->product_price,0)}}</td>
                 <td>{{$item->qty}}</td>
                 <td>Rp.{{number_format($item->total_harga,0)}}</td>
                 <td>Rp.{{number_format($item->untung,0)}}</td>

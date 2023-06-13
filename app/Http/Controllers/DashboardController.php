@@ -35,7 +35,7 @@ class DashboardController extends Controller
         $u_hari_ini = 0;
         foreach ($transaksisPerhari as $transaksi) {
             foreach ($transaksi->detailTransaksi as $detail_transaksis) {
-                $u_hari_ini += ($detail_transaksis->products->selling_price - $detail_transaksis->products->purchase_price) * $detail_transaksis->qty;
+                $u_hari_ini += ($detail_transaksis->product_price - $detail_transaksis->products->purchase_price) * $detail_transaksis->qty;
             }
         }
 
@@ -43,7 +43,7 @@ class DashboardController extends Controller
         $u_bulan_ini = 0;
         foreach ($transaksisPerbulan as $transaksi) {
             foreach ($transaksi->detailTransaksi as $detail_transaksis) {
-                $u_bulan_ini += ($detail_transaksis->products->selling_price - $detail_transaksis->products->purchase_price) * $detail_transaksis->qty;
+                $u_bulan_ini += ($detail_transaksis->product_price - $detail_transaksis->products->purchase_price) * $detail_transaksis->qty;
             }
         }
 
@@ -51,7 +51,7 @@ class DashboardController extends Controller
         $u_tahun_ini = 0;
         foreach ($transaksisPertahun as $transaksi) {
             foreach ($transaksi->detailTransaksi as $detail_transaksis) {
-             $u_tahun_ini += ($detail_transaksis->products->selling_price - $detail_transaksis->products->purchase_price) * $detail_transaksis->qty;
+             $u_tahun_ini += ($detail_transaksis->product_price - $detail_transaksis->products->purchase_price) * $detail_transaksis->qty;
             }
         }
        
@@ -86,8 +86,8 @@ class DashboardController extends Controller
     ->groupBy(DB::raw('DATE_FORMAT(transaksis.created_at, "%Y-%m-%d")'))
     ->select(
         DB::raw('DATE_FORMAT(transaksis.created_at, "%Y-%m-%d") AS transactionDate'),
-        DB::raw('SUM((products.selling_price - products.purchase_price) * detail_transaksis.qty) AS totalProfit'),
-        DB::raw('SUM(detail_transaksis.qty * products.selling_price) AS totalRevenue')
+        DB::raw('SUM((detail_transaksis.product_price - products.purchase_price) * detail_transaksis.qty) AS totalProfit'),
+        DB::raw('SUM(detail_transaksis.qty * detail_transaksis.product_price) AS totalRevenue')
     )
     ->orderBy(DB::raw('DATE_FORMAT(transaksis.created_at, "%Y-%m-%d")'))
     ->get();

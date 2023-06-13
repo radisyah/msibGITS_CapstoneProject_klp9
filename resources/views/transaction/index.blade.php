@@ -34,7 +34,7 @@
                                             <div class="card">
                                                 <div class="img">
                                                     <img class="card-img-top"
-                                                        src="{{ asset('storage/'.$value->image) }}"
+                                                        src="{{ asset('img_products/'.$value->image) }}"
                                                         alt="Card image cap">
                                                 </div>
                                                 <div class="card-body">

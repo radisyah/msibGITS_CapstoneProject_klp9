@@ -57,7 +57,7 @@
                 </td>
                 <td>{{ $value->name }}</td>
                 <td>{{ $value->options->category_name }}</td>
-                <td><img style="width:100px" alt="image" src="{{ asset('storage/'.$value->options->image) }}" alt=""></td>
+                <td><img style="width:100px" alt="image" src="{{ asset('img_products/'.$item->image) }}" alt=""></td>
                 <td>Rp. {{ number_format($value->price,0)}}</td>
                 <td>Rp. {{ number_format($sub_total_price,0)}}</td>
                 <td>

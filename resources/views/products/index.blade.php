@@ -48,7 +48,7 @@
             <td>Rp. {{ number_format($item->purchase_price,0)}}</td>
             <td>Rp. {{ number_format($item->selling_price,0)}}</td>
             <td>{{number_format($item->stock,0)}}</td>
-            <td> <img src="{{ asset('storage/'.$item->image) }}" style="width:100px" alt="image"> </td>
+            <td> <img src="{{  asset('img_products/'.$item->image) }}" style="width:100px" alt="image"> </td>
 
             <td>
                 <a class="btn btn-sm btn-warning" href="{{ route('products.edit',$item->id)}}">

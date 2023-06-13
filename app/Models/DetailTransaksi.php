@@ -13,7 +13,7 @@ class DetailTransaksi extends Model
         'transaksi_id',
         'product_id',
         'qty',
-        'price'
+        'product_price'
     ];
 
      public function products(){

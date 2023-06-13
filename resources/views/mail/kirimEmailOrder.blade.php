@@ -83,8 +83,8 @@
         <tr>
           <td>{{ $detail->products->name }}</td>
           <td>{{ $detail->qty }}</td>
-          <td>Rp. {{number_format($detail->products->selling_price,0)}}</td>
-          <td>Rp. {{number_format($detail->products->selling_price*$detail->qty,0)}}</td>
+          <td>Rp. {{number_format($detail->product_price,0)}}</td>
+          <td>Rp. {{number_format($detail->product_price*$detail->qty,0)}}</td>
         </tr>
         @endforeach
       </tbody>

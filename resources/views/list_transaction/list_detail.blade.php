@@ -51,8 +51,8 @@
                     <tr>
                       <td>{{$item->name}}</td>
                       <td>{{$item->qty}}</td>
-                      <td>{{$item->selling_price}}</td>
-                      <td>Rp. {{number_format($item->selling_price*$item->qty,0)}}</td>
+                      <td>Rp. {{number_format($item->product_price,0)}}</td>
+                      <td>Rp. {{number_format($item->product_price*$item->qty,0)}}</td>
                     </tr>
                     @endforeach
                   

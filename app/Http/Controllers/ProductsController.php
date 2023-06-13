@@ -64,18 +64,28 @@ class ProductsController extends Controller
             'category_id' => 'required',
             'image' => [File::types(['jpeg', 'jpg', 'png'])->max(2 * 1024),]
         ],$pesan);
-        
+
+       
+
+        $file = $request->file('image');
+        $fileName = date('YmdHis').".".$file->getClientOriginalName();
+
+        $uploadedImage = $request->image->move(public_path('img_products'),$fileName);
+        $imagePath = 'img_products/'. $uploadedImage;
+
+       
         Products::create([
-            'product_code'=>$request->input('product_code'),
-            'name'=>$request->input('name'),
-            'purchase_price' => str_replace(",","", $request->input('purchase_price')),
-            'selling_price' =>  str_replace(",","", $request->input('selling_price')),
-            'stock' => str_replace(",","", $request->input('stock')),
-            'category_id'=>$request->input('category_id'),
-            'image' => Storage::putFile('products', $request['image'])
+            'product_code' => $request->input('product_code'),
+            'name' => $request->input('name'),
+            'purchase_price' => str_replace(",", "", $request->input('purchase_price')),
+            'selling_price' => str_replace(",", "", $request->input('selling_price')),
+            'stock' => str_replace(",", "", $request->input('stock')),
+            'category_id' => $request->input('category_id'),
+            'image' => $fileName,
         ]);
-    
-        return redirect()->route('products')->with('success','Data Produk Berhasil Ditambahkan');
+
+        
+        return redirect()->route('products')->with('success', 'Product created successfully.');
     }
 
 
@@ -111,21 +121,44 @@ class ProductsController extends Controller
             'image' => [File::types(['jpeg', 'jpg', 'png'])->max(2 * 1024),]
         ],$pesan);
 
-        $produk = Products::find($id);
-        $produk->product_code = $validated['product_code'];
-        $produk->name = $validated['name'];
-        $produk->purchase_price = str_replace(",", "", $validated['purchase_price']);
-        $produk->selling_price = str_replace(",", "", $validated['selling_price']);
-        $produk->stock = str_replace(",", "", $validated['stock']);
-        $produk->category_id = $validated['category_id'];
+        $imageInput = $request->image;
+        if ($imageInput=='') {
+            $produk = Products::find($id);
+            $produk->product_code = $validated['product_code'];
+            $produk->name = $validated['name'];
+            $produk->purchase_price = str_replace(",", "", $validated['purchase_price']);
+            $produk->selling_price = str_replace(",", "", $validated['selling_price']);
+            $produk->stock = str_replace(",", "", $validated['stock']);
+            $produk->category_id = $validated['category_id'];
+            $produk->save();
+        }else{
+            $produk = Products::find($id);
+            $fileName = $produk->getAttribute('image');
+            
+            if (file_exists("img_products/".$fileName)) {
+                unlink('img_products/'.$fileName);
+            }
 
-        if($request->file('image')){
-                if($produk->image && Storage::exists($produk->image)){
-                    Storage::delete($produk->image);
-                }
-            $produk->image = Storage::putFile('products', $validated['image']);
+            
+            $file = $request->file('image');
+            $fileName = date('YmdHis').".".$file->getClientOriginalName();
+
+            $uploadedImage = $request->image->move(public_path('img_products'),$fileName);
+            $imagePath = 'img_products/'. $uploadedImage;
+
+
+
+            $produk->product_code = $validated['product_code'];
+            $produk->name = $validated['name'];
+            $produk->purchase_price = str_replace(",", "", $validated['purchase_price']);
+            $produk->selling_price = str_replace(",", "", $validated['selling_price']);
+            $produk->stock = str_replace(",", "", $validated['stock']);
+            $produk->category_id = $validated['category_id'];
+            $produk->image = $fileName;
+            $produk->save();
         }
-        $produk->save();
+
+       
 
         return redirect()->route('products')->with('success','Data Produk Berhasil Diubah');
     }
@@ -133,8 +166,17 @@ class ProductsController extends Controller
    
     public function destroy($id)
     {
+     
         $produk = Products::find($id);
-        Storage::delete($produk->image);
+        $fileName = $produk->getAttribute('image');
+        // dd($fileName);
+
+        if (file_exists("img_products/".$fileName)) {
+			unlink('img_products/'.$fileName);
+		}
+        
+
+        // Storage::delete($produk->image);
         $produk->delete();
 
         return redirect()->route('products')->with('success','Data Produk Berhasil Dihapus');

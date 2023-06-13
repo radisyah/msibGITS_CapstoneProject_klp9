@@ -166,6 +166,8 @@ class TransactionController extends Controller
     
     $meja = NomorMeja::where('nomor_meja',$nomor_meja)->first();
     
+        // dd(Cart::content());
+    
 
     if (!$meja) {
       abort(404, 'Meja Tidak Ditemukan');
@@ -242,7 +244,6 @@ class TransactionController extends Controller
     } else {
         $item = Cart::content()->where('options.meja',$nomor_meja);
         $no_urut = 0;
-        // dd($item);
 
         $query = DB::table('transaksis')
           ->select('id')
@@ -277,6 +278,7 @@ class TransactionController extends Controller
             'transaksi_id' => $no_urut,
             'product_id' => $value->id,
             'qty' =>  $value->qty,
+            'product_price' =>  $value->price,
           ];
           DetailTransaksi::create($data);
           if ($value->options->meja == $nomor_meja) {
@@ -497,7 +499,7 @@ class TransactionController extends Controller
 
         $innerTable = '';
         foreach ($item->detailTransaksi as $item2) {
-            $innerTable .= $item2->products->name . ' - ' . $item2->qty . 'x' . ' - Rp. ' . number_format($item2->products->selling_price, 0) . ' = Rp. ' . number_format($item2->products->selling_price * $item2->qty, 0) . "\n";
+            $innerTable .= $item2->products->name . ' - ' . $item2->qty . 'x' . ' - Rp. ' . number_format($item2->product_price, 0) . ' = Rp. ' . number_format($item2->product_price * $item2->qty, 0) . "\n";
         }
         $sheet->setCellValue('E' . $row, $innerTable);
 
@@ -599,7 +601,7 @@ class TransactionController extends Controller
         $sheet->setCellValue('B'.$row, $item->product_code);
         $sheet->setCellValue('C'.$row, $item->name);
         $sheet->setCellValue('D'.$row, 'Rp. '.number_format($item->purchase_price, 0));
-        $sheet->setCellValue('E'.$row, 'Rp. '.number_format($item->selling_price, 0));
+        $sheet->setCellValue('E'.$row, 'Rp. '.number_format($item->product_price, 0));
         $sheet->setCellValue('F'.$row, $item->qty);
         $sheet->setCellValue('G'.$row, 'Rp. '.number_format($item->total_harga, 0));
         $sheet->setCellValue('H'.$row, 'Rp. '.number_format($item->untung, 0));

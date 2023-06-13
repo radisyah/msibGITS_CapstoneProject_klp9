@@ -134,6 +134,7 @@ class Transaksi extends Model
             'transaksis.id',
             'products.name',
             'qty',
+            'product_price',
             )
             // ->where('transaksis.id', 'transaksi_id')
             ->get();
@@ -158,6 +159,7 @@ class Transaksi extends Model
                 'product_code',
                 'name',
                 'qty',
+                'product_price',
                 'transaksis.created_at'
                )
              ->where('transaksi_id', $id)
@@ -212,12 +214,12 @@ class Transaksi extends Model
                 'products.product_code',
                 'products.name',
                 'products.purchase_price',
-                'products.selling_price',
+                'detail_transaksis.product_price',
                 DB::raw('SUM(detail_transaksis.qty) AS qty'),
-                DB::raw('SUM((products.selling_price - products.purchase_price) * detail_transaksis.qty) AS untung'),
-                DB::raw('SUM(detail_transaksis.qty * products.selling_price) AS total_harga')
+                DB::raw('SUM((detail_transaksis.product_price - products.purchase_price) * detail_transaksis.qty) AS untung'),
+                DB::raw('SUM(detail_transaksis.qty * detail_transaksis.product_price) AS total_harga')
             )
-            ->groupBy('products.product_code', 'products.name', 'products.purchase_price', 'products.selling_price')
+            ->groupBy('products.product_code', 'products.name', 'products.purchase_price', 'detail_transaksis.product_price')
             ->get();
     }
 
@@ -233,8 +235,8 @@ class Transaksi extends Model
             ->whereBetween('transaksis.created_at', [$startDate, $endDate])
             ->select(
                 DB::raw('DATE(transaksis.created_at) AS tanggal'),
-                DB::raw('SUM((products.selling_price - products.purchase_price) * detail_transaksis.qty) AS untung'),
-                DB::raw('SUM(detail_transaksis.qty * products.selling_price) AS total_harga')
+                DB::raw('SUM((detail_transaksis.product_price - products.purchase_price) * detail_transaksis.qty) AS untung'),
+                DB::raw('SUM(detail_transaksis.qty * detail_transaksis.product_price) AS total_harga')
             )
             ->groupBy('tanggal')
             ->get();
@@ -252,8 +254,8 @@ class Transaksi extends Model
             ->whereBetween('transaksis.created_at', [$startDate, $endDate])
             ->select(
                 DB::raw('DATE(transaksis.created_at) AS tanggal'),
-                DB::raw('SUM((products.selling_price - products.purchase_price) * detail_transaksis.qty) AS untung'),
-                DB::raw('SUM(detail_transaksis.qty * products.selling_price) AS total_harga')
+                DB::raw('SUM((detail_transaksis.product_price - products.purchase_price) * detail_transaksis.qty) AS untung'),
+                DB::raw('SUM(detail_transaksis.qty * detail_transaksis.product_price) AS total_harga')
             )
             ->groupBy('tanggal')
             ->get();
